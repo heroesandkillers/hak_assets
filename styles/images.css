@@ -1,0 +1,176 @@
+/*//BASE
+#handler{
+    background-image:url('../../hak_static/img/canvas/fondo.jpg');
+}
+.ico_foro{
+    background-image:url("../../hak_static/img/interfaz/iconos/foro.png");
+}
+.ico_mensajes{
+    background-image:url("../../hak_static/img/interfaz/iconos/mensajes.png");
+}
+.escudo{
+    background-image:url("../../hak_static/img/escudo.png");
+}
+#ico_logout{
+    background-image:url("../../hak_static/img/interfaz/iconos/logout.png");
+}
+.ico_mapa{
+    background-image:url("../../hak_static/img/interfaz/iconos/mapa.png");
+}
+.ico_construccion{
+    background-image:url("../../hak_static/img/interfaz/iconos/construccion.png");
+}
+.ico_equipo{
+    background-image:url("../../hak_static/img/interfaz/iconos/equipo.png");
+}
+.ico_academia{
+    background-image:url("../../hak_static/img/interfaz/iconos/equipo.png");
+}
+.ico_entreno{
+    background-image:url("../../hak_static/img/interfaz/iconos/entreno.png");
+}
+.ico_alineacion{
+    background-image:url("../../hak_static/img/interfaz/iconos/alineacion.png");
+}
+.ico_batallas{
+    background-image:url("../../hak_static/img/interfaz/iconos/batallas.png");
+}
+.ico_mazmorras{
+    background-image:url("../../hak_static/img/interfaz/iconos/mazmorras.png");
+}
+.ico_perfil{
+    background-image:url("../../hak_static/img/interfaz/iconos/perfil.png");
+}
+
+//MAPA
+.ico_lupa{
+    background-image:url("../../hak_static/img/iconos/iconoLupa.png");
+}
+.arrowLeft{
+    background-image:url("../../hak_static/img/interfaz/tabla/arrowLeft.png");
+}
+.arrowRight{
+    background-image:url("../../hak_static/img/interfaz/tabla/arrowRight.png");
+}
+
+.loader{
+    background-image:url("../../hak_static/img/loader.gif");
+}
+.criaturaMapa{
+    background-image:url('../../hak_static/img/raza/raza1.png');
+}
+#titulo{
+    background-image: url('../../hak_static/img/interfaz/titulo2.png');
+}
+.checked{
+    background-image: url('../../hak_static/img/interfaz/checkbox/check.png');
+}
+.moneda{
+    background-image: url("../../hak_static/img/iconos/moneda.png");
+}
+#tituloIndex{
+    background-image: url("../../hak_static/img/interfaz/tituloH.png");
+}
+#conjunto{
+    background-image:url('../../hak_static/img/canvas/fondo.jpg');
+}
+#close{
+    background-image: url('../../hak_static/img/iconos/close.png');
+}*/
+footer > div{
+    background-image: url('../img/interfaz/muroV.jpg');
+}
+/*.observable{
+    background-image: url("../../hak_static/img/iconos/observar.png");
+}
+.iconoVer{
+    background-image: url(../../hak_static/img/iconos/iconoLupa.png);
+}
+
+
+--- ENTRENO --------------------------------------------------------------------
+
+#entrenamiento span{
+    background: url("../../hak_static/img/interfaz/tabla/degradado.png");
+}
+#entrenamiento span  .ui-slider-range.ui-widget-header{
+    background-image: url('../../hak_static/img/interfaz/tabla/cadena.png'); 
+}
+#entrenamiento span .ui-slider-handle{
+    background-image: url('../../hak_static/img/interfaz/tabla/daga.png');       
+}
+
+
+--- ALINEACION --------------------------------------------------------------------
+
+#canvasAlineacion, #canvasAlineacionAcademia{
+    background-image:url(../../hak_static/img/canvas/ground.jpg);
+}
+#gameArea > div{
+    background-image:url(../../hak_static/img/canvas/bosque.png);
+}
+#loaderBatalla{
+    background-image:url(../../hak_static/img/loader.gif);
+}
+.escudoImg{
+    background-image:url(../../hak_static/img/escudo.png);
+}
+#container canvas{
+    -webkit-border-image:url("../../hak_static/img/canvas/borde.png") 120 120 round;
+    -o-border-image:url(../../hak_static/img/canvas/borde.png) 120 120 round;
+    -moz-border-image: url(../../hak_static/img/canvas/borde.png) 120 120 round;
+    border-image:url("../../hak_static/img/canvas/borde.png") fill 120 120 round;    
+
+    background-image:url(../../hak_static/img/canvas/ground.jpg);
+}
+#reproduccion div{
+    background-image: url(../../hak_static/img/iconos/reproduccion/reproduccion.png);
+}
+
+
+--- CONTACTO --------------------------------------------------------------------
+
+.trofeoliga1 {
+    background-image: url(../../hak_static/img/trofeos/trofeo.png);
+}
+
+#detallesCalendario{
+    background-image:url(../../hak_static/img/canvas/ground.jpg);
+}
+
+.select{
+    background-image:url(../../hak_static/img/new_arrow.png);
+}
+.arrowUp{
+    background-image:url(../../hak_static/img/interfaz/tabla/arrowUp.png);
+}
+.arrowDown{
+    background-image:url(../../hak_static/img/interfaz/tabla/arrowDown.png);
+}
+.criaturaMapa{
+    background-image:url(../../hak_static/img/raza/raza1.png);
+}
+.moneda{
+    background-image:url(../../hak_static/img/iconos/moneda.png);
+}
+#conjunto{
+    background-image:url(../../hak_static/img/canvas/fondo.jpg);
+}
+#close{
+    background-image:url(../../hak_static/img/iconos/close.png);
+}
+#foroExpand{
+    background-image:url(../../hak_static/img/interfaz/tabla/arrow.png);
+}
+.ico_ayuda{
+    background-image:url(../../hak_static/img/iconos/ayuda.png);
+}
+.maximizar{
+    background-image:url(../../hak_static/img/iconos/maxim.png);
+}
+.trofeoliga1 { 
+    background-image:url(../../hak_static/img/trofeos/trofeo.png);
+}
+.ico_Papelera{
+    background-image:url(../../hak_static/img/iconos/papelera.png);
+}*/

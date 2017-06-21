@@ -1,0 +1,206 @@
+/*
+--- GENERAL --------------------------------------------------------------------
+*/
+
+.boton{
+    padding: .4em .8em !important;
+}
+
+body{
+    font-size: 16px;
+}
+
+#contenidos{
+    margin-bottom: 40px;
+}
+
+header > div{
+    position:absolute;
+    width:25%;
+    height:100%;
+    background-color: rgb(150,150,150);
+
+    box-shadow: inset 1px 0px 0px rgba(255,255,255,255.4), inset -1px 0px 0px rgba(0,0,0,0.4);
+    -webkit-box-shadow: inset 1px 0px 0px rgba(255,255,255,255.4), inset -1px 0px 0px rgba(0,0,0,0.4);
+    -moz-box-shadow: inset 1px 0px 0px rgba(255,255,255,255.4), inset -1px 0px 0px rgba(0,0,0,0.4);
+    -o-box-shadow: inset 1px 0px 0px rgba(255,255,255,255.4), inset -1px 0px 0px rgba(0,0,0,0.4);
+}
+
+footer{
+    position:fixed;
+    top:0;
+    left:-1px;
+    z-index:99;
+    overflow-y: auto;
+    height:100%;
+
+    transition: left 250ms;
+    -moz-transition: left 250ms;
+    -webkit-transition: left 250ms; 
+    -o-transition: left 250ms; 
+}
+footer > div{
+    background-position: 100%;
+
+    margin-right:30px;
+    background-color: rgba(200,200,180,1);
+    background-repeat: repeat-y;
+
+    box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -o-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+}
+
+.swipLeft{
+    left: 0 !important;
+    box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -o-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+}
+.swipRight{
+    right: 0 !important;
+}
+.swipTop{
+    top: 0 !important;
+}
+.swipBottom{
+    bottom: 0 !important;
+}
+
+.pageRight{
+    z-index:10;
+    right:0px;
+    position:fixed;
+    top:0;
+    height:100%;
+
+    -webkit-transition: right 200ms;
+    -moz-transition: right 200ms;
+    -o-transition: right 200ms;
+    transition: right 200ms;
+}
+.pageRight .fixed{
+    top:0;
+    height:100%;
+    background-color: rgb(45,35,25);
+
+    overflow-y: auto;
+
+    box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+    -webkit-box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+    -moz-box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+    -o-box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+}
+
+.iconoImg{
+    display:inline;
+    transition: width 150ms;
+    -moz-transition: width 150ms;
+    -webkit-transition: width 150ms;
+    -o-transition: width 150ms;
+}
+.icono{
+    font-size: 16px;
+    padding-right:20px;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.1),rgba(0,0,0,0.1)));
+    background-image: -ms-linear-gradient(rgba(255,255,255,0.1),rgba(0,0,0,0.1));
+    background-image: -o-linear-gradient(rgba(255,255,255,0.1),rgba(0,0,0,0.1));
+    background-image: linear-gradient(rgba(255,255,255,0.1),rgba(0,0,0,0.1));
+}
+.icono:hover{
+    background-color: rgba(0,0,255,1);
+}
+.icono:active{
+    background-color: rgba(0,0,255,0.7);
+}
+.icono span{
+    line-height: 50px;
+    margin-left: 35px;
+}
+.cuerpo{
+/*    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;*/
+}
+
+#detalleCriatura{
+    display: table-cell !important;
+}
+#detalleCriatura .titulo > span{
+    max-width: 45%; 
+    padding-left:5px;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+}
+
+#datosBatalla{
+    z-index:10;
+    right:-1000px;
+    position:fixed;
+    top:0;
+
+    -webkit-transition: right 200ms;
+    -moz-transition: right 200ms;
+    -o-transition: right 200ms;
+    transition: right 200ms;
+
+    box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+    -webkit-box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+    -moz-box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+    -o-box-shadow: -5px 0 10px rgba(0,0,0,0.6);
+}
+
+#gameArea{
+    z-index:2;
+    position:absolute;
+    top:0;
+    overflow: hidden;
+    width:100%;
+}
+#conjunto{
+    padding:15px;
+}
+#detalleCriatura{
+    font-size: 12px !important;
+    border-width: 2px 0;
+    border-color: black;
+    border-style: solid;
+}
+.tbody tbody td{
+    font-weight: bold;
+}
+#listaBatallas{
+    font-size: 12px;
+}
+footer > div{
+    margin-right:30px;
+    background-color: rgba(200,200,180,1);
+    background-repeat: repeat-y;
+
+    box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+    -o-shadow: 0 0 30px 5px #000, inset -15px 0px 30px rgba(0,0,0,0.5);
+}
+#mensajes > div{    
+    background-color: rgba(255,255,255,0.18);
+    border: 1px solid rgba(0,0,0,0.5);
+    box-shadow: inset -1px -1px 1px rgba(0,0,0,0.5);
+}
+
+#iframe{
+    width:100%;
+    height:100%;
+    z-index:101;
+    background-color: rgb(200,150,60);
+    position:fixed;
+    top:0;
+}
+
+.comentarioTexto{
+    font-size: 12px;
+    margin-left: 7px;
+}

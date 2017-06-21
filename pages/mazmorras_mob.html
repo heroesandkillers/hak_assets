@@ -1,0 +1,295 @@
+<div id="bloqueMazmorras" class="contenedor">
+
+    <div class="titulo">
+        <span>MAZMORRAS</span>
+
+        <div style="float:right">
+            <img id="iconoBusquedaMazmorras" class="icon" src="../img/iconos/iconoLupa.png">
+        </div>
+    </div>
+
+    <div id="tableMazmorras" class="cuerpo tabla">
+        <div class="subtitulo">
+            <table class="thead">
+                <tr>
+                    <th style="width: 120px">Nombre</th>
+                    <th style="width: 10px"></th>
+                    <th style="width: 10px"></th>
+                    <th style="width: 10px">Media</th>
+                    <th class="help" style="width: 10px">Fu</th>
+                    <th title="Magia" style="width: 10px">Ma</th>
+                    <th title="Agilidad" style="width: 10px">Ag</th>
+                    <th title="Reflejos" style="width: 10px">Rf</th>
+                    <th title="Constituci�n" style="width: 10px">Co</th>
+                    <th title="Defensa" style="width: 10px">Df</th>
+                    <th title="Reacci�n" style="width: 10px">Rc</th>
+                    <th title="lvl" style="width: 10px">lvl.</th>
+                    <th style="width: 10px">Edad</th>
+                    <th style="width: 10px">Precio</th>
+                    <th style="width: 10px">#</th>
+                    <th style="width: 10px">Tiempo</th>
+                </tr>
+            </table>
+        </div>
+        <div class="scrollMazmorras">
+            <table class="tbody tablesorter">
+                <thead style="height: 0">
+                    <tr style="height: 0">
+                        <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="buscadorMazmorras">
+            <div class="flechaCell"><-</div>
+            <div id="contenedorBarra">
+                <div id="barraMazmorras" style="position:absolute;">
+                    <div class="buscadorCell">1-10</div>
+                </div>
+            </div>
+            <div class="flechaCell">-></div>
+        </div>
+
+    </div>
+</div>
+
+<table>
+    <td id="detalleCriatura" class="bloque contenedor" colspan="99" style="width:100%">
+        <div class="none" style="width:100%"><!--importante en movil-->
+            <div class="titulo">
+                <span id="nombre"></span>
+            </div>
+
+            <div class="cuerpo tabla innerTabla20" style="font-weight: bold">
+
+                <table style="width:100%; height:100%; overflow:hidden">
+                    <tbody>
+                        <tr>
+                            <td width="1%" style="position:relative">
+                                <div id="aspectoDiv"></div>
+                                <div id="nivel" style="position:absolute; top:0; left:0"></div>
+                            </td>
+                            <td width="50%">
+                                <table class="tablaIn">
+                                    <tbody>
+                                        <tr class="UnHighLight">
+                                            <td>Raza:</td>
+                                            <td id="raza" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Clase:</td>
+                                            <td id="clase" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Elemento:</td>
+                                            <td id="elemento" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Mutaci�n:</td>
+                                            <td id="mutacion" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Edad:</td>
+                                            <td id="edad" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>
+                                                <div id="pujaMin">
+                                                    Puja min: <span></span>
+                                                </div>
+                                                <input type="text" name="pujaRealizada" id="pujaRealizada"/>
+                                            </td>
+                                            <td>
+                                                <button id="pujar" onclick='mazmorrasJs.pujar(idCriatura, $("#pujaRealizada").val());'>pujar</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <td width="50%">
+                                <table class="tablaIn">
+                                    <tbody>
+                                        <tr class="UnHighLight">
+                                            <td>Fuerza:</td>
+                                            <td id="fuerza" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Magia:</td>
+                                            <td id="magia" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Agilidad:</td>
+                                            <td id="agilidad" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Reflejos:</td>
+                                            <td id="reflejos" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Constitucion:</td>
+                                            <td id="constitucion" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Defensa:</td>
+                                            <td id="defensa" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Reacci�n:</td>
+                                            <td id="reaccion" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Media:</td>
+                                            <td id="media" style="text-align: right;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </td>
+</table>
+
+
+<!--<div id="listaBatallas" class="pageRight">
+    <div class="botonRight">
+        <div id="swipCalendario">calendario</div>
+    </div>
+    <div class="fixed">
+        <div class="tabla">
+            <table class="tbody">
+                <tbody>
+
+                </tbody>
+            </table>
+            <div style="float:right">
+                <button onclick="javascript:paginaObjetivo = 'contactoCalendario';
+                        $('#contactoClick img').trigger('click');">
+                    Calendario
+                </button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+<div id="busqueda" class="bloque contenedor pageRight">
+
+    <div class="botonRight">
+        <div id="swipBusqueda">Busqueda</div>
+    </div>
+
+    <div class="titulo">
+        <div class="minBoton" style="float:right;" onclick="mazmorrasJs.getMisPujas();">
+            Mis Pujas
+        </div>
+    </div>
+
+    <div style="width: 100%">
+        <div class="filtro" style="display:none">
+            <div class="select">
+                <select class="selectAtributo">
+                    <option value="fuerza">
+                        Fuerza
+                    </option> 
+                    <option value="magia">
+                        Magia
+                    </option> 
+                    <option value="agilidad">
+                        Agilidad
+                    </option> 
+                    <option value="reflejos">
+                        Reflejos
+                    </option> 
+                    <option value="constitucion">
+                        Constitucion
+                    </option> 
+                    <option value="defensa">
+                        Defensa
+                    </option> 
+                    <option value="reaccion">
+                        Reacci�n
+                    </option> 
+                </select>
+            </div>
+            <div class="select">
+                <select class="selectSigno"> 
+                    <option value="igual" selected="selected">
+                        =
+                    </option> 
+                    <option value="mayor">
+                        >
+                    </option> 
+                    <option value="menor">
+                        <
+                    </option> 
+                </select>
+            </div>
+            <div class="select">
+                <input class="selectNumero" style="width: 40px" type="text" value="0">
+            </div>
+            <div class="select">
+                <div>
+                    <img onclick="mazmorrasJs.eliminarFiltro(this);" style="opacity:0.5" class="icon iconPapelera" src="../img/iconos/papelera.png">
+                </div>
+            </div>
+        </div>
+        <div id="mas" onclick="mazmorrasJs.nuevoFiltro();">
+            +
+        </div>
+        <div id="botonBuscarMazmorras" class="boton" style="float:right" onclick="mazmorrasJs.getMazmorrasRango(this);">
+            Buscar
+        </div>
+    </div>
+</div>
+
+<div id="divPujas" class="dialog" style="display: none">
+    <table id="tablaPujas" style="width:100%">
+        <thead>
+        <th>
+            <b>Pujador</b>
+        </th>
+        <th>
+            <b>Ofrece</b>
+        </th>
+        </thead>
+        <tbody><tbody>
+    </table>
+</div>
+
+<script src="../js/formatoNumero.js"></script>
+<script src="../js/validacionInt.js"></script>
+<script src="../pages/mazmorras.js"></script>
+
+<script>
+
+            //mobile version only:
+
+            $("#bloqueMazmorras").height($(window).height() - $("header").height());
+
+            $("#iconoBusquedaMazmorras, #swipBusqueda").click(function () {
+                $("#busqueda").addClass("swipRight");
+                hideBusquedaEvent();
+            });
+
+            function hideBusquedaEvent() {
+                setTimeout(function () {
+                    $(document).on("tap.busquedaMazmorras", function (e) {
+                        if ($(e.target).closest("#busqueda").length || $(e.target).attr("id") == "busqueda") {
+                            console.log(123)
+                            return;
+                        }
+                        $("#busqueda").removeClass("swipRight");
+                        $(document).off(".busquedaMazmorras");
+                    });
+                }, 1);
+            }
+
+</script>

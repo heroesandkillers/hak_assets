@@ -1,0 +1,185 @@
+
+<div id="alineacionCanvas" class="contenedor">
+    <div class="titulo">
+        ALINEACIÓN
+    </div>
+    <div>
+        <canvas id="canvasAlineacion"></canvas>
+    </div>
+</div>
+
+<div id="equipoAlineacion" class="pageRight">
+    <div class="fixed"></div>
+</div>
+
+<div id="atributos" class="pageRight">
+    <div class="fixed">
+        <div class="titulo">
+            <div id="atributoTitulo"></div>        
+        </div>
+
+        <p>Actitud:</p>
+        <div class="select">
+            <select id="actitud"> 
+                <option value="agresivo">
+                    agresivo
+                </option> 
+                <option value="moderado" selected="selected">
+                    moderado
+                </option> 
+                <option value="cauto">
+                    cauto
+                </option>
+            </select>
+        </div>
+
+        <p>Clase:</p>
+        <div class="select">
+            <select id="clase"> 
+                <option value="barbaro" selected="selected">
+                    barbaro
+                </option> 
+                <option value="arquero">
+                    arquero
+                </option>
+                <option value="mago">
+                    mago
+                </option>
+                <option value="paladin">
+                    paladín
+                </option>
+                <option value="shinobi">
+                    shinobi
+                </option>
+                <option value="healer">
+                    curandero
+                </option>
+            </select>
+        </div>
+
+        <p class="botones">
+            <span class="boton" id="asignarAlineacion" onclick="alineacion.asignarAlineacion()"><span>Guardar</span></span>
+        </p>
+    </div>
+</div>
+
+<script>
+    $("#alineacionCanvas").height($(document).height() - $("header").height());
+
+    var alineacionJs = {
+        equipo: global.equipo,
+        canvas: document.createElement('canvas'),
+        colocarAlineacion: function() {
+            var ths = this;
+            var table = $("#equipoAlineacion > .fixed");
+
+            var max = 0;
+            var min = 100;
+            for (var i = 0; i < ths.equipo.length; i++) {
+                var media = getMedia(ths.equipo[i].media);
+                if (media > max)
+                    max = media;
+                if (media < min)
+                    min = media;
+            }
+            var mediaDif = max - min;
+
+            for (var i = 0; i < ths.equipo.length; i++) {
+                var row = $("<div>");
+                $(table).append(row);
+                row.attr("i", i);
+                row.addClass("UnHighLight");
+
+                var atributos = $("<nobr>");
+                var evo = JSON.parse(ths.equipo[i].evolucion);
+                var atrs = evo[evo.length - 1];
+                atributos.addClass("atributos");
+                atributos.append("<div>" + atrs.fu + "</div>");
+                atributos.append("<div>" + atrs.ma + "</div>");
+                atributos.append("<div>" + atrs.ag + "</div>");
+                atributos.append("<div>" + atrs.rf + "</div>");
+                atributos.append("<div>" + atrs.co + "</div>");
+                atributos.append("<div>" + atrs.df + "</div>");
+                atributos.append("<div>" + atrs.rc + "</div>");
+                var divMedia = $("<div>");
+                var media = getMedia(ths.equipo[i].media);
+                divMedia.append(media);
+                atributos.append(divMedia);
+                var color1 = Math.round((media - min) / mediaDif * 100) + 155;
+                var color2 = Math.round((media - min) / mediaDif * 100) + 100;
+                $(divMedia).css({
+                    color: "rgba(" + color1 + "," + color2 + ",0,1)"
+                });
+                row.append(atributos);
+                $(row).append("<br>");
+
+                var nombre = getNombre(ths.equipo[i]);
+                var nobr = $("<nobr>");
+                $(nobr).append(nombre + " (" + getEdad(ths.equipo[i].edad) + ")");
+                $(row).append(nobr);
+
+                var nobr = $("<div>");
+                setRazaImg(nobr, ths.equipo[i].raza);
+                setClaseImg(nobr, ths.equipo[i].clases);
+                setElemImg(nobr, ths.equipo[i].elemento);
+                setMutaImg(nobr, ths.equipo[i].mutacion);
+                $(row).append(nobr);
+            }
+            ths.events();
+        },
+        select: function(elem) {
+            alineacion.selectX = $(elem).offset().left;
+            alineacion.selectY = $(elem).offset().top;
+            alineacion.dropCriatura();
+        },
+        events: function() {
+            var ths = this;
+            $("#equipoAlineacion > .fixed > div").on("tap", function(e) {
+                timePropagation();
+                alineacion.unActive();
+                var i = $(this).attr("i");
+                alineacion.dragId = alineacion.obj[i].id;
+                ths.select(this);
+            });
+            $("#equipoAlineacion > .fixed").on("swiperight, tap", function(e) {
+                timePropagation();
+                $(this).removeClass("swipRight");
+                alineacion.unActive();
+                e.stopPropagation();
+            });
+
+            $("#atributos > div, #atributos > p").on("tap", function(e) {
+                e.stopPropagation();
+            });
+            $("#atributos").on("swiperight, tap", function(e) {
+                $(this).removeClass("swipRight");
+                alineacion.unSelect();
+                e.stopPropagation();
+            });
+        }
+    };
+</script>
+
+<script src="../js/alineacion.js"></script>
+
+<script>
+    var alineacion = alineacionObj;
+    alineacion.alineacion = "alin";
+
+    alineacion.canvas = document.getElementById("canvasAlineacion");
+    alineacion.contenedor = $("#alineacionCanvas");
+    alineacion.botonAsignar = $("#asignarAlineacion");
+    alineacion.claseSelect = $("#clase");
+    alineacion.actitudSelect = $("#actitud");
+    alineacion.lista = $("#equipoAlineacion");
+    alineacion.atributos = $("#atributos");
+    alineacion.nombre = $("#atributoTitulo");
+
+    alineacion.obj = global.equipo;
+    alineacionJs.colocarAlineacion();
+    alineacion.startCanvas();
+
+    $("#equipoAlineacion").css("right", -$("#equipoAlineacion").width() - 20 + "px");
+    $("#atributos").css("right", -$("#atributos").width() - 20 + "px");
+
+</script>

@@ -1,0 +1,72 @@
+
+<div style="height: 100%">
+    <div class="contenedor" id="bloquePrincipal" style="height: 100%">
+        <div class="titulo">ADMINISTRAR CUENTA</div>
+        <div class="cuerpo tabla">
+
+            <div style="margin:20px; margin-top:50px; font-weight: bold">
+
+                Visualizaci�n del juego:                        
+                <br/><br/>
+                <div class="checkbox" style="margin-right:20px; float:left">
+                    <div id="menu" class="check checked"></div>
+                </div>
+                <div style="margin-left:20px">
+                    Men� din�mico
+                </div>
+
+                <div style="margin-top:10px">
+                    <button onclick="cambioGraficos()">guardar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="alineacionCanvas" class="contenedor" style="height: 100%">
+    <div class="titulo">DATOS PERSONALES</div>
+
+    <div style="margin-top:20px; margin-left:10px">
+
+        Nombre: <span id ="usuario"></span>
+
+    </div>
+</div>
+
+<script>
+
+    if(graficos.menu === false){
+        $("#menu").removeClass("checked");
+    }
+                         
+    $("#usuario").text(perfil.nombreId);
+            
+    function cambioGraficos(){            
+        var menu = false;                
+        if($("#menu").hasClass("checked")) menu = true;
+            
+        $.ajax({
+            type : "GET",
+            url : "cambioGraficos",
+            data: {
+                menu: menu
+            },
+            complete : function() {
+                graficos.menu = menu;
+                aviso("gr�ficos guardados correctamente");
+                configurarGraficos();
+            }
+        });                
+    }
+            
+            
+    $(".check").click(function(){
+        if($(this).hasClass("checked")){
+            $(this).removeClass("checked");
+        }else{
+            $(this).addClass("checked");
+        }
+    });
+            
+</script>

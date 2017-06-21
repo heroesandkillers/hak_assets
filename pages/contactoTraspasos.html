@@ -1,0 +1,103 @@
+
+<div class="contenedor" id="bloquePrincipal" style="height: 100%">
+    <div class="titulo">TUS CRIATURAS</div>
+    <div class="cuerpo tabla">
+        <div class="subtitulo">
+            <table class="thead">
+                <tr>
+                    <th class="arrowDown" style="width:30px">Fecha</th>
+                    <th class="arrows" style="width:120px">Nombre</th>
+                    <th class="numero arrows" style="width:20px">Edad</th>
+                    <th class="arrows" style="width:20px">Estado</th>
+                    <th class="numero arrows" style="width:20px">Valor</th>
+                    <th class="numero arrows" style="width:30px">Precio</th>
+
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table id="table1" class="tbody">
+                <thead style="height: 0">
+                    <tr style="height: 0">
+                        <th style="height: 0;"><input type="hidden" value="false" id="input"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var contactoTraspasosJs = {
+        getTraspasosContacto: function() {
+            $.ajax({
+                type: "GET",
+                url: "getTraspasos",
+                data: {
+                    id: global.perfilContacto.id
+                },
+                success: function(response) {
+                    if (response !== "") {
+                        return JSON.parse(response);
+                    }else{
+                        return response;
+                    }
+                }
+            });
+        },
+        mostrarTraspasos: function() {
+            var obj = global.obj_traspasosContacto;
+            this.getTraspasos(function() {
+
+                var table = document.getElementById("table1").getElementsByTagName("tbody")[0];
+                var rowCount = table.rows.length;
+
+                for (var i = 0; i < obj.length; i++) {
+
+                    var row = table.insertRow(rowCount);
+
+                    row.setAttribute("id", "equipoRes_" + i);
+                    row.setAttribute("class", "UnHighLight");
+                    row.setAttribute("onMouseOver", "HighLight(this)");
+                    row.setAttribute("onMouseOut", "UnHighLight(this)");
+                    row.setAttribute("onclick", 'Select(this)');
+
+                    row.setAttribute("ondblclick", "detalles(equipoContacto)");
+
+                    var cell = row.insertCell(0);
+                    cell.innerHTML = obj[i].fecha;
+
+                    var cell = row.insertCell(1);
+                    cell.innerHTML = obj[i].criatura;
+
+                    var cell = row.insertCell(2);
+                    cell.innerHTML = getEdad(obj[i].edad);
+
+                    var cell = row.insertCell(3);
+                    if (obj[i].compradorId === global.perfilContacto.id) {
+                        cell.innerHTML = "comprado";
+                    } else {
+                        cell.innerHTML = "vendido";
+                    }
+
+                    var cell = row.insertCell(4);
+                    cell.innerHTML = numero(obj[i].valor);
+
+                    var cell = row.insertCell(5);
+                    cell.innerHTML = numero(obj[i].precio);
+
+                }
+                ;
+                reloadTablas();
+                ordenarTablas();
+            });
+        }
+    };
+    global.obj_traspasosContacto = contactoTraspasosJs.getTraspasosContacto();
+    contactoTraspasosJs.mostrarTraspasos();
+
+</script>

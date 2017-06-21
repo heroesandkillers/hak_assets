@@ -1,0 +1,68 @@
+
+<div id="alineacionCanvasAcademia" class="contenedor">
+    <div class="titulo">
+        <span>
+            ALINEACIÓN DE LA ACADEMIA
+        </span>
+        <div id="academiaAlineacion" class="minBoton" style="float:right" onclick="cargar('academia');">
+            Academia
+        </div>
+    </div>
+    <div>
+        <canvas id="canvasAlineacionAcademia"></canvas>
+    </div>
+</div>
+
+<div id="equipoAlineacionAcademia" class="pageRight"></div>
+
+<div id="atributos" class="pageRight">
+    <div class="titulo">
+        <div id="atributoTitulo"></div>        
+    </div>
+
+    <p>Actitud:</p>
+    <div class="select">
+        <select id="actitud"> 
+            <option value="agresivo">
+                agresivo
+            </option> 
+            <option value="moderado" selected="selected">
+                moderado
+            </option> 
+            <option value="cauto">
+                cauto
+            </option>
+        </select>
+    </div>
+
+    <p>Clase:</p>
+    <div class="select">
+        <select id="clase"> 
+            <option value="barbaro" selected="selected">
+                barbaro
+            </option> 
+            <option value="arquero">
+                arquero
+            </option>
+            <option value="mago">
+                mago
+            </option>
+            <option value="paladin">
+                paladín
+            </option>
+            <option value="shinobi">
+                shinobi
+            </option>
+            <option value="healer">
+                curandero
+            </option>
+        </select>
+    </div>
+
+    <p class="botones">
+        <span class="boton" id="asignarAlineacionAcademia" onclick="alineacion.asignarAlineacionAcademia()"><span>Guardar</span></span>
+    </p>
+</div>
+
+<script src="../js/alineacion.js"></script>
+<script src="../pages/academiaAlineacion.js"></script> 

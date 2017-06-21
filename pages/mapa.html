@@ -1,0 +1,510 @@
+<style>
+    #busquedaDivision{
+        margin-top: 5px;
+    }
+</style>
+
+<div id="division" class="contenedor grid_3" style="width:250px; height: 325px">
+
+    <div id="tituloMapa" class="titulo">
+        <div id="busquedaDivision" class="icon ico_lupa"></div>
+        <div>
+            <span id="flechaSubdivisionLeft" class="flecha arrowLeft"></span>
+            <input id="subdivisionMapa" class="tituloInput" type="text"/>
+            <span id="flechaSubdivisionRight" class="flecha arrowRight"></span>
+        </div>
+        <div>
+            <span id="flechaDivisionLeft" class="flecha arrowLeft"></span>
+            <input id="divisionMapa" class="tituloInput" type="text"/>
+            <span id="flechaDivisionRight" class="flecha arrowRight"></span>
+        </div>
+    </div>
+
+    <div class="cuerpo">
+        <table width="100%">
+            <tr>
+                <td style="vertical-align:top">
+                    <div class="tabla" style="position:relative; margin-top:7px;">
+                        <div class="subtitulo">
+                            <table class="thead">
+                                <tr>
+                                    <th id="ordenar" class="pos">
+                                        Po
+                                    </th>
+                                    <th>
+                                        Equipo
+                                    </th>
+                                    <th>
+                                        Punt.
+                                    </th>
+                                    <th>
+                                        Vict.
+                                    </th>
+
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="scrollTabla">
+                            <table id="tablaLiga" class="tbody">
+                                <thead style="height: 0">
+                                    <tr style="height: 0">
+                                        <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div id="foro" class="contenedor" style="bottom:0; left:0; margin-bottom:0">
+    <!--<div id="foroExpand"></div>-->
+    <div class="cuerpo">
+        <div id="comentarios" style="width: 100%">
+            <div id="mensajes" ></div>
+        </div>
+        <div id="textarea" style="bottom:0; width:100%">
+            <div>
+                <textarea id="mensaje" rows="1"></textarea>
+                <div id="mensajeBoton" onclick="mapaJs.enviarMensajePrensa();">
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="listaBatallas" class="grid_3">
+
+    <div class="contenedor" style="height: 100%">
+        <div class="titulo" style="text-align: right;">
+            <button onclick="javascript: global.paginaObjetivo = 'contactoCalendario';
+                    cargar('contacto');">
+                Calendario
+            </button>
+        </div>
+        <div class="cuerpo tabla">
+            <div>
+                <table class="tbody">
+                    <thead style="height: 0">
+                        <tr style="height: 0">
+                            <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+
+</div>
+
+<div id="mapaOver" class="mapaEvent" style="padding: 15px">
+    <div style="height: 100%" class="escudo"></div>
+    <div style="margin-left:15px">
+        <p>nombre: <span id="nombreGrupo"></span></p>
+        <p>nivel: <span id="nivelGrupo"></span></p>
+        <p>posicion: <span id="posicionGrupo"></span></p>
+    </div>
+</div>
+
+<div id="mapaClick" class="mapaEvent">
+    <p style="height: 100%">
+        ir a página de contacto
+    </p>
+</div>
+
+<script>
+
+    var mapaJs = {
+        division: global.perfil.division.division,
+        liga: global.liga,
+        calendarioDivision: global.calendarioDivision,
+        divisionMax: 0,
+        subdivisionMax: 0,
+        multDivisiones: 3,
+//        container: "",
+//        stageMapa: "",
+        castillos: "",
+        divisiones: function () {
+            var ths = this;
+            var resultado = 0;
+            var numDivision = 0;
+            var numSubdivision = 0;
+            while (resultado < global.division) {
+                numSubdivision = global.division - resultado;
+                resultado = resultado + (Math.pow(4, numDivision));
+                numDivision++;
+            }
+            $("#divisionMapa").val(numDivision);
+            $("#subdivisionMapa").val(numSubdivision);
+
+            resultado = 0;
+            while (resultado < global.divisiones) {
+                resultado = resultado + (Math.pow(ths.multDivisiones, ths.divisionMax));
+                ths.divisionMax++;
+            }
+        },
+        subdivisiones: function () {
+            var ths = this;
+            ths.subdivisionMax = Math.pow(ths.multDivisiones, $("#divisionMapa").val() - 1);
+            if ($("#subdivisionMapa").val() > ths.subdivisionMax) {
+                $("#subdivisionMapa").val(1);
+            }
+        },
+        mostrarLiga: function () {
+            var ths = this;
+            ajax.getLiga(ths.division, function (liga) {
+                ths.liga = liga;
+                $("#tablaLiga tbody").html("");
+                var table = document.getElementById("tablaLiga").getElementsByTagName("tbody")[0];
+                var rowCount = 0;
+                for (var i = 0; i < ths.liga.length; i++) {
+
+                    var row = table.insertRow(rowCount);
+                    row.setAttribute("class", "UnHighLight");
+                    row.setAttribute("onMouseOver", "HighLight(this)");
+                    row.setAttribute("onMouseOut", "UnHighLight(this)");
+                    row.setAttribute("onclick", 'Select(this)');
+                    row.setAttribute("ondblclick", 'mapaJs.contacto(' + ths.liga[i].id + ')');
+                    if (ths.liga[i].username === global.perfil.username) {
+                        $(row).css("color", "gold");
+                    }
+
+                    var cell = row.insertCell(0);
+                    var div = $("<div>");
+                    $(cell).append(div);
+                    $(cell).attr('pos', ths.liga[i].posicion);
+                    $(div).html(ths.liga[i].posicion);
+
+                    var cell = row.insertCell(1);
+                    $(cell).css("font-weight", "bold");
+                    $(cell).html("<div>" + ths.liga[i].username + "<div>");
+
+                    var cell2 = row.insertCell(2);
+
+                    var cell3 = row.insertCell(3);
+                    $(cell3).css("font-weight", "bold");
+
+                    var puntos = ths.liga[i].puntos;
+                    if (typeof puntos !== 'undefined') {
+                        $(cell2).html("<div>" + puntos.split(",")[1] + "</div>");
+                        $(cell3).html("<div>" + puntos.split(",")[0] + "</div>");
+                    } else {
+                        $(cell2).html("<div>0-0</div>");
+                        $(cell3).html("<div>0</div>");
+                    }
+
+                    rowCount++;
+                }
+
+                reloadTablas();
+                sortElements($("#ordenar"), false);
+
+                //mapCreator.show();
+            });
+        },
+        mostrarPrensa: function () {
+
+            if (global.division === global.perfil.division.division) {
+                $("#textarea").css("display", "inherit");
+            } else {
+                $("#textarea").css("display", "none");
+            }
+
+            ajax.getMensajesPrensa(this, function (mensajes) {
+                var contenedor = $("#mensajes").html("");
+                for (var j = 0; j < mensajes.length; j++) {
+
+                    var div = $("<div>");
+
+                    var p = $("<p>");
+                    p.addClass("comentarioUsuario");
+                    var fecha = getFechaBySeconds(mensajes[j].fecha);
+                    p.text(fecha + " . " + mensajes[j].emisorName);
+                    var p2 = $("<p>");
+                    p2.addClass("comentarioTexto");
+                    p2.text(mensajes[j].mensaje);
+                    div.append(p);
+                    div.append("<br>");
+                    div.append(p2);
+                    contenedor.append(div);
+                    contenedor.append("<br>");
+
+                    if (mensajes[j].emisorName == global.perfil.username) {
+                        p.css("color", "gold");
+                    }
+
+                }
+                if (mensajes.length === 0) {
+                    var div = $("<div>");
+                    var p = $("<p>");
+                    p.addClass("comentarioTexto");
+                    p.text("No hay mensajes en el foro, escribe tú el primer mensaje!");
+                    div.append(p);
+                    contenedor.append(div);
+                }
+                reloadTablas();
+            });
+        },
+        getCalendarioDivision: function (callback) {
+            var ths = this;
+            if (this.division !== global.division) {
+                $.ajax({
+                    type: "GET",
+                    url: "getCalendarioDivision",
+                    data: {
+                        division: ths.division
+                    },
+                    success: function (response) {
+                        if (response !== "") {
+                            ths.calendarioDivision = JSON.parse(response);
+                        }
+                        callback();
+                    }
+                });
+            } else {
+                callback();
+            }
+        },
+        listarBatallas: function (tipo) {
+            var ths = this;
+            this.getCalendarioDivision(function () {
+                ths.mostrarLiga();
+                var listaBatallas = document.getElementById("listaBatallas").getElementsByClassName("tbody")[0].getElementsByTagName("tbody")[0];
+                listaBatallas.innerHTML = "";
+                var rowCount = 0;
+                var scroll = 0;
+                var scrollSelected = false;
+                var dias = 0;
+                var disputados = true;
+                var hoy = false;
+                for (var i = 0; i < ths.calendarioDivision.length; i++) {
+
+                    if (ths.calendarioDivision[i].tipo === tipo) {
+
+                        //add DATA row
+                        if (dias !== ths.calendarioDivision[i].fecha) {
+
+                            var row = listaBatallas.insertRow(rowCount);
+                            row.setAttribute("class", "UnHighLight saltoCalendario");
+                            row.setAttribute("onMouseOver", "HighLight(this)");
+                            row.setAttribute("onMouseOut", "UnHighLight(this)");
+                            if (disputados) {
+                                $(row).addClass("calendarioAnterior");
+                            } else {
+                                $(row).addClass("calendarioPosterior");
+                            }
+
+                            var cell0 = row.insertCell(0);
+                            cell0.colSpan = "4";
+                            var fecha = getFechaCompletaBySeconds(ths.calendarioDivision[i].fecha);
+                            cell0.innerHTML = fecha;
+                            $(cell0).addClass("fechaCell");
+                            rowCount++;
+                        }
+
+                        var row = listaBatallas.insertRow(rowCount);
+                        row.setAttribute("class", "UnHighLight");
+                        row.setAttribute("onMouseOver", "HighLight(this)");
+                        row.setAttribute("onMouseOut", "UnHighLight(this)");
+                        row.setAttribute("onclick", 'Select(this)');
+
+                        var cell1 = row.insertCell(0);
+                        cell1.innerHTML = ths.calendarioDivision[i].eqLocName;
+
+                        var cell2 = row.insertCell(1);
+                        cell2.innerHTML = ths.calendarioDivision[i].eqVisName;
+
+                        var cell3 = row.insertCell(2);
+                        $(cell3).css("font-weight", "bold");
+                        cell3.innerHTML = "-";
+
+                        var td = $("<td>");
+                        $(row).append(td);
+
+                        if (typeof ths.calendarioDivision[i].resultado !== "undefined") {
+                            var result = ths.calendarioDivision[i].resultado;
+                            cell3.innerHTML = result;
+                            if (result.split("-")[0] > result.split("-")[1]) {
+                                $(cell1).css("color", "gold");
+                            } else if (result.split("-")[1] > result.split("-")[0]) {
+                                $(cell2).css("color", "gold");
+                            }
+                        } else {
+                            if (scrollSelected === false) {
+                                scroll = rowCount * 23;
+                                scrollSelected = true;
+                            }
+                        }
+
+                        //load battle
+                        if (ths.calendarioDivision[i].calculos > 0) {
+                            var img = $("<div>");
+                            img.addClass('icon ico_lupa');
+                            img.attr('onclick', "cargar('batallas'); mapaJs.getBatallaLista(" + i + ")");
+                            td.append(img);
+
+                        } else {
+                            if (typeof ths.calendarioDivision[i].resultado === 'undefined') {
+                                if (hoy === false) {
+                                    var rowHoy = $(listaBatallas).find("tr").eq($(row).index(this) - 1);
+                                    $(rowHoy).removeClass("calendarioPosterior");
+                                    $(rowHoy).addClass("calendarioProximo");
+                                    hoy = true;
+                                }
+                                disputados = false;
+                            }
+                        }
+                        rowCount++;
+                        dias = ths.calendarioDivision[i].fecha;
+                    }
+                }
+
+//                reloadTablas();
+                $("#listaBatallas .scrollTablaLista").scrollTop(scroll - 185);
+                //FIN DEL ANUNCIO
+                $('#anuncio').parent().find(".ui-dialog-titlebar .ui-dialog-titlebar-close").css("display", "inherit");
+
+                $('#anuncio').dialog('close');
+                //
+            });
+        },
+        enviarMensajePrensa: function () {
+            var ths = this;
+            var mensaje = $("#mensaje").val();
+            if (mensaje !== "") {
+                $.ajax({
+                    type: "GET",
+                    url: "enviarMensajePrensa",
+                    data: {
+                        mensaje: mensaje
+                    },
+                    success: function () {
+                        $("#mensaje").val("");
+                        $('#mensaje').keyup();
+                        ths.mostrarPrensa(global.division);
+                    }
+                });
+            } else {
+                aviso("No puedes publicar un mensaje vacío");
+            }
+        },
+        events: function () {
+            var ths = this;
+            $("#divisionMapa").change(function () {
+                if ($("#divisionMapa").val() > ths.divisionMax) {
+                    $("#divisionMapa").val(ths.divisionMax);
+                }
+                if ($("#divisionMapa").val() < 1) {
+                    $("#divisionMapa").val(1);
+                }
+                ths.subdivisiones();
+            });
+            $("#subdivisionMapa").change(function () {
+                if ($("#subdivisionMapa").val() > ths.subdivisionMax) {
+                    $("#subdivisionMapa").val(ths.subdivisionMax);
+                }
+                if ($("#subdivisionMapa").val() < 1) {
+                    $("#subdivisionMapa").val(1);
+                }
+            });
+            $("#flechaDivisionLeft").click(function () {
+                if ($("#divisionMapa").val() > 1) {
+                    $("#divisionMapa").val($("#divisionMapa").val() - 1);
+                    ths.subdivisiones();
+                }
+            });
+            $("#flechaDivisionRight").click(function () {
+                if (ths.divisionMax > $("#divisionMapa").val()) {
+                    $("#divisionMapa").val(parseInt($("#divisionMapa").val()) + 1);
+                    ths.subdivisiones();
+                }
+            });
+            $("#flechaSubdivisionLeft").click(function () {
+                if ($("#subdivisionMapa").val() > 1) {
+                    $("#subdivisionMapa").val($("#subdivisionMapa").val() - 1);
+                }
+            });
+            $("#flechaSubdivisionRight").click(function () {
+                if (ths.subdivisionMax > $("#subdivisionMapa").val()) {
+                    $("#subdivisionMapa").val(parseInt($("#subdivisionMapa").val()) + 1);
+                }
+            });
+            $("#busquedaDivision").click(function () {
+                var divisionMostrar = 0;
+                for (var i = 0; i < $("#divisionMapa").val() - 1; i++) {
+                    divisionMostrar = divisionMostrar + Math.pow(4, i);
+                }
+                var division = divisionMostrar + parseInt($("#subdivisionMapa").val());
+                global.division = division;
+                ajax.getLiga(division, function (liga) {
+                    if(!liga){
+                        alert("la división seleccionada no existe");
+                        return;
+                    }
+                    ths.liga = liga;
+                    ths.mapa = JSON.stringify(liga.mapa);
+//                    ths.container.removeAllChildren();
+//                    ths.stageMapa.removeAllChildren();
+//                    ths.castillos = [];
+                    ths.listarBatallas("liga");
+                    ths.mostrarPrensa();
+                });
+            });
+
+//            $("#foroExpand").click(function() {
+//                expandForo();
+//            });
+//            $("#foro").dblclick(function() {
+//                expandForo();
+//            });
+//
+//            function expandForo() {
+//                $("#foro").toggleClass("foroSize");
+//            }
+
+            // auto adjust the height of
+            $('#mensaje').on('keyup', function () {
+                $(this).height(0);
+                var alt = this.scrollHeight + 10;
+                $(this).height(alt);
+                $("#mensajeBoton").css("line-height", alt + "px");
+            });
+            $('#mensaje').keyup();
+
+        },
+        sizes: function () {
+            $("#foro").height($("#contenidos").height() - 335);
+            //$("#foro").addClass("foroSize");
+        },
+        getBatallaLista: function (i) {
+            getBatalla(mapaJs.calendarioDivision[i]);
+        },
+        contacto: function (id) {
+            global.contactoId = id;
+            cargar('contacto');
+        }
+    };
+
+    mapaJs.listarBatallas("liga");
+    mapaJs.mostrarPrensa();
+    mapaJs.divisiones();
+    mapaJs.subdivisiones();
+    mapaJs.events();
+    mapaJs.sizes();
+
+</script>

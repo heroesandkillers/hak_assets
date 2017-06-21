@@ -1,0 +1,441 @@
+
+<link rel="stylesheet" href="../styles/adapt/master.css">
+<link rel="stylesheet" href="../js/jquery-ui-1.10.2/themes/base/jquery-ui.min.css">
+<link rel='stylesheet' href='../styles/common.css'>
+<link rel='stylesheet' href='../styles/index_mob.css'>
+<link rel='stylesheet' href='../styles/images.css'>
+
+<script type="text/javascript" src="../js/jquery.mobile.touch.min.js"></script>        
+<script type="text/javascript" src="../js/plugins/jquery.hammer.min.js"></script>
+
+<div id="pantalla"></div>
+<script type="text/javascript">
+    $("#pantalla").height($(document).height());
+    $("#pantalla div").css("margin-top", ($(document).height() - $("#pantalla div").height()) / 2);
+    $("#pantalla").css("display", "inherit");
+    $('#pantalla').load("../pages/carga_mob.html");
+
+    //var o = "../";
+    var gameURL = "/hakMovil/assets/";
+
+    if (!window.org) {
+        window.org = "../";
+    }
+</script>
+<script type="text/javascript" src='../styles/images.js'></script>
+
+<div id="wrapper">
+
+    <header>
+
+        <div id="iconoForo">
+            <div>
+                <img src="../img/interfaz/iconos/foro.png">
+            </div>
+        </div>
+
+        <div id="iconoMensajes" style="left:25%">
+            <div>
+                <img src="../img/interfaz/iconos/mensajes.png">
+                <span id="numeroMensajes"></span>
+            </div>
+        </div> 
+
+        <div id="iconoEstadisticas" style="left:50%">
+            <div>
+                <span style="color:white;">rank: </span>
+                <span id="posicion"></span>
+            </div>
+        </div>
+
+        <div id="oro" style="left:75%">
+            <span></span>
+        </div>
+
+    </header>
+
+    <div id="handler">
+        <div id="mapaCanvasInner"></div>
+
+        <div id="contenidos"></div>
+    </div>
+
+    <footer>
+        <div>
+            <div id="iconoMapa" class='icono' style="background-image: url(../img/interfaz/iconos/mapa.png)">
+                <span>Mapa</span>
+            </div>
+            <!--                    <div id="iconoConstruccion" class='icono' style="background-image: url(../img/interfaz/iconos/construccion.png)">      
+                                    <span>Construcci�n</span>
+                                </div>-->
+            <div id="iconoEquipo" class='icono' style="background-image: url(../img/interfaz/iconos/equipo.png)">
+                <span>Equipo</span>
+            </div>
+            <div id="iconoAcademia" class='icono' style="background-image: url(../img/interfaz/iconos/equipo.png)">
+                <span>Academia</span>
+            </div>
+            <div id="iconoEntreno" class='icono' style="background-image: url(../img/interfaz/iconos/entreno.png)">
+                <span>Entreno</span>
+            </div>
+            <div id="iconoAlineacion" class='icono' style="background-image: url(../img/interfaz/iconos/alineacion.png)">
+                <span>Alineaci�n</span>
+            </div>
+            <div id="iconoBatallas" class='icono' style="background-image: url(../img/interfaz/iconos/batallas.png)">
+                <span>Batallas</span>
+            </div>
+            <div id="iconoMazmorras" class='icono' style="background-image: url(../img/interfaz/iconos/mazmorras.png)">  
+                <span>Mazmorras</span>
+            </div>
+            <div class='icono vacio'>
+                <p style="height:20px"></p>
+            </div>
+            <div id="iconoContacto" class='icono' style="background-image: url(../img/interfaz/iconos/perfil.png)">
+                <span>Contacto</span>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<div id="error" class="dialog">
+    <div id="mensajeError"></div>
+</div>
+
+<div id="aviso" class="dialog">
+    <div id="mensajeAviso"></div>
+</div>
+
+<div id="confirmacion">
+    <div id="mensajeConfirmacion"></div>
+</div>
+
+<div id="divApodo" class="dialog">
+    apodo anterior: <span id="apodoAnterior"></span> 
+    <br><br>
+
+    <input style="width:150px" type="text" id="nuevoApodo">
+
+    <button id="botonApodo">apodar</button>
+</div>
+
+<script type="text/javascript" src="../js/easeljs-0.6.1.min.js"></script>
+<script type="text/javascript" src="../js/easeljs_Touch.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script language="JavaScript" type="text/javascript" src="../js/ajax.js"></script>
+<script language="JavaScript" type="text/javascript" src="../js/ajax_mob.js"></script>
+<script type="text/javascript">
+
+    window.onerror = function(message, url, linenumber) {
+//                alert("JavaScript error: " + message + " on line " + linenumber + " for " + url);
+        console.log("JavaScript error: " + message + " on line " + linenumber + " for " + url)
+    };
+
+    var routes = {
+        "academia": "pages/academia_mob.html",
+        "alineacion": "pages/alineacion_mob.html",
+        "batallas": "pages/batallas_mob.html",
+        "construccion": "pages/construccion.html",
+        "contacto": "pages/contacto_mob.html",
+        "entreno": "pages/entreno_mob.html",
+        "equipo": "pages/equipo_mob.html",
+        "estadisticas": "pages/estadisticas.html",
+        "mapa": "pages/mapa_mob.html",
+        "mazmorras": "pages/mazmorras_mob.html",
+        "mensajes": "pages/mensajes_mob.html",
+        "perfil": "pages/perfil.html",
+        "academiaAlineacion": "pages/academia/academiaAlineacion.html",
+        "academiaEquipo": "pages/academia/academiaEquipo.html",
+        "contactoCalendario": "pages/contacto/contactoCalendario.html",
+        "contactoEquipo": "pages/contacto/contactoEquipo.html",
+        "contactoResumen": "pages/contacto/contactoResumen.html",
+        "contactoTraspasos": "pages/contacto/contactoTraspasos.html",
+        "perfilDatos": "pages/perfil/perfilDatos.html",
+        "perfilEconomia": "pages/perfil/perfilEconomia.html"
+    };
+
+
+//    $("footer > div").css("min-height", $(document).height());
+    var global = {};
+    var local = "http://localhost/";
+//            var servidor = "http://www.heroesandkillers.com/";
+    var servidor = "http://hak.oscargardiazabal.com/";
+    var url = servidor + "game/";
+    var conectado = false;
+    var petAjax = [];
+
+    $(document).ready(function() {
+        console.log("conectando a " + url + " ...");
+
+        petAjax[petAjax.length] = $.ajax({
+            type: 'HEAD',
+            url: url,
+            success: function() {
+                console.log("conexión realizada");
+                conectado = true;
+                conexionEstablecida();
+            },
+            error: function() {
+                console.log("fallo en la conexión");
+                console.log("conectando a " + url + " ...");
+                petAjax[petAjax.length] = $.ajax({
+                    type: 'HEAD',
+                    url: local,
+                    success: function() {
+                        console.log("conexión realizada");
+                        conectado = true;
+                        conexionEstablecida();
+                    },
+                    error: function() {
+                        console.log("fallo en la conexión");
+                        conexionEstablecida();
+                    }
+                });
+            }
+        });
+    });
+
+    function conexionEstablecida() {
+
+        if (!window.Gusuario) {
+            Gusuario = localStorage.getItem("Gusuario");
+        }
+        if (!window.Gpass) {
+            Gpass = localStorage.getItem("Gpass");
+        }
+
+        if (conectado === false) {
+            if (!window.Gusuario || !window.lang) {
+                alert("no estás conectado");
+            } else {
+                confirmacion("modo sin conexión");
+                sinConexion();
+            }
+
+        } else {
+            if (!window.Gusuario) {
+                $('#pantalla').load("../pages/login.html");
+            } else {
+                console.log("Gusuario = " + Gusuario);
+                ajax_mob.login(Gusuario, Gpass);
+            }
+        }
+    }
+
+    function sinConexion() {
+        global.perfil = Gperfil;
+        global.liga = typeof Gliga === 'undefined' ? {} : Gliga;
+        global.calendario = typeof Gcalendario === 'undefined' ? {} : Gcalendario;
+        global.calendarioDivision = typeof GcalendarioDivision === 'undefined' ? {} : GcalendarioDivision;
+        global.equipo = typeof Gequipo === 'undefined' ? {} : Gequipo;
+        global.equipoAcademia = typeof GequipoAcademia === 'undefined' ? {} : GequipoAcademia;
+        globalPerfil();
+        loadJuego();
+    }
+
+    function loadLoginResponse(response) {
+        //console.log(response);
+        if (response === "error") {
+            $("#log").text("unknown server error");
+            console.log(response);
+
+        } else if (response === "incorrecto") {
+            $("#log").text("incorrect password");
+            $('#pantalla').load("../pages/login.html");
+            confirmacion("usuario o password incorrecto");
+            console.log(response);
+
+        } else {
+            cargarAll(response);
+        }
+    }
+
+    function cargarAll(response) {
+        $("#log").text("loading user data");
+        var all;
+        try {
+            all = JSON.parse(response);
+            console.log(all);
+        } catch (e) {
+            $("body").html(response);
+            return;
+        }
+
+//                for (var name in global) {
+//                    global[name] = JSON.parse(global[name]);
+//                }
+
+        global.divisiones = all.divisiones;
+        global.perfil = JSON.parse(all.perfil);
+        global.liga = JSON.parse(all.liga);
+        global.calendario = JSON.parse(all.calendario);
+        global.calendarioDivision = JSON.parse(all.calendarioDivision);
+        global.equipo = JSON.parse(all.equipo);
+        global.equipoAcademia = JSON.parse(all.equipoAcademia);
+        globalPerfil();
+
+        console.log(global);
+
+        try {
+            Android.setPref("perfil", all.perfil);
+            Android.setPref("liga", all.liga);
+            Android.setPref("calendario", all.calendario);
+            Android.setPref("calendarioDivision", all.calendarioDivision);
+            Android.setPref("equipo", all.equipo);
+            Android.setPref("equipoAcademia", all.equipoAcademia);
+        } catch (e) {
+            $("#log").text("shared preferences disabled");
+            confirmacion("shared preferences disabled");
+        }
+
+        loadJuego();
+    }
+
+    function globalPerfil() {
+        global.edificios = typeof global.perfil.cons === 'undefined' ? {} : JSON.parse(global.perfil.cons);
+        global.entreno = typeof global.perfil.entreno === 'undefined' ? {} : JSON.parse(global.perfil.entreno);
+        global.mapa = typeof global.perfil.division.mapa === 'undefined' ? {} : JSON.parse(global.perfil.division.mapa);
+        global.alin = typeof global.perfil.alin === 'undefined' ? {} : JSON.parse(global.perfil.alin);
+        global.mazmorras = typeof global.perfil.pujas === 'undefined' ? {} : JSON.parse(global.perfil.pujas);
+    }
+    ;
+    function loadJuego() {
+//                $("#log").text("load game");
+//                mostrarMapa();
+        $("#log").text("loading user preferences");
+        cargarPerfil();
+        $("#log").text("loading map screen");
+        cargar('mapa');
+        $("#log").text("showing game");
+        $("#pantalla").css("display", "none");
+        $("#iframe").css("display", "none");
+        $("#log").text("game loaded");
+    }
+
+</script>
+
+<script type="text/javascript" src="../js/jquery-ui-1.10.2/ui/minified/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="../js/Filter.js"></script>
+<script type="text/javascript" src="../js/ColorFilter.js"></script> 
+<script type="text/javascript" src="../js/FilteredSprite.js"></script> 
+
+<script type="text/javascript" src="../js/plugins/jquery.ba-outside-events.min.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery.sortElements.js"></script>
+
+<script type="text/javascript">
+
+    var baseEvents = {
+        x: 0,
+        left: 0,
+        e: function() {
+            console.log("events")
+            $("#sinConexion").on("click", function() {
+                for (var i = 0; i < petAjax.length; i++) {
+                    petAjax[i].abort();
+                }
+            });
+            $("#iconoMensajes").on("click", function() {
+                cargar("mensajes");
+            });
+            $("#iconoEstadisticas").on("click", function() {
+                cargar('estadisticas');
+            });
+            $("#iconoMapa").on("click", function() {
+                cargar('mapa');
+            });
+//                    $("#iconoConstruccion").on("click", function() {
+//                        cargar('construccion');
+//                    });
+            $("#iconoEquipo").on("click", function() {
+                console.log("equipo")
+                cargar('equipo');
+            });
+            $("#iconoAcademia").on("click", function() {
+                cargar('academia');
+            });
+            $("#iconoEntreno").on("click", function() {
+                cargar('entreno');
+            });
+            $("#iconoAlineacion").on("click", function() {
+                cargar('alineacion');
+            });
+            $("#iconoBatallas").on("click", function() {
+                getMiBatalla();
+            });
+            $("#iconoMazmorras").on("click", function() {
+                cargar('mazmorras');
+            });
+            $("#iconoContacto").on("click", function() {
+                global.contactoId = global.perfil.id;
+                cargar('contacto')
+            });
+
+            //footer
+            hideFooterEvent();
+
+            //no scalable page not prevented delay touch here   
+            $("footer")[0].addEventListener("mousedown", footerEvent, false);
+            $("footer")[0].addEventListener("touchstart", footerEvent, false);
+
+            function footerEvent(e) {
+                console.log(1)
+                var originX, originY;
+                if (e.touches) {
+                    originX = e.touches[0].pageX;
+                    originY = e.touches[0].pageY;
+                } else {
+                    originX = e.pageX;
+                    originY = e.pageY;
+                }
+
+                $(document).on("mousemove.footer touchmove.footer", function(e) {
+                    console.log(2)
+                    var x = event(e).pageX - originX;
+                    var y = event(e).pageY - originY;
+
+                    if (x > 50 && Math.abs(x) > Math.abs(y)) {
+                        console.log(3)
+                        $("footer").css("left", "-1px");
+                        $(document).off(".footer");
+                        hideFooterEvent();
+                    }
+                });
+            }
+
+            function event(e) {
+                if (e.originalEvent && e.originalEvent.touches && e.originalEvent.touches.length) {
+                    return e.originalEvent.touches[0];
+                }
+                return e;
+            }
+
+        }
+    };
+
+    function hideFooterEvent() {
+        setTimeout(function() {
+            console.log(55)
+            $(document).one("click.footer tap.footer", function() {
+                console.log(66)
+                $("footer").css("left", -($("footer > div").width() + 1) + "px");
+                $(document).off(".footer");
+            });
+        }, 1);
+    }
+
+
+    var stopPropagation = false;
+    if (document.readyState == 'complete') {
+        windowLoad();
+    }
+    $(document).ready(function() {
+        windowLoad();
+    });
+
+    function windowLoad() {
+        baseEvents.e();
+        //$("#footer > div").width($("#footer > div").width() + 30);
+    }
+
+</script>
+

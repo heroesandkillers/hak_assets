@@ -1,0 +1,137 @@
+
+<title>Perfil Resumen</title>
+
+<div style="height: 100%">
+    <div class="contenedor" id="bloquePrincipal" style="height: 100%">
+        <div class="titulo">P�gina de contacto de <span class="nombreContacto"></span></div>
+        <div class="cuerpo tabla">
+
+            <div>
+                <table class="datos">
+                    <tr>
+                        <td>
+                            Posicion Ranking
+                        </td>
+                        <td id="ranking">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Liga
+                        </td>
+                        <td id="liga">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Posici�n Liga
+                        </td>
+                        <td id="posicionLiga">
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="position:absolute; bottom:0; width:100%">
+                <span style="margin-left: 5px">Trofeos:</span>
+                <hr style="border-color:rgba(255,255,255,0.4)">
+                <div id="trofeos">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="height: 100%">
+    <div class="contenedor" style="height: 100%">
+        <div class="titulo">Escribir mensaje a <span class="nombreContacto"></span>:</div>
+        <div class="cuerpo tabla">
+
+            <div style="margin-top:10px;">
+                <p>Asunto:</p>
+                <textarea id="asunto" cols="25" rows="1" style="width: 99%; resize: none;"></textarea>
+            </div>
+
+            <div id="mensajeDiv" style="width: 99%; position:absolute; bottom:0">
+                <p>Mensaje:</p>
+                <textarea id="mensaje" cols="25" rows="5" style="width: 100%; resize: none;"></textarea>
+                <div style="text-align: right">
+                    <button onclick="contactoResumenJs.enviarMensaje();" style="margin-top:10px; margin-bottom:10px">Enviar</button>
+                </div>                        
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+                        contactoResumenJs = {
+                            carga: function() {
+                                var perfilContacto = global.perfilContacto;
+
+                                $(".nombreContacto").text(perfilContacto.nombreId);
+                                $("#ranking").text(perfilContacto.posicion);
+
+                                var liga = perfilContacto.division.division;
+                                var division = 0;
+                                var resultado = 0;
+                                var siguiente = true;
+                                while (siguiente) {
+                                    division++;
+                                    if (resultado + Math.pow(4, division) > liga) {
+                                        siguiente = false;
+                                    } else {
+                                        resultado = resultado + Math.pow(4, division);
+                                    }
+                                }
+                                var subdivision = liga - resultado;
+
+                                $("#liga").text(division + ":" + subdivision);
+                                $("#posicionLiga").text(perfilContacto.posicion - resultado);
+
+                                if (typeof perfilContacto.trofeos !== 'undefined') {
+                                    var trofeos = perfilContacto.trofeos;
+                                    for (var i = 0; i < trofeos.length; i++) {
+                                        if (trofeos[i].tipo === 'liga') {
+                                            $("#trofeos").append("<div class='trofeo" + trofeos[i].tipo + trofeos[i].rango + "' title='" + trofeos[i].descripcion + "'></div>");
+                                        }
+                                    }
+                                }
+
+                                var altura = $("#mensajeDiv").parent().height();
+                                $("#mensaje").height(altura - 140);
+                            },
+                            enviarMensaje: function() {
+                                var asunto = $("#asunto").val();
+                                var mensaje = $("#mensaje").val();
+
+                                if (asunto === "" || mensaje === "") {
+                                    error("Faltan datos");
+                                    return;
+                                }
+                                $.ajax({
+                                    type: "GET",
+                                    url: "enviarPrivado",
+                                    data: {
+                                        asunto: asunto,
+                                        mensaje: mensaje,
+                                        receptorId: global.perfilContacto.id
+                                    },
+                                    success: function() {
+                                        aviso("mensaje enviado");
+                                        $("#asunto").val("");
+                                        $("#mensaje").val("");
+                                    }
+                                });
+
+                            }
+                        };
+
+                        contactoResumenJs.carga();
+
+</script>

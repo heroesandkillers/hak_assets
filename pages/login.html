@@ -1,0 +1,62 @@
+
+<div id="conjunto" style="position:relative">
+    <div id="tituloIndex" style="height:20%"></div>
+
+    <div>
+        <div class="contenedor">
+            <div class="titulo">
+                Login
+                <span id="log" style="float:right"></span>
+            </div>
+            <form class="margen" action="javascript:login()">
+                <input id="loginUser" type="text" placeholder="Introduce tu nombre">
+                <input id="loginPass" type="password" placeholder="Introduce tu pass">
+                <br>
+                <input type="submit" id="login" class="boton" value="Aceptar"/>
+            </form>
+        </div>
+
+        <div class="contenedor">
+            <div class="titulo">Opciones</div>
+            <div class="margen">
+                <a id ="registro" class="boton">
+                    Registro
+                </a>
+                <a id="wiki" class="boton">
+                    wiki
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#wiki").attr("href", servidor + "wiki/");
+
+    function login() {
+        $("#log").text("comprobando usuario");
+        var loginUser = $("#loginUser").val();
+        var loginPass = $("#loginPass").val();
+
+        ajax_mob.login(loginUser, loginPass);
+    }
+
+    $("#tituloIndex").height($("#tituloIndex").width() * 0.15);
+
+    var alto = $("#conjunto").height() - $("#tituloIndex").height() - 20;
+    $("#contenido1").height(alto + "px");
+    $("#contenido1B").height(alto - $("#contenido1A").height() - 15 + "px");
+
+    $("#contenido2").height(alto + "px");
+
+    $("#registro").click(function() {
+        $("#registroVentana").css("display", "inherit");
+    });
+
+    $("#close").click(function() {
+        $("#registroVentana").css("display", "none");
+    });
+    
+</script>

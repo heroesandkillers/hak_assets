@@ -1,0 +1,473 @@
+
+<div class="contenedor" style="height: 50%">
+
+    <div class="titulo">BATALLAS ANTERIORES</div>
+    <div class="cuerpo tabla">
+        <div class="subtitulo">
+            <table class="thead">
+                <tr>
+                    <th class="arrowDown dias" style="width:20%">
+                        Fecha
+                    </th>
+                    <th style="width:20%">
+                        Atacante                                
+                    </th>
+                    <th style="width:20%">
+                        Defensor
+                    </th>
+                    <th style="width:20%">
+                        tipo
+                    </th>
+                    <th style="width:15%">
+                        Resultado
+                    </th>
+                    <th style="width:5%"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="scrollTablaBottom">
+            <table id="batallasAnteriores" class="tbody">
+                <thead style="height: 0">
+                    <tr style="height: 0">
+                        <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div class="contenedor" style="height: 49%">
+    <!--    <div class="titulo">INFORMACI�N SOBRE LA BATALLA</div>
+        <div class="subtitulo">Sin implementar</div>-->
+</div>
+
+<div class="contenedor" style="height: 49%">
+    <div class="titulo">BATALLAS SIGUIENTES</div>
+    <div class="cuerpo tabla">
+        <div class="subtitulo">
+            <table class="thead">
+                <tr>
+                <tr>
+                    <th class="arrowDown dias" style="width:20%">
+                        Fecha
+                    </th>
+                    <th style="width:20%">
+                        Atacante                                
+                    </th>
+                    <th style="width:20%">
+                        Defensor
+                    </th>
+                    <th style="width:20%">
+                        tipo
+                    </th>
+                    <th style="width:15%">
+                        Formaci�n
+                    </th>
+                    <th style="width:5%"></th>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table  id="batallasProximas" class="tbody">
+                <thead style="height: 0">
+                    <tr style="height: 0">
+                        <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div id="detallesCalendario" class="contenedor" style="height: 50%">
+
+    <div class="canvasInner">
+        <div id="interrogante1" class="interrogante">
+            <div>
+                ?
+            </div>
+        </div>  
+
+        <canvas id="batallaCanvas1"/>
+    </div>
+
+    <div class="canvasInner" style="width:30px">
+        <div id="vs">
+            VS
+        </div>        
+    </div>
+
+    <div class="canvasInner">
+        <div id="interrogante2" class="interrogante">
+            <div>
+                ?
+            </div>            
+        </div> 
+
+        <canvas id="batallaCanvas2"></canvas>        
+    </div>
+
+</div>
+
+<script>
+
+    var contactoCalendarioJs = {
+        criaturas: [],
+        obj: global.calendario,
+        obj_alineacion1: [],
+        obj_alineacion2: [],
+        canvasAlto: "",
+        canvasAncho: "",
+        imagenes: [],
+        canvas1: $("#batallaCanvas1").get(0),
+        stage1: "",
+        canvas2: $("#batallaCanvas2").get(0),
+        stage2: "",
+        seleccion: 0,
+        scale: 1,
+        startCanvas: function() {
+            var ths = this;
+
+            ths.canvasAncho = $("#detallesCalendario").width() / 2 - 30;
+            ths.canvasAlto = $("#detallesCalendario").height();
+
+            ths.canvas1.height = ths.canvasAlto;
+            ths.canvas1.width = ths.canvasAncho;
+
+            ths.stage1 = new createjs.Stage(ths.canvas1);
+            ths.stage1.enableMouseOver();
+
+            ths.canvas2.height = ths.canvasAlto;
+            ths.canvas2.width = ths.canvasAncho;
+
+            ths.stage2 = new createjs.Stage(ths.canvas2);
+            ths.stage2.enableMouseOver();
+        },
+        colocarInterrogante: function(bando) {
+            $("#interrogante" + bando).css("display", "inherit");
+        },
+        colocarAlineaciones: function(bando, alineacionArray) {
+            var ths = this;
+            for (var i = 0; i < alineacionArray.length; i++) {
+
+                var id = alineacionArray[i].id;
+
+                var posicionX = 0;
+                var posicionY = 0;
+
+                if (typeof alineacionArray[i].posicion === 'undefined') {
+                    posicionX = alineacionArray[i].x;
+                    posicionY = alineacionArray[i].y;
+                } else {
+                    var posicion = alineacionArray[i].posicion;
+                    posicionX = parseInt(posicion / 5);
+                    posicionY = posicion - posicionX * 5;
+                }
+
+                var x = posicionX * ths.canvasAncho / 3 + ths.canvasAncho / 6;
+                var y = posicionY * ths.canvasAlto / 5 + ths.canvasAlto / 10;
+
+                if (bando === 2) {
+                    x = $("#batallaCanvas2").width() - x;
+                }
+
+                ths.crearGrupo(bando, id, x, y, {clase: alineacionArray[i].clase, actitud: alineacionArray[i].actitud, raza: alineacionArray[i].raza});
+            }
+        },
+        crearGrupo: function(bando, id, x, y, atributos) {
+            var ths = this;
+
+            var raza = atributos.raza;
+            var clase = atributos.clase;
+            var actitud = atributos.actitud;
+
+            var scale = ths.scale = $("#batallaCanvas1").height() / 700;
+
+            var image1 = new Image();
+            image1.src = 'img/alineacion/clase.png';
+            ths.imagenes[ths.imagenes.length] = image1.src;
+
+            var imgClase = new createjs.Bitmap(image1);
+            imgClase = ths.claseImg(imgClase, atributos);
+            imgClase.scaleX = scale;
+            imgClase.scaleY = scale;
+            imgClase.x = -150 * imgClase.scaleX;
+            imgClase.y = -150 * imgClase.scaleY;
+            imgClase.name = 'imgClase';
+
+            var image2 = new Image();
+            image2.src = 'img/alineacion/actitud.png';
+            ths.imagenes[ths.imagenes.length] = image2.src;
+
+            var imgActitud = new createjs.Bitmap(image2);
+            imgActitud = ths.actitudImg(imgActitud, actitud);
+            imgActitud.scaleX = scale;
+            imgActitud.scaleY = scale;
+            imgActitud.x = -50 * imgActitud.scaleX;
+            imgActitud.y = -50 * imgActitud.scaleY;
+            imgActitud.name = 'imgActitud';
+
+            var text = new createjs.Text(ths.textoAlineacion(id), "12px Calibri", 'black');
+            text.x = 0;
+            text.y = 80 * scale;
+            text.textBaseline = "alphabetic";
+            text.name = "text";
+
+            var grupo = new createjs.Container();
+            grupo.x = x - (10 * scale);
+            grupo.y = y - (10 * scale);
+            grupo.cursor = "pointer";
+
+            grupo.id = id;
+            grupo.actitud = actitud;
+            grupo.clase = clase;
+            grupo.raza = raza;
+
+            grupo.addChild(imgClase);
+            grupo.addChild(imgActitud);
+            grupo.addChild(text);
+
+            ths.criaturas.push(grupo);
+
+            if (bando === 1) {
+                ths.stage1.addChild(grupo);
+            } else {
+                imgClase.scaleX = imgClase.scaleX * -1;
+                imgClase.x = imgClase.x - 300 * imgClase.scaleX;
+                imgActitud.scaleX = imgActitud.scaleX * -1;
+                ths.stage2.addChild(grupo);
+            }
+        },
+        claseImg: function(img, atributos) {
+            var x, y;
+
+            var raza = atributos.raza;
+            var clase = atributos.clase;
+
+            if (raza === 'humano') {
+                y = 0;
+            } else if (raza === 'duende') {
+                y = 300;
+            }
+
+            if (clase === 'barbaro') {
+                x = 0;
+            } else if (clase === 'arquero') {
+                x = 300;
+            } else if (clase === 'mago') {
+                x = 600;
+            }
+
+            img.sourceRect = {x: x, y: y, width: 300, height: 300};
+            return img;
+        },
+        actitudImg: function(img, actitud) {
+
+            if (actitud === 'cauto') {
+                img.sourceRect = {x: 0, y: 0, width: 30, height: 30};
+            } else if (actitud === 'moderado') {
+                img.sourceRect = {x: 30, y: 0, width: 30, height: 30};
+            } else if (actitud === 'agresivo') {
+                img.sourceRect = {x: 60, y: 0, width: 30, height: 30};
+            }
+            return img;
+        },
+        getCalendario: function(callback) {
+            var ths = this;
+
+            if (global.perfil.id !== global.contactoId) {
+                $.ajax({
+                    type: "GET",
+                    url: "getcalendario",
+                    data: {
+                        id: global.contactoId
+                    },
+                    success: function(response) {
+                        ths.obj = JSON.parse(response);
+                        callback();
+                    }
+                });
+            } else {
+                if (ths.obj === "") {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "getcalendario",
+                        data: {
+                            id: contactoId
+                        },
+                        success: function(response) {
+                            ths.obj = JSON.parse(response);
+                            callback();
+                        }
+                    });
+
+                } else {
+                    callback();
+                }
+            }
+        },
+        mostrarCalendario: function() {
+            var ths = this;
+            ths.getCalendario(function() {
+
+                for (var i = 0; i < ths.obj.length; i++) {
+
+                    var myDate = new Date();
+                    var segunos = ths.obj[i].fecha + (myDate.getTimezoneOffset() + 120) * 60;
+
+                    var fecha = getFechaCompletaBySeconds(segunos);
+
+                    var table;
+                    if (typeof ths.obj[i].resultado !== "undefined") {
+                        table = $("#batallasAnteriores tbody").get(0);
+                    } else {
+                        table = $("#batallasProximas tbody").get(0);
+                    }
+
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+
+                    row.setAttribute("class", "UnHighLight");
+                    row.setAttribute("onMouseOver", "HighLight(this)");
+                    row.setAttribute("onMouseOut", "UnHighLight(this)");
+                    row.setAttribute("onclick", 'Select(this), contactoCalendarioJs.mostrarResumenBatalla(' + i + ')');
+
+                    var cell1 = row.insertCell(0);
+                    cell1.innerHTML = "<input type='hidden' value = " + ths.obj[i].fecha + "/>" + fecha;
+
+                    var cell3 = row.insertCell(1);
+                    cell3.innerHTML = ths.obj[i].eqVisName;
+
+                    var cell2 = row.insertCell(2);
+                    cell2.innerHTML = ths.obj[i].eqLocName;
+
+                    var cell4 = row.insertCell(3);
+                    if (typeof ths.obj[i].tipo === 'undefined') {
+                        cell4.innerHTML = "Academia";
+                    } else {
+                        cell4.innerHTML = capitalise(ths.obj[i].tipo);
+                    }
+
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+
+                    if (typeof ths.obj[i].resultado !== "undefined") {
+                        cell5.innerHTML = ths.obj[i].resultado;
+
+                        if (typeof ths.obj[i].resultados !== 'undefined') {
+                            var img = $("<img>");
+                            img.setAttribute('class', 'icon');
+                            img.setAttribute('style', 'height:15px');
+                            img.setAttribute('src', 'img/iconos/iconoLupa.png');
+                            img.setAttribute('onclick', 'getBatallaCalendario(' + i + ')');
+
+                            cell6.appendChild(img);
+                        }
+                    }
+                    reloadTablas();
+                    ordenarTablas();
+                }
+                ths.startCanvas();
+            });
+        },
+        textoAlineacion: function(id) {
+            var obj = this.obj_alineacion1;
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].id === id) {
+                    var apodo = getApodo(obj[i].apodo);
+                    if (apodo !== "") {
+                        return apodo;
+                    }
+                    var array = obj[i].nombre.split(" ");
+                    return array[0][0] + ". " + array[1];
+                }
+            }
+        },
+        getBatallaCalendario: function(i) {
+            var ths = this;
+            getBatalla(ths.obj[i]);
+        },
+        detallesCalendario: function(i) {
+            var batalla = this.obj[i];
+
+            $("#escudoLocal").html("<img style='height:100%' src='img/escudo.png'/>");
+            $("#escudoVisitante").html("<img style='height:100%' src='img/escudo.png'/>");
+
+            $("#equipoLocal").text(batalla.equipoLocal);
+            $("#equipoVisitante").text(batalla.equipoVisitante);
+
+            if (typeof batalla.resultados !== 'undefined') {
+
+                var arrayResultado = JSON.parse(batalla.resultados).resultado.split("-");
+
+                $("#resultado td:eq(0)").text(arrayResultado[0]);
+                $("#resultado td:eq(1)").text(arrayResultado[1]);
+            } else {
+                $("#resultado td:eq(0)").text("");
+                $("#resultado td:eq(1)").text("");
+            }
+            reloadTablas();
+        },
+        mostrarResumenBatalla: function(i) {
+            var ths = this;
+
+            $("#interrogante1").css("display", "none");
+            $("#interrogante2").css("display", "none");
+
+            ths.obj_alineacion1 = [];
+            ths.stage1.autoClear = true;
+            ths.stage1.removeAllChildren();
+            ths.stage1.update();
+            ths.stage2.autoClear = true;
+            ths.stage2.removeAllChildren();
+            ths.stage2.update();
+
+            if (typeof ths.obj[i].alineacionLocal !== 'undefined' && ths.obj[i].alineacionLocal !== "") {
+                ths.obj_alineacion1 = JSON.parse(ths.obj[i].alineacionLocal);
+                ths.obj_alineacion2 = JSON.parse(ths.obj[i].alineacionVisitante);
+
+                ths.colocarAlineaciones(1, ths.obj_alineacion1);
+                ths.colocarAlineaciones(2, ths.obj_alineacion2);
+
+            } else {
+                var equipo = global.equipoContacto;
+                var alineacion = global.alineacion;
+
+                for (var i = 0; i < alineacion.length; i++) {
+                    var criat = getObjById(equipo, alineacion[i].id);
+                    criat.clase = alineacion[i].clase;
+                    criat.actitud = alineacion[i].actitud;
+                    criat.posicion = alineacion[i].posicion;
+                    ths.obj_alineacion1.push(criat);
+                }
+
+                if (ths.obj[i].equipoLocalId === global.perfil.id) {
+                    ths.colocarAlineaciones(1, ths.obj_alineacion1);
+                    ths.colocarInterrogante(2);
+                } else {
+                    ths.colocarInterrogante(1);
+                    ths.colocarAlineaciones(2, ths.obj_alineacion1);
+                }
+            }
+
+            loadImagenes(ths.imagenes, function() {
+                ths.stage1.update();
+                ths.stage2.update();
+            });
+        }
+    };
+
+    contactoCalendarioJs.mostrarCalendario();
+    contactoCalendarioJs.startCanvas();
+
+</script>

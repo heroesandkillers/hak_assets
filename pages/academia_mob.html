@@ -1,0 +1,173 @@
+
+<style>
+    #tableAcademia th:not(:first-child), #tableAcademia td:not(:first-child){
+        text-align: right;
+    }
+</style>
+
+<div style="height:85%"> 
+    <div class="contenedor" id="bloque" style="height: 100%">
+        <div class="titulo">
+            <span>ACADEMIA</span>
+            <span id="numCriaturasAcademia"></span>
+            <div id="academiaAlineacion" class="minBoton" style="float:right" onclick="cargar('academiaAlineacion');">
+                Alineacion Academia
+            </div>
+        </div>
+        <div class="cuerpo tabla">
+            <table id="tableAcademia" class="tbody">
+                <thead class="thead">
+                    <tr>                            
+                        <th style="width:40%">Nombre</th>
+                        <th style="width:5%"></th>
+                        <th style="width:5%"></th>
+                        <th style="width:5%"></th>
+                        <th style="width:10%"><div class="observable observar"></div></th>
+                        <th title="Nivel" style="width:10%">Nivel</th>
+                        <th style="width:10%">Edad</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <table>
+        <td id="detalleCriatura" class="bloque contenedor" colspan="99" style="width:100%">
+            <div class="none" style="width:100%"><!--importante en movil-->
+                <div class="titulo">
+                    <span id="nombre"></span>
+                    <div onclick="botonExpulsar();" class="minBoton" style="float:right;">
+                        <span>Expulsar</span>
+                    </div>
+                </div>
+
+                <div class="cuerpo tabla innerTabla20" style="font-weight: bold; position: relative">
+				  <div style="position:absolute; margin-left:10px">
+					<div id="aspectoDiv"></div>
+					<div id="nivel" style="position:absolute; top:0; left:0"></div>
+				  </div>
+                    <table style="width:100%; height:100%; overflow:hidden; position: relative">
+                        <tbody>
+                            <tr>
+                                <td width="50%">
+                                    <table class="tablaIn">
+                                        <tbody>      
+                                            <tr class="UnHighLight">
+                                                <td>Nivel:</td>
+                                                <td id="nivel" style="text-align: right;"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Raza:</td>
+                                                <td id="raza" style="text-align: right;"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Elemento:</td>
+                                                <td id="elemento" style="text-align: right;"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>    
+                                            <tr class="UnHighLight">
+                                                <td>Mutación:</td>
+                                                <td id="mutacion" style="text-align: right;"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Edad:</td>
+                                                <td id="edad" style="text-align: right;"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Batallas:</td>
+                                                <td id="batallasTemp" style="text-align: right;"> (<span id="batallasTotal"></span>) </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Bajas:</td>
+                                                <td id="bajasTemp" style="text-align: right;"> (<span id="bajasTotal"></span>) </td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td width="50%">
+                                    <table class="tablaIn">
+                                        <tbody>
+                                            <tr class="UnHighLight">
+                                                <td>Fuerza:</td>
+                                                <td id="fuerza" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Magia:</td>
+                                                <td id="magia" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Agilidad:</td>
+                                                <td id="agilidad" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Reflejos:</td>
+                                                <td id="reflejos" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Constitucion:</td>
+                                                <td id="constitucion" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Defensa:</td>
+                                                <td id="defensa" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                            <tr class="UnHighLight">
+                                                <td>Reacci�n:</td>
+                                                <td id="reaccion" style="text-align: right"></td>
+                                                <td style="text-align: right"><div class="observable"></div></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </table>
+</div>
+
+<div class="contenedor" style="height: 100%; position:relative">
+    <div class="titulo">OPCIONES</div>
+    <div style="margin:20px">
+        <span>Ver Batalla:</span>
+        <select id="selectBatallas"></select>
+        <a onclick="getBatallaAcademia();">ir</a>
+    </div>
+</div>
+
+<div id="divOcultables" class="dialog" style="display: none">
+
+</div>
+
+<div id="divOcultar" class="dialog" style="display: none">
+    <div>Seguro que quieres ocultar <span id="atrOcultar"></span> para destapar un nuevo valor?</div> 
+    <br/>
+
+    <button onclick="academiaEquipoJs.ocultar(this);">Ocultar</button>
+</div>
+
+<div id="divExpular" class="dialog" style="display: none">
+    <div>Quieres expulsar a <span id="nombreExpulsado"></span> ?</div> 
+    <br/><br/>
+
+    <button id="botonFinalExpular" onclick="academiaEquipoJs.expulsar(this);">Expular</button>
+</div>
+
+<script src="../pages/academia.js"></script>   

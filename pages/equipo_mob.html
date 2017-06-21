@@ -1,0 +1,151 @@
+
+<style>
+    /*to +1 left position*/
+    #tableEquipo td > div{
+        position: relative;
+    }
+    #detalleCriatura .minBoton{
+        margin: 0;
+    }
+</style>
+
+<div class="contenedor" id="bloque" style="height: 100%">
+    <div class="titulo">TUS CRIATURAS<span id="numCriaturas"></span></div>
+    <div class="cuerpo tabla">
+        <table id="tableEquipo" class="tbody">
+            <thead class="thead">
+                <tr>
+                    <th style="width:80px">Nombre</th>
+                    <th style="width:2%"></th>
+                    <th style="width:5%"></th>
+                    <th style="width:2%"></th>
+                    <th style="width:10%"></th>
+                    <th style="width:30px">&Oslash</th>  
+
+                    <th title="Nivel" class="numero" style="width:30px">lvl.</th>
+                    <th class="numero" style="width:30px">Edad</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<table>
+    <td id="detalleCriatura" class="bloque contenedor" colspan="99" style="width:100%">
+        <div class="none" style="width:100%"><!--importante en movil-->
+            <div class="titulo">
+                <span id="nombre"></span>
+                <input id="apodoDetalles" class="apodoInput" style="float:right; width: 50%;" type="text"/>
+            </div>
+
+            <div class="cuerpo tabla innerTabla20" style="width:100%; height:100%; font-weight: bold; position:relative">
+                <div style="position:absolute; margin-left:10px">
+                    <div id="aspectoDiv"></div>
+                    <div id="nivel" style="position:absolute; top:0; left:0"></div>
+                </div>
+                <table style="overflow:hidden; z-index:1; position:relative">
+                    <tbody>
+                        <tr>
+
+                            <td width="50%" style="z-index:1">
+                                <table class="tablaIn">
+                                    <tbody>
+                                        <tr class="UnHighLight">
+                                            <td style="z-index:1">
+                                                Raza:</td>
+                                            <td id="raza" style="text-align: right;"></td>
+
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Clase:</td>
+                                            <td id="clase" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Elemento:</td>
+                                            <td id="elemento" style="text-align: right;"></td>
+                                        </tr>    
+                                        <tr class="UnHighLight">
+                                            <td>Mutaci�n:</td>
+                                            <td id="mutacion" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Edad:</td>
+                                            <td id="edad" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Batallas:</td>
+                                            <td id="batallasTemp" style="text-align: right;"> (<span id="batallasTotal"></span>) </td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Bajas:</td>
+                                            <td id="bajasTemp" style="text-align: right;"> (<span id="bajasTotal"></span>) </td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Valor</td>
+                                            <td style="text-align: right;">
+                                                <span id="valor"></span>
+                                                <span class="minBoton" style="font-size:12px; padding: 0 .4em;" onclick="equipoJs.botonVender();">Vender</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <td width="50%">
+                                <table class="tablaIn">
+                                    <tbody>
+                                        <tr class="UnHighLight">
+                                            <td>Fuerza:</td>
+                                            <td id="fuerza" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Magia:</td>
+                                            <td id="magia" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Agilidad:</td>
+                                            <td id="agilidad" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Reflejos:</td>
+                                            <td id="reflejos" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Constitucion:</td>
+                                            <td id="constitucion" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Defensa:</td>
+                                            <td id="defensa" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Reacci�n:</td>
+                                            <td id="reaccion" style="text-align: right;"></td>
+                                        </tr>
+                                        <tr class="UnHighLight">
+                                            <td>Media:</td>
+                                            <td id="media" style="text-align: right;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </td>
+</table>
+
+<div id="divVender" class="dialog" style="display: none">
+    <div>Vender por: <span id="precioVenta" class="cantidadMoneda"></span><span class="moneda"></span> ? </div>
+    <div><img src="../img/iconos/ayuda.png" title="Venta"></div>
+    <br/>
+
+    <button id="botonFinalVender" onclick="equipoJs.vender(this);">vender</button>
+</div>
+
+<script type="text/javascript" src="../pages/equipo.js"></script>

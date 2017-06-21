@@ -1,0 +1,95 @@
+
+<div style="height: 100%; position:relative">
+    <div style="height: 49%">
+        <div class="contenedor" style="height: 100%">
+            <div class="titulo">RECIBIDOS</div>
+            <div class="cuerpo tabla">
+
+                <div class="subtitulo">
+                    <table class="thead">
+                        <tr>
+                            <th style="width:190px">
+                                Fecha
+                            </th>
+                            <th style="width:190px" class="arrowDown">
+                                Destinatario
+                            </th>
+                            <th>
+                                Asunto
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="scrollTablaBottom">
+                    <table id="bandejaEntrada" class="tbody">
+                        <thead style="height: 0">
+                            <tr style="height: 0">
+                                <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div style="width:100%; height: 49%; position:absolute; bottom:0">
+        <div class="contenedor" style="height: 100%">
+            <div class="titulo">ENVIADOS</div>
+            <div class="cuerpo tabla">
+
+                <div class="subtitulo">
+                    <table class="thead">
+                        <tr>
+                            <th style="width:190px">
+                                Fecha
+                            </th>
+                            <th style="width:190px" class="arrowDown">
+                                Direcci�n
+                            </th>
+                            <th>
+                                Asunto
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="scrollTablaBottom">
+                    <table id="bandejaSalida" class="tbody">
+                        <thead style="height: 0">
+                            <tr style="height: 0">
+                                <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="alineacionCanvas" class="contenedor" style="height: 100%">
+    <div class="titulo">MENSAJE</div>
+
+    <div id="mensajeDiv" style="display:none; font-weight: bold">
+
+        <p style="margin-top:10px; margin-left:10px"><span id="fecha"></span>, <span id="usuario"></span></p>
+
+        <p style="margin-top:5px; margin-left:10px">Asunto: <span id="asunto"></span></p>
+
+        <p id="mensaje" style="margin-top:20px; margin-left:10px"></p>
+
+        <div id="responderMensaje" style="position:absolute; bottom:20px; right:50px; display:none">
+            <div class="boton" onclick="contacto(mensajeSeleccionado);" style="padding-left:10px; padding-right:10px">Responder</div>
+        </div>
+    </div>
+</div>
+

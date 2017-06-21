@@ -1,0 +1,405 @@
+
+<canvas id="canvasConstruccion">
+</canvas>
+
+<div id="tablaConstrucciones" class="contenedor" style="height: 100%">
+    <div class="titulo">
+        CONSTRUCCIONES
+        <div class="iconoVer"></div>
+    </div>
+    <div class="cuerpo tabla">
+
+        <div class="subtitulo">
+            <table class="thead">
+                <tr>
+                    <th style="width:30px">Edificio</th>
+                    <th style="width:30px">Nivel</th>
+                    <th style="width:30px">Precio ampliación</th>
+                    <th style="width:30px">Bonus</th>
+                </tr>
+            </table>
+        </div>
+        <div id="resumenConstruccion">
+            <table class="tbody">
+                <thead style="height: 0">
+                    <tr style="height: 0">
+                        <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div id="consEdificio" class="contenedor">
+    <div class="titulo">DATOS</div>
+    <div class="cuerpo">
+        <div id="datosEdificio" style="width:100%">
+            <table style="width:100%">
+                <tr>
+                    <td width="70%">
+                        <div id="consDescripcion" style="width:100%; margin-bottom:10px;">
+
+                        </div>
+                        <div>
+                            <div style="width:45%; float:left; margin-right:10px; background-color:rgba(125,90,50,0.5);">
+                                <div style="margin:5px;">
+                                    <div style="font-weight: bold; text-decoration: underline">
+                                        Nivel Actual:
+                                    </div>
+                                    <div id="consNivelActual">
+                                        7
+                                    </div>
+                                    <div id="consBonusActual">
+                                        Bnous: sdfsdfdfsd
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width:45%; float:left; margin-right:10px; background-color:rgba(125,90,50,0.5);">
+                                <div style="margin:5px;">
+                                    <div style="font-weight: bold; text-decoration: underline">
+                                        Siguiente Nivel:
+                                    </div>
+                                    <div id="consNivelSiguiente">
+
+                                    </div>
+                                    <div id="consBonusSiguiente">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td width="30%">
+                        <div id="consBotones">
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var stopPropagation = false;
+
+    var construcciones = {
+        stage: {},
+        imagenes: [],
+        bitmaps: [],
+        edificios: global.edificios,
+        cons: {
+            fort: {},
+            acad: {},
+            tabe: {},
+            torr: {},
+            mura: {},
+            ento: {}
+        },
+        nombres: {
+            fort: "fortaleza",
+            acad: "academia",
+            tabe: "taberna",
+            torr: "torre",
+            mura: "muralla",
+            ento: "entorno"
+        },
+        descripciones: {
+            fort: "fortDescripcion",
+            acad: "acadDescripcion",
+            tabe: "tabeDescripcion",
+            torr: "torrDescripcion",
+            mura: "muraDescripcion",
+            ento: "entoDescripcion"
+        },
+        bonus: {
+            fort: "fortBonus",
+            acad: "acadBonus",
+            tabe: "tabeBonus",
+            torr: "torrBonus",
+            mura: "muraBonus",
+            ento: "entoBonus"
+        },
+        iniciarCanvas: function() {
+            var ths = this;
+
+            var canvas = document.getElementById("canvasConstruccion");
+            $(canvas).attr({
+                width: 800,
+                height: 600
+            });
+
+            var w = $(document).width();
+            var h = $(document).height();
+            if (w / h > 4 / 3) {
+                $(canvas).css({
+                    width: h * (4 / 3),
+                    height: h
+                });
+            } else {
+                $(canvas).css({
+                    width: w,
+                    height: w * (3 / 4)
+                });
+            }
+
+                ths.stage = new createjs.Stage("canvasConstruccion");
+                createjs.Touch.enable(ths.stage);
+                ths.montarCiudad();
+        },
+        mostrarConstrucciones: function() {
+            var ths = this;
+
+            var edif = ["fort", "acad", "tabe", "torr", "mura", "ento"];
+            var table = document.getElementById("resumenConstruccion").getElementsByTagName("tbody")[0];
+            var rowCount = 0;
+
+            for (var i = 0; i < edif.length; i++) {
+
+                var row = table.insertRow(rowCount);
+                row.setAttribute("id", edif[i]);
+                row.setAttribute("class", "UnHighLight");
+                row.setAttribute("onclick", "construcciones.press('" + edif[i] + "')");
+
+                var cell = row.insertCell(0);
+                cell.innerHTML = ths.nombres[edif[i]];
+
+                var cell = row.insertCell(1);
+                cell.innerHTML = ths.edificios[edif[i]];
+
+                var cell = row.insertCell(2);
+                cell.innerHTML = ths.edificios[edif[i] + "Precio"];
+
+                var cell = row.insertCell(3);
+                cell.innerHTML = "+" + ths.edificios[edif[i]] + ths.bonus[edif[i]];
+
+            }
+            reloadTablas();
+            ordenarTablas();
+
+            ths.iniciarCanvas();
+        },
+        montarCiudad: function() {
+            var ths = this;
+
+            var e = ths.edificios;
+            var url = '../img/construcciones/';
+
+            var fort = new Image();
+            if (e.fort === 0) {
+                fort.src = url + 'castillo1.png';
+            } else if (e.fort === 1) {
+                fort.src = url + 'castillo2.png';
+            } else if (e.fort === 2) {
+                fort.src = url + 'castillo3.png';
+            } else {
+                fort.src = url + 'castillo4.png';
+            }
+            ths.imagenes[ths.imagenes.length] = fort.src;
+
+            var sue = new Image();
+            sue.src = '../img/construcciones/suelo.png';
+
+            var ento = new Image();
+            if (e.ento === 0) {
+                ento.src = url + 'entornonaturaleza1.png';
+            } else if (e.ento === 1) {
+                ento.src = url + 'entornonaturaleza2.png';
+            } else {
+                ento.src = url + 'entornonaturaleza3.png';
+            }
+            ths.imagenes[ths.imagenes.length] = ento.src;
+
+            var mura = new Image();
+            var puer = new Image();
+            if (e.mura === 0) {
+                mura.src = url + 'muralla1.png';
+                puer.src = url + 'puerta1.png';
+            } else if (e.mura === 1) {
+                mura.src = url + 'muralla2.png';
+                puer.src = url + 'puerta2.png';
+            } else {
+                mura.src = url + 'muralla3.png';
+                puer.src = url + 'puerta3.png';
+            }
+            ths.imagenes[ths.imagenes.length] = mura.src;
+            ths.imagenes[ths.imagenes.length] = puer.src;
+
+            var tabe = new Image();
+            if (e.tabe === 0) {
+                tabe.src = url + 'taberna1.png';
+            } else if (e.tabe === 1) {
+                tabe.src = url + 'taberna2.png';
+            } else {
+                tabe.src = url + 'taberna3.png';
+            }
+            ths.imagenes[ths.imagenes.length] = tabe.src;
+
+            var torr = new Image();
+            if (e.torr === 0) {
+                torr.src = url + 'torre1.png';
+            } else if (e.torr === 1) {
+                torr.src = url + 'torre2.png';
+            } else {
+                torr.src = url + 'torre3.png';
+            }
+            ths.imagenes[ths.imagenes.length] = torr.src;
+
+            var acad = new Image();
+            if (e.acad === 0) {
+                acad.src = url + 'academia1.png';
+            } else if (e.acad === 1) {
+                acad.src = url + 'academia2.png';
+            } else if (e.acad === 2) {
+                acad.src = url + 'academia3.png';
+            } else {
+                acad.src = url + 'academia4.png';
+            }
+            ths.imagenes[ths.imagenes.length] = acad.src;
+
+            var c = ths.cons;
+
+            var entorno = new createjs.Bitmap(ento);
+            c.ento.bitmap = entorno;
+
+            var suelo = new createjs.Bitmap(sue);
+            var muralla = new createjs.Bitmap(mura);
+
+            var taberna = new createjs.Bitmap(tabe);
+            c.tabe.bitmap = taberna;
+            ths.canvasEvents("tabe");
+
+            var torre = new createjs.Bitmap(torr);
+            c.torr.bitmap = torre;
+            ths.canvasEvents("torr");
+
+            var fortaleza = new createjs.Bitmap(fort);
+            c.fort.bitmap = fortaleza;
+            ths.canvasEvents("fort");
+
+            var academia = new createjs.Bitmap(acad);
+            c.acad.bitmap = academia;
+            ths.canvasEvents("acad");
+
+            var puerta = new createjs.Bitmap(puer);
+            c.mura.bitmap = puerta;
+            ths.canvasEvents("mura");
+
+            ths.stage.addChild(entorno);
+            ths.stage.addChild(suelo);
+            ths.stage.addChild(muralla);
+            ths.stage.addChild(taberna);
+            ths.stage.addChild(torre);
+            ths.stage.addChild(fortaleza);
+            ths.stage.addChild(academia);
+            ths.stage.addChild(puerta);
+
+            loadImagenes(ths.imagenes, function() {
+                ths.stage.update();
+            });
+        },
+        canvasEvents: function(edif) {
+            var ths = this;
+            var obj = ths.cons[edif];
+            var bitmap = obj.bitmap;
+            ths.bitmaps[ths.bitmaps.length] = bitmap;
+
+            bitmap.onClick = function(e) {
+                stopPropagation = true;
+                ths.press(edif);
+            };
+        },
+        press: function(edif) {
+            Select($("#" + edif).get(0));
+            var obj = this.cons[edif];
+
+            $("#datosEdificio").css("display", "inherit");
+            $("#consEdificio .titulo").text(this.nombres[edif]);
+            $("#consDescripcion").text(this.descripciones[edif]);
+
+            var boton = document.createElement('input');
+            boton.setAttribute("type", "button");
+            boton.setAttribute("onclick", "construcciones.ampliar('" + edif + "')");
+            boton.setAttribute("disable", "disable");
+            boton.value = "ampliar";
+            $("#botones").append(boton);
+
+            this.select(obj);
+
+            $("#consEdificio").addClass("swipBottom");
+        },
+        select: function(obj) {
+            var redFilter = new createjs.ColorFilter(1, 0.3, 0.3, 1);
+            var edif = ["fort", "acad", "tabe", "torr", "mura", "ento"];
+
+            for (var i = 0; i < edif.length; i++) {
+                var c = this.cons[edif[i]];
+                c.bitmap.filters = [];
+                c.bitmap.cache(0, 0, 800, 600);
+            }
+            $(obj.tr).parent().find("td").css("background-color", "inherit");
+
+            obj.bitmap.filters = [redFilter];
+            obj.bitmap.cache(0, 0, 800, 600);
+            this.stage.update();
+            $(obj.tr).find("td").css("background-color", "rgba(255,255,0,0.3)");
+        },
+        ampliar: function(edificio) {
+            var ths = this;
+            var precio = ths.edificios[edificio + "Precio"];
+            var oro = perfil.oro;
+            if (oro >= precio) {
+                $.ajax({
+                    type: "GET",
+                    url: "ampliar",
+                    data: {
+                        edificio: edificio
+                    },
+                    success: function(response) {
+                        if (response !== "error") {
+                            ths.edificios = JSON.parse(response);
+                            perfil.oro = oro - precio;
+                            $("#oro").text(numero(perfil.oro + ""));
+                            cargar("construccion");
+                        } else {
+                            error("error");
+                        }
+                    }
+                });
+            } else {
+                aviso("No tienes oro suficiente!");
+            }
+        }
+    };
+
+    Hammer($(document)).on("tap", function() {
+        if (stopPropagation === false) {
+            $("#canvasConstruccion").removeClass("swipRight");
+        } else {
+            stopPropagation = false;
+        }
+    });
+    Hammer($("#consEdificio")).on("tap", function() {
+        $(this).removeClass("swipBottom");
+    });
+    Hammer($("#tablaConstrucciones .iconoVer")).on("tap", function() {
+        stopPropagation = true;
+        $("#canvasConstruccion").addClass("swipRight");
+    });
+    Hammer($("#canvasConstruccion")).on("tap", function() {
+        stopPropagation = true;
+        $("#consEdificio").removeClass("swipBottom");
+
+    });
+
+    construcciones.mostrarConstrucciones();
+
+    $("#canvasConstruccion").css("right", -$("#canvasConstruccion").width());
+
+</script>

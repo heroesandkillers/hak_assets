@@ -1,0 +1,135 @@
+
+<div class="contenedor" id="bloquePrincipal" style="height: 100%">
+    <div class="titulo">TUS CRIATURAS</div>
+    <div class="cuerpo tabla">
+        <div class="subtitulo">
+            <table class="thead">
+                <tr>
+                    <th class="numero arrowDown" style="width:30px"></th>
+                    <th class="arrows" style="width:120px">Nombre</th>
+                    <th class="innerHTML arrows" style="width:2%">Ra</th>
+                    <th class="innerHTML arrows" style="width:5%">Cl</th>
+                    <th class="innerHTML arrows" style="width:2%">El</th>
+                    <th class="innerHTML arrows" style="width:10%">Mu</th>
+                    <th class="numero arrows" style="width:30px">Edad</th>  
+                    <th class="decimal arrows" style="width:30px">Media</th>  
+                    <th class="numero arrows" style="width:30px">Nivel</th>  
+                    <th class="numero arrows" style="width:30px">F�sico</th>  
+                    <th class="numero arrows" style="width:30px">Frescura</th>  
+                    <th class="numero arrows" style="width:30px">Bajas</th> 
+                    <th class="decimal arrows" style="width:30px">Ratio</th>  
+                    <th class="numero arrows" style="width:30px">Valor</th>
+                    <th style="width:30px"></th>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table id="table1" class="tbody">
+                <thead style="height: 0">
+                    <tr style="height: 0">
+                        <th style="height: 0;"><input type="hidden" value="false" id="input"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var contactoEquipoJs = {
+        equipoContacto: global.equipoContacto,
+        mostrarEquipo: function() {
+            var ths = this;
+            var obj = ths.equipoContacto;
+
+            var table = $("#table1 tbody").get(0);
+            var rowCount = $(table).find("tr").length;
+
+            for (var i = 0; i < obj.length; i++) {
+
+                var row = table.insertRow(rowCount);
+
+                $(row).attr("i", i);
+                $(row).attr("obj", "equipoContacto");
+                $(row).attr("class", "UnHighLight");
+                $(row).attr("onMouseOver", "HighLight(this)");
+                $(row).attr("onMouseOut", "UnHighLight(this)");
+                $(row).attr("onclick", 'Select(this), contactoEquipoJs.detalle(' + i + ')');
+
+                $(row).attr("ondblclick", "detalles()");
+
+                var cell = row.insertCell(0);
+                cell.innerHTML = parseInt(obj[i].numero);
+
+                var cell = row.insertCell(1);
+                cell.innerHTML = obj[i].nombre;
+
+                var cell = row.insertCell(2);
+                setRazaImg(cell, obj[i].raza);
+
+                var cell = row.insertCell(3);
+                setClaseImg(cell, obj[i].clases.split(";")[0].split(":")[0]);
+
+                var cell = row.insertCell(4);
+                setElemImg(cell, obj[i].elemento);
+
+                var cell = row.insertCell(5);
+                setMutaImg(cell, obj[i].mutacion);
+
+                var cell = row.insertCell(6);
+                cell.innerHTML = getEdad(obj[i].edad);
+
+                var cell = row.insertCell(7);
+                cell.innerHTML = getMedia(obj[i].media);
+
+                var cell = row.insertCell(8);
+                setNivel(cell, obj[i].exp);
+
+                var cell = row.insertCell(9);
+                cell.innerHTML = obj[i].fisico;
+
+                var cell = row.insertCell(10);
+                cell.innerHTML = obj[i].frescura;
+
+                var cell = row.insertCell(11);
+                cell.innerHTML = obj[i].bajas;
+
+                var cell = row.insertCell(12);
+                cell.innerHTML = getRatio(obj[i].bajas, obj[i].muertes);
+
+                var cell = row.insertCell(13);
+                if (global.perfilContacto.id === global.perfil.id) {
+                    cell.innerHTML = numero(getPrecio(obj[i].pujas));
+                    cell.setAttribute("style", 'text-align:right');
+                } else {
+                    cell.innerHTML = "-";
+                }
+
+                var cell = row.insertCell(14);
+
+            }
+            reloadTablas();
+            ordenarTablas();
+        },
+        detalle: function(i) {
+            global.criatura = this.equipoContacto[i];
+            detalleCriatura(global.criatura);
+        }
+    };
+
+    contactoEquipoJs.mostrarEquipo();
+
+
+//canvas: document.createElement('canvas'),
+//                    iniciarCanvas: function() {
+//                        this.canvas.width = 100;
+//                        this.canvas.height = 150;
+//                        $("#aspectoDiv").append(this.canvas);
+//                        $(this.canvas).attr("id", "aspecto");
+//                    },
+
+</script>

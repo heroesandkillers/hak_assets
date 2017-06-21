@@ -1,0 +1,487 @@
+
+<title>Estadisticas</title>
+
+<div style="height: 100%">
+    <div class="contenedor" style="height: 100%">
+        <div class="titulo">SELECCIONAR</div>
+        <div class="cuerpo tabla">
+
+            <div>
+                <table class="tbody">
+                    <tbody class="estadisticas">
+                        <tr id="posicionAbsoluta">
+                            <td>
+                                Posicion absoluta
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Trofeos
+                            </td>
+                        </tr>
+                        <tr id="mediaCriaturas">
+                            <td>
+                                Fuerza media Criaturas
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="position:absolute; bottom:0; width:100%">
+                <span style="margin-left: 5px">Trofeos:</span>
+                <hr style="border-color:rgba(255,255,255,0.4)">
+                <div id="trofeos">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="height: 100%">
+    <div class="contenedor" style="height: 100%">
+        <div class="titulo">ESTAD�STICAS</div>
+        <div class="cuerpo tabla">
+            <div class="subtitulo">
+                <table class="thead">
+                    <tr id="subtitulo">
+
+                    </tr>
+                </table>
+            </div>
+            <div class="scrollMazmorras">
+                <table id="table1" class="tbody tablesorter">
+                    <thead style="height: 0">
+                        <tr style="height: 0">
+                            <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="buscadorMazmorras" style="width:100%; display:none">
+                <div class="flechaCell"><-</div>
+                <div id="contenedorBarra">
+                    <div id="barraMazmorras" style="position:absolute;">
+                        <div class="buscadorCell">1-10</div>
+                    </div>
+                </div>
+                <div class="flechaCell">-></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var filasCapacidad = $(".scrollMazmorras:eq(0)").height() / 24;
+    var inferior = true;
+    var filas = 0;
+    var indiceApretado;
+    var numeroResultados;
+    var estadistica;
+            
+    while(inferior === true){
+        filas = filas + 5;
+        if(filas + 5 > filasCapacidad){
+            inferior = false;
+        }
+    }
+            
+    var obj_estadisticas;
+    var anchoBarra;
+                        
+    $("#contenedorBarra").css("width", $("#buscadorMazmorras").width() - 61 + "px");
+                     
+    var max = filas;
+    if(max > numeroResultados)max = numeroResultados;
+    mostrarPosicionAbsoluta(1, max);
+                    
+    $("#posicionAbsoluta").click(function(){
+        $("#buscadorMazmorras").css("display", "inherit");
+        estadistica = "posicionAbsoluta";
+        getNumeroUsuarios(function(){                
+            var max = filas;
+            if(max > numeroResultados)max = numeroResultados;
+            mostrarPosicionAbsoluta(1, max);
+        });
+    });
+            
+    $("#mediaCriaturas").click(function(){
+        $("#buscadorMazmorras").css("display", "inherit");
+        estadistica = "mediaCriaturas";
+        getNumeroCriaturas(function(){
+            var max = filas;
+            mostrarMediaCriaturas(1, max);
+        });
+    });
+            
+    //            $("#campeones").click(function(){
+    //                estadistica = "campeones";
+    //                getNumeroCampeones(function(){
+    //                    var max = filas;
+    //                    mostrarCampeones(1, max);
+    //                });
+    //            });
+            
+    function getPosicionAbsoluta(min, max, callback){
+        $.ajax({
+            type : "GET",
+            url : url + "getPosicionAbsoluta",
+            data:{
+                rangoMin:min,
+                rangoMax:max
+            },
+            success : function(response) {
+                obj_estadisticas = JSON.parse(response);
+                callback();
+            }
+        });
+    }
+            
+    function getMediaCriaturas(min, max, callback){
+        $.ajax({
+            type : "GET",
+            url : url + "getMediaCriaturas",
+            data:{
+                rangoMin:min,
+                rangoMax:max
+            },
+            success : function(response) {
+                obj_estadisticas = JSON.parse(response);
+                callback();
+            }
+        });
+    }
+            
+    function getCampeones(min, max, callback){
+        $.ajax({
+            type : "GET",
+            url : url + "getCampeones",
+            data:{
+                rangoMin:min,
+                rangoMax:max
+            },
+            success : function(response) {
+                obj_estadisticas = JSON.parse(response);
+                callback();
+            }
+        });
+    }
+            
+    function getNumeroUsuarios(callback){
+        $.ajax({
+            type : "GET",
+            url : url + "getNumeroUsuarios",
+            success : function(response) {
+                numeroResultados = response;
+                colocarCells(response);
+                callback(response);
+            }
+        });
+    }
+            
+    function getNumeroCriaturas(callback){
+        $.ajax({
+            type : "GET",
+            url : url + "getNumeroCriaturas",
+            success : function(response) {
+                numeroResultados = response;
+                colocarCells(response);
+                callback(response);
+            }
+        });
+    }
+            
+    function getNumeroCampeones(callback){
+        $.ajax({
+            type : "GET",
+            url : url + "getNumeroCampeones",
+            success : function(response) {
+                numeroResultados = response;
+                colocarCells(response);
+                callback(response);
+            }
+        });
+    }
+                 
+    function mostrarEstadisticas(min, max){
+        if(estadistica === "posicionAbsoluta"){
+            mostrarPosicionAbsoluta(min, max);
+        }else if(estadistica === "mediaCriaturas"){
+            mostrarMediaCriaturas(min, max);
+        }
+    }
+                 
+    function colocarCells(num){
+                   
+        if(num > 0){
+                    
+            var entradas = parseInt((num -1) / filas);
+            anchoBarra = (entradas+1) * $(".buscadorCell:first").width();
+            $("#barraMazmorras").width(anchoBarra);
+                    
+            if($("#barraMazmorras").data('draggable')){
+                $("#barraMazmorras").draggable("destroy");
+            }
+                    
+            $("#barraMazmorras").css("left",0);
+            for(var i = $(".buscadorCell").length; i > 0; i--){
+                $(".buscadorCell:eq("+i+")").remove();
+            }
+            $(".buscadorCell").css("display","inherit");
+                
+            for(var i = 1; i < entradas + 1; i++){                                        
+                var a = (i) * filas + 1;
+                var b = (i + 1) * filas;
+                var entradaEst = $(".buscadorCell:last").clone().insertAfter(".buscadorCell:last");                    
+                entradaEst.text(a + " - " + b);
+                clicableCell(entradaEst, a, b);
+            }
+                    
+            $(".buscadorCell:first").text(1 + " - " + (1 * filas));
+            $(".buscadorCell:first").click(function(){
+                mostrarEstadisticas(1, filas);
+                $(".buscadorCell").removeClass("apretado");
+                $(this).addClass("apretado");
+            });
+                    
+        }else{
+            $(".buscadorCell").css("display","none");
+        }
+    }
+            
+    function clicableCell(elem, min, max){
+        if(max > numeroResultados)max = numeroResultados;
+        elem.click(function(){
+            $(".buscadorCell").removeClass("apretado");
+            $(this).addClass("apretado");
+            mostrarEstadisticas(min, max);
+        });
+            
+    }
+            
+    function moverBarra(elem, inicial, termino, tiempo){            
+        var variacion = (inicial - termino) / tiempo;                
+        var intervalo = setInterval(function() {                    
+            inicial = inicial - variacion;
+            $(elem).css("left", inicial + "px");                    
+            tiempo--;
+            if(tiempo === 0){
+                clearTimeout(intervalo);
+            }
+        }, 40);            
+    }
+             
+    function mostrarPosicionAbsoluta(min, max){
+                                
+        var row = document.getElementById("subtitulo");
+        row.innerHTML = "";
+                
+        var th = document.createElement('th');
+        th.setAttribute("id", "ordenar");
+        th.setAttribute("class", "numero");
+        th.setAttribute("style", "width:30px");
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Usuario";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Divisi�n";
+        row.appendChild(th);
+                       
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Puntos";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Victorias";
+        row.appendChild(th);
+                
+        getPosicionAbsoluta(min, max, function(){
+                            
+            configurarBarra();
+                            
+            var table = document.getElementById("table1").getElementsByTagName("tbody")[0];
+            table.innerHTML = "";
+            var rowCount = 0;
+            
+            for(var i = 0; i < obj_estadisticas.length; i++){
+                    
+                var row = table.insertRow(rowCount);
+                
+                row.setAttribute("id", "mazmorras_" + i);
+                row.setAttribute("class", "UnHighLight");
+                row.setAttribute("onMouseOver", "HighLight(this)");
+                row.setAttribute("onMouseOut", "UnHighLight(this)");
+                row.setAttribute("onclick", 'Select(this)');
+                var id = obj_estadisticas[i].id;
+                row.setAttribute("ondblclick", 'contacto(' + id + ')');
+                        
+                if(id === global.perfil.id){
+                    row.setAttribute("style", "color:yellow");
+                }
+                
+                var cell = row.insertCell(0);
+                cell.innerHTML = obj_estadisticas[i].posicion;
+                        
+                var cell = row.insertCell(1);
+                cell.innerHTML = obj_estadisticas[i].nombreId;
+                        
+                var cell = row.insertCell(2);
+                cell.innerHTML = obj_estadisticas[i].div;
+                        
+                var cell = row.insertCell(3);
+                cell.innerHTML = obj_estadisticas[i].puntos.split(",")[1];
+                            
+                var cell = row.insertCell(4);
+                cell.innerHTML = obj_estadisticas[i].puntos.split(",")[0];
+                
+                rowCount++;
+            };
+            reloadTablas();
+            sortElements($("#ordenar"), false);
+        });
+    }
+            
+    function mostrarMediaCriaturas(min, max){
+                                
+        var row = document.getElementById("subtitulo");
+        row.innerHTML = "";
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:80px");
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Equipo";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Edad";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Raza";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Clase";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("id", "ordenar");
+        th.setAttribute("class", "decimal");
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Media";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Exp";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Bajas";
+        row.appendChild(th);
+                
+        var th = document.createElement('th');
+        th.setAttribute("style", "width:30px");
+        th.innerHTML = "Ratio";
+        row.appendChild(th);
+                
+        getMediaCriaturas(min, max, function(){
+                         
+            configurarBarra();
+                         
+            var table = document.getElementById("table1").getElementsByTagName("tbody")[0];
+            table.innerHTML = "";
+            var rowCount = 0;
+                        
+            for(var i = 0; i < obj_estadisticas.length; i++){
+                    
+                var row = table.insertRow(rowCount);
+                
+                row.setAttribute("id", "estadisticas_" + i);
+                row.setAttribute("class", "UnHighLight");
+                row.setAttribute("onclick", 'Select(this), takeEstadisticasId()');
+                
+                var cell = row.insertCell(0);
+                cell.innerHTML = obj_estadisticas[i].nombre;
+                        
+                var cell = row.insertCell(1);
+                cell.innerHTML = obj_estadisticas[i].usuario;
+                        
+                var cell = row.insertCell(2);
+                cell.innerHTML = getEdad(obj_estadisticas[i].edad);
+                        
+                var cell = row.insertCell(3);
+                setRazaImg(cell, obj_estadisticas[i].raza);
+                        
+                var cell = row.insertCell(4);                               
+                setClaseImg(cell, obj_estadisticas[i].clases);
+                        
+                var cell = row.insertCell(5);
+                cell.innerHTML = (obj_estadisticas[i].media/7).toFixed(1);
+                
+                var cell = row.insertCell(6);
+                cell.innerHTML = (obj_estadisticas[i].exp);
+                        
+                var cell = row.insertCell(7);
+                cell.innerHTML = obj_estadisticas[i].bajas;
+                    
+                var cell = row.insertCell(8);                        
+                cell.innerHTML = getRatio(obj_estadisticas[i].bajas, obj_estadisticas[i].muertes);
+                        
+                rowCount++;
+            };
+            reloadTablas();
+            sortElements($("#ordenar"), true);
+        });
+    }
+            
+    function configurarBarra(){         
+                
+        if(anchoBarra > $("#contenedorBarra").width()){
+            $("#barraMazmorras").draggable({
+                axis: "x",
+                                                                            
+                stop:function(){    
+                                                    
+                    var limiteInverso = anchoBarra * (- 1) + $("#contenedorBarra").width();
+                    if($("#barraMazmorras").css("left").split("px")[0] > 0){
+                        moverBarra("#barraMazmorras", $("#barraMazmorras").css("left").split("px")[0], 0, 5);
+                                                        
+                    }
+                    if($("#barraMazmorras").css("left").split("px")[0] < limiteInverso){
+                        moverBarra("#barraMazmorras", $("#barraMazmorras").css("left").split("px")[0], limiteInverso, 5);
+                    }
+                }
+                                                
+            });
+        }                    
+    }
+            
+    function takeEstadisticasId(){
+        var id = $(".selected").attr("id");
+        var arrayId = id.split("_");
+        var i = arrayId[1];
+        idCriatura = obj_estadisticas[i].id;
+    };
+            
+</script>

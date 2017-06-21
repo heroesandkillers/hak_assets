@@ -1,0 +1,33 @@
+
+<title>perfil</title>
+
+<div class="grid_12 contenedorAislado">
+    <!--<div class="tituloEditar tituloPestana" onclick="perfilCargar('perfilEconomia')">-->
+	<div class="tituloEditar tituloPestana" onclick="javascript:pestanaPerfil('perfilEconomia')">
+        Economía
+    </div>
+    <!--<div class="tituloEditar tituloPestana" onclick="perfilCargar('perfilDatos')">-->
+	<div class="tituloEditar tituloPestana" onclick="jpestanaPerfil('perfilDatos')">
+        Datos
+    </div>
+
+    <div class="titulo">PERFIL</div>
+</div>
+
+<div style="height: 100%" id="contenidosPerfil"></div>
+
+<script>
+            
+	documentLoad();
+	
+    $("#contenidosPerfil").height($("#contenidosPerfil").height() - 30);
+            
+    //perfilCargar('perfilDatos');
+       
+	function pestanaPerfil(pest) {
+        cargar(pest, "#contenidosPerfil");
+        $(".tituloPestana").removeClass("pestanaSelected");
+        $("#" + pest).addClass("pestanaSelected");
+    }
+	
+</script>

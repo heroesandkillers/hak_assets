@@ -1,0 +1,167 @@
+<!--
+<div style="height: 100%">
+    <div class="contenedor" id="bloquePrincipal" style="height: 28%">
+        <div class="titulo">BALANCE GENERAL</div>
+        <div class="cuerpo tabla">
+
+            <table class="tbody">
+                <tr class="UnHighLight">
+                    <td>Oro al inicio de la semana</td>
+                    <td id="cuentaAntes"></td>
+                </tr>
+                <tr class="UnHighLight">
+                    <td>Oro actual</td>
+                    <td id="cuentaAhora"></td>
+                </tr>
+                <tr class="UnHighLight">
+                    <td>Estimaci�n Oro al inicio de la pr�xima semana</td>
+                    <td id="cuentaDespues"></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <div class="contenedor" style="height: 70%">
+        <div class="titulo">BALANCE SEMANAL</div>
+
+        <table class="tbody">
+            <tr class="UnHighLight">
+                <td></td>
+                <td>Ingresos</td>
+                <td>P�rdidas</td>
+            </tr>
+            <tr id="tierras" class="UnHighLight">
+                <td>Tierras</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="reclutamiento" class="UnHighLight">
+                <td>Campos de reclutamiento</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="totales" class="UnHighLight">
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="UnHighLight">
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="total" class="UnHighLight">
+                <td>TOTAL</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<div id="alineacionCanvas" class="contenedor" style="height: 100%">
+    <div class="titulo">RESUMEN</div>
+
+    <div style="position:relative; height: 50%; width: 90%; margin:auto; padding-top:5%">
+        <table id="grafico" style=" width: 100%; height: 100%; display:none">
+            <caption>Estado equipo</caption>
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">9</th>
+                    <th scope="col">8</th>
+                    <th scope="col">7</th>
+                    <th scope="col">6</th>
+                    <th scope="col">5</th>
+                    <th scope="col">4</th>
+                    <th scope="col">3</th>
+                    <th scope="col">2</th>
+                    <th scope="col">1</th>
+                    <th scope="col">hoy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="graficoFisico">
+                    <th scope="row">Ganancias</th>
+
+                </tr>
+                <tr id="graficoFrescura">
+                    <th scope="row">P�rdidas</th>
+
+                </tr>
+            </tbody>
+        </table>
+        <div id="grafico" ></div>
+    </div>
+
+</div>
+
+<script>
+    
+    helpers();
+                        
+    function getEconomia(callback){
+        if(jsonPaginas["economia"] === ""){
+            $.ajax({
+                type : "GET",
+                url : "geteconomia",
+                success : function(response) {
+                    jsonPaginas["economia"] = response;
+                    callback();
+                }
+            });
+        }else{
+            callback();
+        }
+    }
+            
+    getEconomia(function(){
+                
+        var arrayEconomia = jsonPaginas["economia"].split(";");
+                
+        var gasto = 0;
+        var tierras = 0;
+        var reclutamiento = 0;
+                    
+        if(arrayEconomia[arrayEconomia.lenght - 1] !== null){
+                
+            var gastosSemana = arrayEconomia[arrayEconomia.lenght - 1].split(",");
+                
+            for(var i = 0; i < gastosSemana.lenght; i++){
+                    
+                concepto = gastosSemana[i].split(":");
+                    
+                if(concepto[0] === 'liga'){                        
+                    tierras = tierras + parseInt(concepto[1]);                        
+                }else if(concepto[0] === 'reclutamiento'){
+                    reclutamiento = reclutamiento + parseInt(concepto[1]);    
+                }
+                    
+                gasto = gasto + parseInt(concepto[1]);
+            }
+                    
+        }
+                
+        $("#cuentaAntes").text(numero(perfil.oro + gasto + ""));
+        $("#cuentaAhora").text(numero(perfil.oro + ""));
+        $("#cuentaDespues").text(numero(perfil.oro - gasto + ""));
+                
+        $("#tierras td:eq(1)").text(tierras);
+        $("#reclutamiento td:eq(2)").text(reclutamiento);
+                
+        $("#totales td:eq(1)").text(tierras);
+        $("#totales td:eq(2)").text(reclutamiento);
+        $("#total td:eq(2)").text(tierras - reclutamiento);
+                
+                
+    });
+            
+    $('#grafico').visualize({
+        type: 'line',
+        appendTitle:true,
+        title: 'estado criaturas',
+        colors: ['#be1e2d','#666699','#92d5ea','#ee8310','#8d10ee','#5a3b16','#26a4ed','#f45a90','#e9e744']
+    });
+            
+</script>-->
