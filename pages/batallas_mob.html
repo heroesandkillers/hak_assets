@@ -272,14 +272,13 @@
                 top: top
             });
 
-            reescale();
+            reescale(scale);
         });
         $(gameCanvas).on("")
 
     }
 
-    function reescale() {
-        var scale = $("#container > canvas").width() / 100;
+    function reescale(scale) {
         $("#gameArea > div").css("background-size", scale + "%");
         $("#container > canvas").css("background-size", scale + "%");
         $("#container > canvas").css("border-width", scale * 2 + "px");
