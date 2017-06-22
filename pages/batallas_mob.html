@@ -339,7 +339,7 @@
                     var id = equipos[i].id;
                     var raza = batalla.criaturas[id].raza;                    
                     var clase = batalla.criaturas[id].clase;                    
-                    var string = razaClase(raza + clase); //use for repair
+                    var string = razaClase(raza, clase); //use for repair
                     
                     $.ajax({
                         url: '../img/sprites/' + string + '.js',
