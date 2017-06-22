@@ -237,7 +237,7 @@
             var top_limit = top > 0 && top > marginTop;
             var bottom_limit = top < top2 && top < marginTop2;
             if (!(top_limit && bottom_limit)) { //not all
-                var overflows = $(this).hight() > $(gameCanvas).hight();
+                var overflows = $(this).height() > $(gameCanvas).height();
                 if ((top_limit && !overflows) || (bottom_limit && overflows)) {
                     if (marginTop > 0) {
                         cambio = marginTop;
