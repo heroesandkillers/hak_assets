@@ -207,45 +207,45 @@
             var top = parseInt(gameCanvas.css("top"));
             var cambio;
 
-            if (left > 0 && left > marginLeft) {
-                if (marginLeft > 0) {
-                    cambio = marginLeft;
-                } else {
-                    cambio = 0;
-                }
-                moveGameArea(gameCanvas, left, cambio, "left");
-            }
-            if (top > 0 && top > marginTop) {
-                if (marginTop > 0) {
-                    cambio = marginTop;
-                } else {
-                    cambio = 0;
-                }
-                moveGameArea(gameCanvas, top, cambio, "top");
-            }
+//            if (left > 0 && left > marginLeft) {
+//                if (marginLeft > 0) {
+//                    cambio = marginLeft;
+//                } else {
+//                    cambio = 0;
+//                }
+//                moveGameArea(gameCanvas, left, cambio, "left");
+//            }
+//            if (top > 0 && top > marginTop) {
+//                if (marginTop > 0) {
+//                    cambio = marginTop;
+//                } else {
+//                    cambio = 0;
+//                }
+//                moveGameArea(gameCanvas, top, cambio, "top");
+//            }
 
             var marginLeft2 = gameArea.width() - bordes - gameCanvas.width() - marginLeft;
             var left2 = gameArea.width() - bordes - gameCanvas.width();
 
-            if (left < left2 && left < marginLeft2) {
-                if (marginLeft2 < left2) {
-                    cambio = marginLeft2;
-                } else {
-                    cambio = left2;
-                }
-                moveGameArea(gameCanvas, left, cambio, "left");
-            }
+//            if (left < left2 && left < marginLeft2) {
+//                if (marginLeft2 < left2) {
+//                    cambio = marginLeft2;
+//                } else {
+//                    cambio = left2;
+//                }
+//                moveGameArea(gameCanvas, left, cambio, "left");
+//            }
             var marginTop2 = gameArea.height() - bordes - gameCanvas.height() - marginTop;
             var top2 = gameArea.height() - bordes - gameCanvas.height();
 
-            if (top < top2 && top < marginTop2) {
-                if (marginTop2 < top2) {
-                    cambio = marginTop2;
-                } else {
-                    cambio = top2;
-                }
-                moveGameArea(gameCanvas, top, cambio, "top");
-            }
+//            if (top < top2 && top < marginTop2) {
+//                if (marginTop2 < top2) {
+//                    cambio = marginTop2;
+//                } else {
+//                    cambio = top2;
+//                }
+//                moveGameArea(gameCanvas, top, cambio, "top");
+//            }
         }).on("pinchin pinchout mousewheel", function (e) {
             //console.log(e);
             var scale;
