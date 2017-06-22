@@ -247,7 +247,14 @@
             }
         }).on("pinchin pinchout mousewheel", function (e) {
             console.log(e);
-            var scale = e.gesture.scale;
+            var scale;
+            if (e.originalEvent.deltaY > 0) {
+                scale = 0.9;
+            } else if (e.originalEvent.deltaY < 0) {
+                scale = 1.1;
+            } else {
+                scale = e.gesture.scale;
+            }
             gameCanvas.width(gameCanvas.width() * scale);
             gameCanvas.height(gameCanvas.height() * scale);
 
@@ -339,10 +346,10 @@
 
                 for (var i = 0; i < equipos.length; i++) {
                     var id = equipos[i].id;
-                    var raza = batalla.criaturas[id].raza;                    
-                    var clase = batalla.criaturas[id].clase;                    
+                    var raza = batalla.criaturas[id].raza;
+                    var clase = batalla.criaturas[id].clase;
                     var string = razaClase(raza, clase); //use for repair
-                    
+
                     $.ajax({
                         url: '../img/sprites/' + string + '.js',
                         async: false,
