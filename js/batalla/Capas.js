@@ -38,12 +38,11 @@ function crearCapas(criaturasCapa, equipoCapa) {
         }
 
         raza = batalla.criaturas[id].raza;
-        if (raza == "duende")
-            raza = "goblin";
         clase = batalla.criaturas[id].clase;
+        var raza_clase = razaClase(raza, clase); //use for repair
 
         image = new Image();
-        src = org + "img/sprites/" + raza + clase + ".png";
+        src = org + "img/sprites/" + raza_clase + ".png";
         image.src = src;
 
         var grupo = new createjs.Container();
@@ -54,8 +53,7 @@ function crearCapas(criaturasCapa, equipoCapa) {
             frames: [],
             animations: {}
         };
-
-        var raza_clase = razaClase(raza, clase); //use for repair
+        
         Animaciones.frames = spriteJson[raza_clase].frames;
 
         var acciones = ['para', 'move', 'golp', 'espe', 'muer'];
