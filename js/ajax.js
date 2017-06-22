@@ -183,7 +183,15 @@ function getMiBatalla() {
 }
 
 function getBatallaVisible(batalla, callback) {
-    if (batalla.tipo != "juvenil") {
+    if(!batalla){
+        ajax.call("getBatalla", function (visible) {
+//            if (!visible.alinLoc || !visible.alinVis) {
+//                console.log(visible)
+//                callback(false);
+//            }
+            callback(visible);
+        });
+    }else if (batalla.tipo != "juvenil") {
         ajax.call("getBatalla", {id: batalla.id}, function (visible) {
 //            if (!visible.alinLoc || !visible.alinVis) {
 //                console.log(visible)
