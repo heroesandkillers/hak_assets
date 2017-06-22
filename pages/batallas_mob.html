@@ -258,9 +258,10 @@
                 return;
             }
 
+            var offset = $(gameCanvas).offset();
             var diff = 1 - scale;
-            var diffX = diff * e.pageX;
-            var diffY = diff * e.pageY;
+            var diffX = diff * (e.pageX - offset.left);
+            var diffY = diff * (e.pageY - offset.top);
             console.log(diffX + " " + diffY);
             var left = parseInt(gameCanvas.css("left")) + diffX;
             var top = parseInt(gameCanvas.css("top")) + diffY;
