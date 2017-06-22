@@ -55,11 +55,8 @@ function crearCapas(criaturasCapa, equipoCapa) {
             animations: {}
         };
 
-        var sprite = spriteJson[raza + clase];
-        if (!sprite) {
-            console.log(raza + " + " + clase + " not found");
-        }
-        Animaciones.frames = sprite.frames;
+        var string = razaClase(raza + clase); //use for repair
+        Animaciones.frames = spriteJson[string].frames;
 
         var acciones = ['para', 'move', 'golp', 'espe', 'muer'];
         var direcciones = ['AbaDer', 'AbaIzq', 'Der', 'Izq', 'Arr', 'Aba', 'ArrDer', 'ArrIzq'];
@@ -201,4 +198,24 @@ function crearCapas(criaturasCapa, equipoCapa) {
             }
         });
     }
+}
+
+function razaClase(raza, clase) {
+    var validRazas = ["humano", "goblin", "muerto"];
+    var validClases = ["barbaro", "arquero", "mago", "healer", "paladin", "shinobi"];
+    
+    //deprecated name
+    if ("duende" == raza) {
+        raza = "goblin";
+    }
+
+    if (validRazas.indexOf(raza) == -1) {
+        console.log("wrong raza " + raza);
+        raza = "humano";
+    }
+    if (validClases.indexOf(clase) == -1) {
+        console.log("wrong clase " + clase);
+        clase = "barbaro";
+    }
+    return raza + clase;
 }
