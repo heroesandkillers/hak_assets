@@ -86,8 +86,8 @@ function getPerfil() {
 
 var gameURL = "/game/";
 function load(hash, callback) {
-    console.log("load");    
-    if(!hash){
+    console.log("load");
+    if (!hash) {
         hash = location.hash.split("#")[1];
     }
 
@@ -175,7 +175,7 @@ function getBatalla(batalla) {
         console.log("batalla cargada");
         batallaJSON = batalla;
 
-        load("batallas", function () {
+        $("#contenidos").load(org + routes["batallas"], function () {
             mostrarDatos();
             centrarGameArea();
         });
