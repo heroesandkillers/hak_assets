@@ -195,7 +195,7 @@
             event.preventDefault();
             $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
             $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
-            
+
             gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
             gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
 
@@ -207,45 +207,54 @@
             var top = parseInt(gameCanvas.css("top"));
             var cambio;
 
-            if (left > 0 && left > marginLeft) {
-                if (marginLeft > 0) {
-                    cambio = marginLeft;
-                } else {
-                    cambio = 0;
-                }
-                moveGameArea(gameCanvas, left, cambio, "left");
-            }
-//            if (top > 0 && top > marginTop) {
-//                if (marginTop > 0) {
-//                    cambio = marginTop;
-//                } else {
-//                    cambio = 0;
-//                }
-//                moveGameArea(gameCanvas, top, cambio, "top");
-//            }
-
             var marginLeft2 = gameArea.width() - bordes - gameCanvas.width() - marginLeft;
             var left2 = gameArea.width() - bordes - gameCanvas.width();
 
-            if (left < left2 && left < marginLeft2) {
-                if (marginLeft2 < left2) {
-                    cambio = marginLeft2;
-                } else {
-                    cambio = left2;
-                }
-                moveGameArea(gameCanvas, left, cambio, "left");
-            }
             var marginTop2 = gameArea.height() - bordes - gameCanvas.height() - marginTop;
             var top2 = gameArea.height() - bordes - gameCanvas.height();
 
-//            if (top < top2 && top < marginTop2) {
-//                if (marginTop2 < top2) {
-//                    cambio = marginTop2;
-//                } else {
-//                    cambio = top2;
-//                }
-//                moveGameArea(gameCanvas, top, cambio, "top");
-//            }
+            var left_limit = left > 0 && left > marginLeft;
+            var right_limit = left < left2 && left < marginLeft2;
+            if (!(left_limit && right_limit)) { //not all
+                if (left_limit) {
+                    if (marginLeft > 0) {
+                        cambio = marginLeft;
+                    } else {
+                        cambio = 0;
+                    }
+                    moveGameArea(gameCanvas, left, cambio, "left");
+                }
+                if (right_limit) {
+                    if (marginLeft2 < left2) {
+                        cambio = marginLeft2;
+                    } else {
+                        cambio = left2;
+                    }
+                    moveGameArea(gameCanvas, left, cambio, "left");
+                }
+            }
+
+            var top_limit = top > 0 && top > marginTop;
+            var bottom_limit = top < top2 && top < marginTop2;
+            if (!(top_limit && bottom_limit)) { //not all
+                if (top_limit) {
+                    if (marginTop > 0) {
+                        cambio = marginTop;
+                    } else {
+                        cambio = 0;
+                    }
+                    moveGameArea(gameCanvas, top, cambio, "top");
+                }
+                if (bottom_limit) {
+                    if (marginTop2 < top2) {
+                        cambio = marginTop2;
+                    } else {
+                        cambio = top2;
+                    }
+                    moveGameArea(gameCanvas, top, cambio, "top");
+                }
+            }
+
         }).on("pinchin pinchout mousewheel", function (e) {
             //console.log(e);
             var scale;
