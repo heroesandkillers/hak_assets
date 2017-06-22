@@ -85,16 +85,17 @@ function getPerfil() {
 }
 
 var gameURL = "/game/";
-function load(callback) {
-    console.log("load");
+function load(hash, callback) {
+    console.log("load");    
+    if(!hash){
+        hash = location.hash.split("#")[1];
+    }
 
-    if (!location.hash) {
+    if (!hash) {
         console.log("!location.hash");
         //location.href = gameURL;
 
     } else {
-        var hash = location.hash.split("#")[1];
-
         if (!window.routes[hash]) {
             console.log("error route = " + hash);
             return;
