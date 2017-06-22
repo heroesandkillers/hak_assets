@@ -190,13 +190,19 @@
             x = parseInt($("#gameArea > div").css('background-position-x'));
             y = parseInt($("#gameArea > div").css('background-position-y'));
             
-            $(document).on("mousemove.gameCanvas", function (event) {
-                event.preventDefault();
-                $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
-                $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
+            var oX = e.pageX;
+            var oY = e.pageY;
+            
+            $(document).on("mousemove.gameCanvas", function (e) {
+                e.preventDefault();
+                
+                var deltaX = e.pageX - oX;
+                var deltaY = e.pageY - oY;
+                $("#gameArea > div").css('background-position-x', (x + deltaX) + "px");
+                $("#gameArea > div").css('background-position-y', (y + deltaY) + "px");
 
-                gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
-                gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
+                gameCanvas.css("left", (left + deltaX) + "px");
+                gameCanvas.css("top", (top + deltaY) + "px");
             });
 
 //        }).on("mousemove", function (event) {
