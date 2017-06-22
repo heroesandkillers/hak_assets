@@ -279,9 +279,12 @@
     }
 
     function reescale(scale) {
-        $("#gameArea > div").css("background-size", scale + "%");
-        $("#container > canvas").css("background-size", scale + "%");
-        $("#container > canvas").css("border-width", scale * 2 + "px");
+        var area = parseInt($("#gameArea > div").css("background-size"));
+        $("#gameArea > div").css("background-size", area * scale + "%");
+        var background = parseInt($("#gameArea > div").css("background-size"));
+        $("#container > canvas").css("background-size", background * scale + "%");
+        var border = parseInt($("#gameArea > div").css("background-size"));
+        $("#container > canvas").css("border-width", border * scale + "px");
     }
 
     function moveGameArea(gameCanvas, margenActual, cambio, margen) {
