@@ -5,6 +5,7 @@
 <link rel='stylesheet' href='../styles/index_mob.css'>
 <link rel='stylesheet' href='../styles/images.css'>
 
+<script type="text/javascript" src="../../hak_static/libs/requirejs/require.js"></script>  
 <script type="text/javascript" src="../js/jquery.mobile.touch.min.js"></script>        
 <script type="text/javascript" src="../js/plugins/jquery.hammer.min.js"></script>
 
@@ -117,15 +118,15 @@
     <button id="botonApodo">apodar</button>
 </div>
 
-<script type="text/javascript" src="../js/easeljs-0.6.1.min.js"></script>
+<!--<script type="text/javascript" src="../js/easeljs-0.6.1.min.js"></script>
 <script type="text/javascript" src="../js/easeljs_Touch.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
 <script type="text/javascript" src="../js/base.js"></script>
 <script language="JavaScript" type="text/javascript" src="../js/ajax.js"></script>
-<script language="JavaScript" type="text/javascript" src="../js/ajax_mob.js"></script>
+<script language="JavaScript" type="text/javascript" src="../js/ajax_mob.js"></script>-->
 <script type="text/javascript">
 
-    window.onerror = function(message, url, linenumber) {
+    window.onerror = function (message, url, linenumber) {
 //                alert("JavaScript error: " + message + " on line " + linenumber + " for " + url);
         console.log("JavaScript error: " + message + " on line " + linenumber + " for " + url)
     };
@@ -153,6 +154,35 @@
         "perfilEconomia": "pages/perfil/perfilEconomia.html"
     };
 
+    require.config({
+        waitSeconds: 0, //prevent timeout by requirejs
+        paths: {
+            jquery: org + 'js/jquery-1.11.0.min', //jquery.mobile.events.min.js calls this (prevent bug)
+        }
+    });
+
+    var libs = [
+        "jquery",
+        org + "js/easeljs-0.6.0.min.js",
+    ];
+
+    var commons = [
+        org + "js/easeljs-0.6.1.min.js",
+        org + "js/easeljs_Touch.js",
+        org + "js/common.js",
+        org + "js/base.js",
+        org + "js/ajax.js",
+        org + "js/ajax_mob.js",
+
+        org + "../js/jquery-ui-1.10.2/ui/minified/jquery-ui.min.js",
+
+        org + "../js/Filter.js",
+        org + "../js/ColorFilter.js",
+        org + "../js/FilteredSprite.js",
+
+        org + "../js/plugins/jquery.ba-outside-events.min.js",
+        org + "../js/plugins/jquery.sortElements.js",
+    ];
 
 //    $("footer > div").css("min-height", $(document).height());
     var global = {};
@@ -163,29 +193,30 @@
     var conectado = false;
     var petAjax = [];
 
-    $(document).ready(function() {
+//    $(document).ready(function () {
+    require(commons, function () {
         console.log("conectando a " + url + " ...");
 
         petAjax[petAjax.length] = $.ajax({
             type: 'HEAD',
             url: url,
-            success: function() {
+            success: function () {
                 console.log("conexión realizada");
                 conectado = true;
                 conexionEstablecida();
             },
-            error: function() {
+            error: function () {
                 console.log("fallo en la conexión");
                 console.log("conectando a " + url + " ...");
                 petAjax[petAjax.length] = $.ajax({
                     type: 'HEAD',
                     url: local,
-                    success: function() {
+                    success: function () {
                         console.log("conexión realizada");
                         conectado = true;
                         conexionEstablecida();
                     },
-                    error: function() {
+                    error: function () {
                         console.log("fallo en la conexión");
                         conexionEstablecida();
                     }
@@ -313,59 +344,59 @@
 
 </script>
 
-<script type="text/javascript" src="../js/jquery-ui-1.10.2/ui/minified/jquery-ui.min.js"></script>
+<!--<script type="text/javascript" src="../js/jquery-ui-1.10.2/ui/minified/jquery-ui.min.js"></script>
 
 <script type="text/javascript" src="../js/Filter.js"></script>
 <script type="text/javascript" src="../js/ColorFilter.js"></script> 
 <script type="text/javascript" src="../js/FilteredSprite.js"></script> 
 
 <script type="text/javascript" src="../js/plugins/jquery.ba-outside-events.min.js"></script>
-<script type="text/javascript" src="../js/plugins/jquery.sortElements.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery.sortElements.js"></script>-->
 
 <script type="text/javascript">
 
     var baseEvents = {
         x: 0,
         left: 0,
-        e: function() {
+        e: function () {
             console.log("events")
-            $("#sinConexion").on("click", function() {
+            $("#sinConexion").on("click", function () {
                 for (var i = 0; i < petAjax.length; i++) {
                     petAjax[i].abort();
                 }
             });
-            $("#iconoMensajes").on("click", function() {
+            $("#iconoMensajes").on("click", function () {
                 cargar("mensajes");
             });
-            $("#iconoEstadisticas").on("click", function() {
+            $("#iconoEstadisticas").on("click", function () {
                 cargar('estadisticas');
             });
-            $("#iconoMapa").on("click", function() {
+            $("#iconoMapa").on("click", function () {
                 cargar('mapa');
             });
 //                    $("#iconoConstruccion").on("click", function() {
 //                        cargar('construccion');
 //                    });
-            $("#iconoEquipo").on("click", function() {
+            $("#iconoEquipo").on("click", function () {
                 console.log("equipo")
                 cargar('equipo');
             });
-            $("#iconoAcademia").on("click", function() {
+            $("#iconoAcademia").on("click", function () {
                 cargar('academia');
             });
-            $("#iconoEntreno").on("click", function() {
+            $("#iconoEntreno").on("click", function () {
                 cargar('entreno');
             });
-            $("#iconoAlineacion").on("click", function() {
+            $("#iconoAlineacion").on("click", function () {
                 cargar('alineacion');
             });
-            $("#iconoBatallas").on("click", function() {
+            $("#iconoBatallas").on("click", function () {
                 getMiBatalla();
             });
-            $("#iconoMazmorras").on("click", function() {
+            $("#iconoMazmorras").on("click", function () {
                 cargar('mazmorras');
             });
-            $("#iconoContacto").on("click", function() {
+            $("#iconoContacto").on("click", function () {
                 global.contactoId = global.perfil.id;
                 cargar('contacto')
             });
@@ -388,7 +419,7 @@
                     originY = e.pageY;
                 }
 
-                $(document).on("mousemove.footer touchmove.footer", function(e) {
+                $(document).on("mousemove.footer touchmove.footer", function (e) {
                     console.log(2)
                     var x = event(e).pageX - originX;
                     var y = event(e).pageY - originY;
@@ -414,8 +445,8 @@
 
     function hideFooterEvent() {
         clearTimeout(window.hideFooterTimeout);
-        window.hideFooterTimeout = setTimeout(function() {
-            $(document).one("click", function() {
+        window.hideFooterTimeout = setTimeout(function () {
+            $(document).one("click", function () {
                 $("footer").css("left", -($("footer > div").width() + 1) + "px");
             });
         }, 1200); //w8 1 sec. of swipe
@@ -426,7 +457,7 @@
     if (document.readyState == 'complete') {
         windowLoad();
     }
-    $(document).ready(function() {
+    $(document).ready(function () {
         windowLoad();
     });
 
