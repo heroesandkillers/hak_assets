@@ -216,7 +216,7 @@
             var left_limit = left > 0 && left > marginLeft;
             var right_limit = left < left2 && left < marginLeft2;
             if (!(left_limit && right_limit)) { //not all
-                if (left_limit) {
+                if (right_limit) {
                     if (marginLeft > 0) {
                         cambio = marginLeft;
                     } else {
@@ -224,7 +224,7 @@
                     }
                     moveGameArea(gameCanvas, left, cambio, "left");
                 }
-                if (right_limit) {
+                if (left_limit) {
                     if (marginLeft2 < left2) {
                         cambio = marginLeft2;
                     } else {
