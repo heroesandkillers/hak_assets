@@ -115,7 +115,7 @@ window.onhashchange = load;
 
 function cargar(pagina, id) {
     console.log("pagina = " + pagina);
-    if (!id) {
+    if (!id) { //"#contenidos"        
 //        location.href = gameURL + "#" + pagina;
         location.hash = pagina;
 
@@ -174,8 +174,8 @@ function getBatalla(batalla) {
 
         console.log("batalla cargada: " + batalla);
         window.batallaJSON = batalla;
-
-        $("#contenidos").load(org + routes["batallas"]);
+        
+        cargar("batallas");
     });
 }
 
