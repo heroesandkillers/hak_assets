@@ -175,10 +175,7 @@ function getBatalla(batalla) {
         console.log("batalla cargada: " + batalla);
         window.batallaJSON = batalla;
 
-        $("#contenidos").load(org + routes["batallas"], function () {
-//            mostrarDatos();
-//            centrarGameArea();
-        });
+        $("#contenidos").load(org + routes["batallas"]);
     });
 }
 
