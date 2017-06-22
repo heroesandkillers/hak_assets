@@ -351,9 +351,6 @@ $("html").click(function() {
         $("#detalleCriatura").height("0%");
     }
 });
-$('body').click(function(event) {
-    event.stopPropagation();
-});
 
 function pestanas() {
     var margin = 0;
