@@ -1,5 +1,5 @@
 var ajax = {
-    call: function(request, data, callback) {
+    call: function (request, data, callback) {
         console.log(request);
         console.log(data);
 
@@ -7,7 +7,7 @@ var ajax = {
             type: "GET",
             url: url + request,
             data: data,
-            success: function(response) {
+            success: function (response) {
                 var res = "";
 
                 if (response || 0 === response) {
@@ -23,23 +23,23 @@ var ajax = {
                     callback(res);
                 }
             },
-            error: function() {
+            error: function () {
                 console.log("ajax error");
             }
         });
     }
     ,
-    getAll: function(callback) {
-        this.call("getAll", null, function(res) {
+    getAll: function (callback) {
+        this.call("getAll", null, function (res) {
             console.log(res);
             callback(res);
         });
     }
     ,
-    getLiga: function(division, callback) {
+    getLiga: function (division, callback) {
         console.log("division: " + division)
         if (window.global && global.perfil.division.division != division) {
-            this.call("getLiga", {'division': division}, function(res) {
+            this.call("getLiga", {'division': division}, function (res) {
                 if (res.length) {
                     callback(res);
                 } else {
@@ -53,23 +53,23 @@ var ajax = {
         }
     }
     ,
-    getMensajesPrensa: function(ths, callback) {
-        this.call("getMensajesPrensa", {'division': ths.division}, function(res) {
+    getMensajesPrensa: function (ths, callback) {
+        this.call("getMensajesPrensa", {'division': ths.division}, function (res) {
             callback(res);
         });
     },
-    getCalendarioDivision: function(ths, callback) {
-        this.call("getCalendarioDivision", {'division': ths.division}, function(res) {
+    getCalendarioDivision: function (ths, callback) {
+        this.call("getCalendarioDivision", {'division': ths.division}, function (res) {
             ths.calendarioDivision = res;
             callback();
         });
     },
-    enviarMensajePrensa: function(ths) {
-        this.call("enviarMensajePrensa", {'mensaje': ths.mensaje}, function(res) {
+    enviarMensajePrensa: function (ths) {
+        this.call("enviarMensajePrensa", {'mensaje': ths.mensaje}, function (res) {
             ths.mostrarPrensa(ths.division);
         });
     },
-    setMapa: function(mapa, back) {
+    setMapa: function (mapa, back) {
         this.call("setMapa", {
             division: global.division,
             mapa: JSON.stringify(mapa),
@@ -79,7 +79,7 @@ var ajax = {
 }
 
 function getPerfil() {
-    ajax.call("getPerfil", null, function(res) {
+    ajax.call("getPerfil", null, function (res) {
         global.perfil = res;
     });
 }
@@ -125,7 +125,7 @@ function getJson(json) {
     $.ajax({
         type: "GET",
         url: "get" + json.charAt(0).toUpperCase() + json.slice(1),
-        success: function(response) {
+        success: function (response) {
             if (response !== "") {
                 global[json] = JSON.parse(response);
             }
@@ -134,7 +134,7 @@ function getJson(json) {
 }
 
 function asignarApodo(id, apodo, pagina) {
-    ajax.call("asignarApodo", {id: id, apodo: apodo}, function(res) {
+    ajax.call("asignarApodo", {id: id, apodo: apodo}, function (res) {
         getJson(pagina);
         $('#divApodo').dialog('close');
     });
@@ -142,19 +142,19 @@ function asignarApodo(id, apodo, pagina) {
 
 function getBatalla(batalla) {
     if (batalla.tipo != "juvenil") {
-        ajax.call("getBatalla", {id: batalla.id}, function(res) {
+        ajax.call("getBatalla", {id: batalla.id}, function (res) {
             batalla = res;
         });
 
     } else {
         if (typeof batalla.resultados == 'undefined') {
-            ajax.call("getBatalla", {id: batalla.id}, function(res) {
+            ajax.call("getBatalla", {id: batalla.id}, function (res) {
                 batalla = res;
             });
         }
     }
 
-    getBatallaVisible(batalla, function(batalla) {
+    getBatallaVisible(batalla, function (batalla) {
 //        console.log(batalla)
         if (!batalla) {
             console.log("!batalla");
@@ -169,7 +169,9 @@ function getBatalla(batalla) {
 
         console.log("batalla cargada");
         batallaJSON = batalla;
-        mostrarDatos();
+        if (window.mostrarDatos) {
+            mostrarDatos();
+        }
         centrarGameArea();
     });
 }
@@ -201,7 +203,7 @@ function getMiBatalla() {
 
 function getBatallaVisible(batalla, callback) {
     if (batalla.tipo != "juvenil") {
-        ajax.call("getBatalla", {id: batalla.id}, function(visible) {
+        ajax.call("getBatalla", {id: batalla.id}, function (visible) {
 //            if (!visible.alinLoc || !visible.alinVis) {
 //                console.log(visible)
 //                callback(false);
@@ -209,7 +211,7 @@ function getBatallaVisible(batalla, callback) {
             callback(visible);
         });
     } else {
-        ajax.call("getBatalla", {id: batalla.id}, function(visible) {
+        ajax.call("getBatalla", {id: batalla.id}, function (visible) {
             if (!visible.alinLoc || !visible.alinVis) {
                 console.log(visible)
                 callback(false);
@@ -238,7 +240,7 @@ function getProximaBatalla() {
 
 function getEquipoAcademia(callback) {
     if (global.equipoAcademia === "") {
-        ajax.call("getEquipoAcademia", null, function(res) {
+        ajax.call("getEquipoAcademia", null, function (res) {
             global.equipoAcademia = res;
             callback();
         });

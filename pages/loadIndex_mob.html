@@ -413,7 +413,8 @@
     };
 
     function hideFooterEvent() {
-        setTimeout(function() {
+        clearTimeout(window.hideFooterTimeout);
+        window.hideFooterTimeout = setTimeout(function() {
             $(document).one("click", function() {
                 $("footer").css("left", -($("footer > div").width() + 1) + "px");
             });
