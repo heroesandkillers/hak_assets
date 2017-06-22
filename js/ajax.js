@@ -172,7 +172,7 @@ function getBatalla(batalla) {
             return;
         }
 
-        console.log("batalla cargada");
+        console.log("batalla cargada: " + batalla);
         batallaJSON = batalla;
 
         $("#contenidos").load(org + routes["batallas"], function () {
