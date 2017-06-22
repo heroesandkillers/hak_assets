@@ -156,6 +156,7 @@
 
         var borde = parseInt(gameCanvas.css("border-width"));
         var bordes = borde * 2;
+        bordes = 0;
 
         var rel = (gameCanvas.width() + bordes) / (gameCanvas.height() + bordes);
 
@@ -194,7 +195,7 @@
             event.preventDefault();
             $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
             $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
-
+            
             gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
             gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
 
