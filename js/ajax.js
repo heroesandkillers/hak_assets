@@ -118,6 +118,13 @@ $(window).on('hashchange', function() {
 
 function cargar(pagina, id) {
     console.log("pagina = " + pagina);
+    if(!pagina){
+        pagina = location.hash.split("#").pop();
+        if(!pagina){
+            pagina = "mapa";
+        }
+    }
+    
     if (!id) { //"#contenidos"        
 //        location.href = gameURL + "#" + pagina;
         location.hash = pagina;
