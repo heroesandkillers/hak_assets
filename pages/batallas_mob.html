@@ -26,17 +26,17 @@
                 <tbody>
                     <tr>
                         <th>
-                            <img style="width: 35%" src="../img/escudo.png"/>
-                <p id="equipoLocal"></p>
-                </th>
-                <th>
-                <p id="resultado"></p>
-                </th>
-                <th>
-                    <img style="width: 35%" src="../img/escudo.png"/>
-                <p id="equipoVisitante"></p>
-                </th>
-                </tr>
+                            <!--<img style="width: 35%" src="../img/escudo.png"/>-->
+                            <p id="equipoLocal"></p>
+                        </th>
+                        <th>
+                            <p id="resultado"></p>
+                        </th>
+                        <th>
+                            <!--<img style="width: 35%" src="../img/escudo.png"/>-->
+                            <p id="equipoVisitante"></p>
+                        </th>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -79,7 +79,7 @@
     batalla.grupos = {};
     batalla.imagenes = [];
     batalla.imagenesObj = {};
-    
+
     //var batallaJSON = global.batallas;
 
     mostrarDatos();
@@ -167,7 +167,7 @@
             gameCanvas.width(gameArea.width() - bordes);
             gameCanvas.height(gameArea.width() / rel - bordes);
         }
-        
+
         reescale();
 
         var marginLeft = (gameArea.width() - bordes - gameCanvas.width()) / 2;
@@ -175,12 +175,12 @@
         gameCanvas.css("left", marginLeft + 'px');
         gameCanvas.css("top", marginTop + 'px');
 
-        Hammer($('#contenidos')).on('touch', function(ev) {
+        Hammer($('#contenidos')).on('touch', function (ev) {
             ev.preventDefault();
         });
 
         var left, top, x, y;
-        Hammer($(gameCanvas)).on("dragstart", function(e) {
+        Hammer($(gameCanvas)).on("dragstart", function (e) {
             e.preventDefault();
             gameCanvas.removeClass("transition");
 
@@ -190,7 +190,7 @@
             x = parseInt($("#gameArea > div").css('background-position-x'));
             y = parseInt($("#gameArea > div").css('background-position-y'));
 
-        }).on("drag", function(event) {
+        }).on("drag", function (event) {
             event.preventDefault();
             $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
             $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
@@ -198,7 +198,7 @@
             gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
             gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
 
-        }).on("dragend", function() {
+        }).on("dragend", function () {
             gameCanvas.addClass("transition");
             $("#gameArea > div").addClass("transition");
 
@@ -245,11 +245,11 @@
                 }
                 moveGameArea(gameCanvas, top, cambio, "top");
             }
-        }).on("pinchin, pinchout", function(e) {
+        }).on("pinchin, pinchout", function (e) {
             var scale = e.gesture.scale;
             gameCanvas.width(gameCanvas.width() * scale);
             gameCanvas.height(gameCanvas.height() * scale);
-            
+
             reescale();
         });
 
@@ -276,13 +276,13 @@
         }
     }
 
-    $("#gameArea").resize(function() {
+    $("#gameArea").resize(function () {
         ordenarGameArea();
     });
 
     function comprobarTipo(tipo, callback) {
         if (tipo === "academia") {
-            getAcademia(function() {
+            getAcademia(function () {
                 callback();
             });
         } else {
@@ -292,9 +292,9 @@
 
     function verBatalla() {
 
-        loaderBatalla.start(function() {
+        loaderBatalla.start(function () {
 
-            comprobarTipo(batallaJSON.tipo, function() {
+            comprobarTipo(batallaJSON.tipo, function () {
 
                 document.body.style.cursor = 'wait';
 
@@ -306,7 +306,7 @@
                 var equipo1, equipo2;
 
                 if (batallaJSON.tipo !== "academia") {
-                    batalla.loadBatalla = (function() {
+                    batalla.loadBatalla = (function () {
                         equipo1 = JSON.parse(batallaJSON.alinLoc);
                         equipo2 = JSON.parse(batallaJSON.alinVis);
 
@@ -341,6 +341,9 @@
                     if (raza === "duende")
                         raza = "goblin";
                     var clase = batalla.criaturas[id].clase;
+                    if("especial" == clase){
+                        clase = "mago";
+                    }
                     $.ajax({
                         url: '../img/sprites/' + raza + clase + '.js',
                         async: false,
@@ -349,7 +352,7 @@
                     var src = '../img/sprites/' + raza + clase + '.png';
                     imagenes[imagenes.length] = src;
                 }
-                loadImagenes(imagenes, function() {
+                loadImagenes(imagenes, function () {
 
                     crearCapas(equipo1, 1);
                     crearCapas(equipo2, 2);
@@ -370,14 +373,14 @@
     }
 
     var loaderBatalla = {
-        start: function(callback) {
+        start: function (callback) {
             $("#loaderBatalla").css('display', 'inherit');
             $('#verBatalla').addClass('noClick');
-            setTimeout(function() {
+            setTimeout(function () {
                 callback();
             }, 100);
         },
-        stop: function() {
+        stop: function () {
             $("#loaderBatalla").css('display', 'none');
         }
     };
@@ -440,36 +443,36 @@
     }
 
     var iniciado = false;
-    $("#rPlay").click(function() {
+    $("#rPlay").click(function () {
         activar("rPlay");
         framerate = 1;
         rBotones();
     });
-    $("#rReplay").click(function() {
+    $("#rReplay").click(function () {
         activar("rPlay");
         rBotones();
         mostrarRects();
         framerate = 1;
         frame = 0;
     });
-    $("#rPause").click(function() {
+    $("#rPause").click(function () {
         activar("rPause");
         rBotones();
         createjs.Ticker.setPaused(true);
     });
-    $("#rMPlay").click(function() {
+    $("#rMPlay").click(function () {
         activar("rMPlay");
         rBotones();
         framerate = 1;
         createjs.Ticker.setFPS(44);
     });
-    $("#rMBack").click(function() {
+    $("#rMBack").click(function () {
         activar("rMBack");
         rBotones();
         framerate = -1;
         createjs.Ticker.setFPS(44);
     });
-    $("#r1Play").click(function() {
+    $("#r1Play").click(function () {
         if (frame < batalla.loadBatalla.length - 1) {
             activar("rPause");
             rBotones();
@@ -498,11 +501,11 @@
         }
     }
 
-    Hammer($("#datosBatalla")).on("touch", function(e) {
+    Hammer($("#datosBatalla")).on("touch", function (e) {
         e.stopPropagation();
         $("#datosBatalla").removeClass("swipRight");
     });
-    Hammer($("#botonDatosBatalla")).on("touch", function(e) {
+    Hammer($("#botonDatosBatalla")).on("touch", function (e) {
         $("#datosBatalla").addClass("swipRight");
     });
 

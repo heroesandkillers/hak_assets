@@ -3,7 +3,7 @@ var imgUrl = org + "img/";
 var pre = "{background-image:url(" + imgUrl;
 var fin = ")}";
 
-function css(nombre, url){
+function css(nombre, url) {
     s += nombre + pre + url + fin;
 }
 
@@ -59,12 +59,12 @@ css(".trofeoliga1", "trofeos/trofeo.png");
 css(".ico_Papelera", "iconos/papelera.png");
 
 s += "#container canvas{"
-    +"-webkit-border-image:url(../../hak_static/img/canvas/borde.png) 78 round;;"
-    +"-o-border-image:url(../../hak_static/img/canvas/borde.png) 78 round;;"
-    +"-moz-border-image: url(../../hak_static/img/canvas/borde.png) 78 round;;"
-    +"border-image:url(../../hak_static/img/canvas/borde.png) 78 round;;"
-    +"background-image:url(../../hak_static/img/canvas/ground.jpg);"
-+"}";
+        + "-webkit-border-image:url(" + org + "img/canvas/borde.png) 78 round;;"
+        + "-o-border-image:url(" + org + "img/canvas/borde.png) 78 round;;"
+        + "-moz-border-image: url(" + org + "img/canvas/borde.png) 78 round;;"
+        + "border-image:url(" + org + "img/canvas/borde.png) 78 round;;"
+        + "background-image:url(" + org + "img/canvas/ground.jpg);"
+        + "}";
 
 var style = document.createElement('style');
 style.type = 'text/css';
