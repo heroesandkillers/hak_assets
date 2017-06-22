@@ -259,8 +259,8 @@
             }
 
             var diff = 1 - scale;
-            var diffX = diff * (e.pageX / $(document).width());
-            var diffY = diff * (e.pageY / $(document).height());
+            var diffX = diff * e.pageX;
+            var diffY = diff * e.pageY;
             console.log(diffX + " " + diffY);
             var left = parseInt(gameCanvas.css("left")) + diffX;
             var top = parseInt(gameCanvas.css("top")) + diffY;
