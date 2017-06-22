@@ -617,6 +617,9 @@ function getApodo(criat) {
 var nombres = ["Thonald", "Sunggorma", "Bribeo", "Caeli", "Nyaegel", "Thonychell", "Lynya", "Marmarisa", "Canvid", "Renea", "Cysa", "Soing", "Wen", "Thaegard", "Ruthja", "Stecia", "Thasthae", "Stechael", "Nyawilwaru", "Braswise"];
 var apellidos = ["Glazewater", "Gold", "Summerred", "Oakfire", "Seaside", "Capeflare", "Tallmountain", "Shortbright", "Orefalconbear", "Birdblur", "Sandrunner", "Tallragemetal", "Long", "Forceborne", "Helmshort", "Spearmace", "Walkerfire", "Eyeheart", "Battlerroad", "Fallbreak"];
 function getNombre(nombre) {
+    if(!nombre){
+        return nombre;
+    }
     var arr = nombre.split("_")
     if (arr.length > 1) {
         var pilaPosition = nombres.length % arr[0];

@@ -85,7 +85,7 @@ function getPerfil() {
 }
 
 var gameURL = "/game/";
-function load() {
+function load(callback) {
     console.log("load");
 
     if (!location.hash) {
@@ -102,7 +102,11 @@ function load() {
         console.log("routes[parts[1] = " + routes[hash])
 //        var url = "http://" + document.domain + "/hak_static/" + routes[hash];
         var url = org + routes[hash];
-        $("#contenidos").load(url);
+        $("#contenidos").load(url, function () {
+            if (callback) {
+                callback();
+            }
+        });
     }
 }
 window.onload = load;
@@ -169,12 +173,11 @@ function getBatalla(batalla) {
 
         console.log("batalla cargada");
         batallaJSON = batalla;
-        if (window.mostrarDatos) {
+
+        load("batallas", function () {
             mostrarDatos();
-        }
-        if (window.centrarGameArea) {
             centrarGameArea();
-        }
+        });
     });
 }
 
