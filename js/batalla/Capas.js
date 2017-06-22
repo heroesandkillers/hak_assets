@@ -55,15 +55,15 @@ function crearCapas(criaturasCapa, equipoCapa) {
             animations: {}
         };
 
-        var string = razaClase(raza + clase); //use for repair
-        Animaciones.frames = spriteJson[string].frames;
+        var raza_clase = razaClase(raza, clase); //use for repair
+        Animaciones.frames = spriteJson[raza_clase].frames;
 
         var acciones = ['para', 'move', 'golp', 'espe', 'muer'];
         var direcciones = ['AbaDer', 'AbaIzq', 'Der', 'Izq', 'Arr', 'Aba', 'ArrDer', 'ArrIzq'];
 
         for (var j = 0; j < acciones.length; j++) {
             for (var k = 0; k < direcciones.length; k++) {
-                Animaciones.animations[acciones[j] + direcciones[k]] = Sprite(spriteJson[raza + clase], acciones[j], direcciones[k]);
+                Animaciones.animations[acciones[j] + direcciones[k]] = Sprite(spriteJson[raza_clase], acciones[j], direcciones[k]);
             }
         }
 
@@ -108,6 +108,7 @@ function crearCapas(criaturasCapa, equipoCapa) {
     }
 
     function Sprite(json, accion, direccion) {
+        console.log("Sprite() " + json);
 
         var serie = {
             AbaIzq: '0',
