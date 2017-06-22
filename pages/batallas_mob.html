@@ -227,14 +227,14 @@
             var marginLeft2 = gameArea.width() - bordes - gameCanvas.width() - marginLeft;
             var left2 = gameArea.width() - bordes - gameCanvas.width();
 
-//            if (left < left2 && left < marginLeft2) {
-//                if (marginLeft2 < left2) {
-//                    cambio = marginLeft2;
-//                } else {
-//                    cambio = left2;
-//                }
-//                moveGameArea(gameCanvas, left, cambio, "left");
-//            }
+            if (left < left2 && left < marginLeft2) {
+                if (marginLeft2 < left2) {
+                    cambio = marginLeft2;
+                } else {
+                    cambio = left2;
+                }
+                moveGameArea(gameCanvas, left, cambio, "left");
+            }
             var marginTop2 = gameArea.height() - bordes - gameCanvas.height() - marginTop;
             var top2 = gameArea.height() - bordes - gameCanvas.height();
 
