@@ -189,16 +189,27 @@
             top = parseInt(gameCanvas.css("top"));
             x = parseInt($("#gameArea > div").css('background-position-x'));
             y = parseInt($("#gameArea > div").css('background-position-y'));
+            
+            $(document).on("mousemove.gameCanvas", function (event) {
+                event.preventDefault();
+                $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
+                $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
 
-        }).on("mousemove", function (event) {
-            event.preventDefault();
-            $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
-            $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
+                gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
+                gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
+            });
 
-            gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
-            gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
+//        }).on("mousemove", function (event) {
+//            event.preventDefault();
+//            $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
+//            $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
+//
+//            gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
+//            gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
 
-        }).on("mouseout", function () {
+        }).on("mouseup", function () {
+            $(document).off(".gameCanvas");
+            
             gameCanvas.addClass("transition");
             $("#gameArea > div").addClass("transition");
 
@@ -338,10 +349,10 @@
 
                 for (var i = 0; i < equipos.length; i++) {
                     var id = equipos[i].id;
-                    var raza = batalla.criaturas[id].raza;                    
-                    var clase = batalla.criaturas[id].clase;                    
+                    var raza = batalla.criaturas[id].raza;
+                    var clase = batalla.criaturas[id].clase;
                     var string = razaClase(raza, clase); //use for repair
-                    
+
                     $.ajax({
                         url: '../img/sprites/' + string + '.js',
                         async: false,
