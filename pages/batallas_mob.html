@@ -171,10 +171,8 @@
 
         reescale();
 
-//        var marginLeft = (gameArea.width() - bordes - gameCanvas.width()) / 2;
-//        var marginTop = (gameArea.height() - bordes - gameCanvas.height()) / 2;
-        var marginLeft = 0;
-        var marginTop = 0;
+        var marginLeft = Math.min((gameArea.width() - bordes - gameCanvas.width()) / 2, 100);
+        var marginTop = Math.min((gameArea.height() - bordes - gameCanvas.height()) / 2, 100);
         gameCanvas.css("left", marginLeft + 'px');
         gameCanvas.css("top", marginTop + 'px');
 
