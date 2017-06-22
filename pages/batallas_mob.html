@@ -180,7 +180,7 @@
         });
 
         var left, top, x, y;
-        Hammer($(gameCanvas)).on("dragstart", function (e) {
+        Hammer($(gameCanvas).parent()).on("dragstart", function (e) {
             e.preventDefault();
 //            gameCanvas.removeClass("transition");
 //            $("#gameArea > div").removeClass("transition");
@@ -258,10 +258,9 @@
                 return;
             }
 
-            var offset = $(gameCanvas).offset();
             var diff = 1 - scale;
-            var diffX = diff * e.pageX + offset.left;
-            var diffY = diff * e.pageY + offset.top;
+            var diffX = diff * e.pageX;
+            var diffY = diff * e.pageY;
             console.log(diffX + " " + diffY);
             var left = parseInt(gameCanvas.css("left")) + diffX;
             var top = parseInt(gameCanvas.css("top")) + diffY;
