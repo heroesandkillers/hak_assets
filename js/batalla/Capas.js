@@ -101,8 +101,9 @@ function crearCapas(criaturasCapa, equipoCapa) {
 
         grupo.addChild(subgrupo);
         stage.addChild(grupo);
-
-        batalla.grupos[criaturasCapa[i].id] = grupo;
+        
+        var capa = criaturasCapa[i];
+        batalla.grupos[capa.id] = grupo;
     }
 
     function Sprite(json, accion, direccion) {
