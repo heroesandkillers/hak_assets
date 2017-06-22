@@ -106,7 +106,7 @@ function crearCapas(criaturasCapa, equipoCapa) {
     }
 
     function Sprite(json, accion, direccion) {
-        console.log("Sprite() " + json);
+        //console.log("Sprite() " + json);
 
         var serie = {
             AbaIzq: '0',

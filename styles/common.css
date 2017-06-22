@@ -187,6 +187,7 @@ header .borde{
     font-weight: bolder;
     background-size: contain;
     background-repeat: no-repeat;
+    cursor: pointer;
 
     border-bottom: rgba(255,255,255,0.1) solid 1px;
     border-top: rgba(0,0,0,0.1) solid 1px;

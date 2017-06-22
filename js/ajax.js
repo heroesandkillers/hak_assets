@@ -176,8 +176,8 @@ function getBatalla(batalla) {
         window.batallaJSON = batalla;
 
         $("#contenidos").load(org + routes["batallas"], function () {
-            mostrarDatos();
-            centrarGameArea();
+//            mostrarDatos();
+//            centrarGameArea();
         });
     });
 }
