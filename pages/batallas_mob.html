@@ -172,7 +172,7 @@
         reescale();
         
         var startLeft = (gameArea.width() - bordes - gameCanvas.width()) / 2;
-        var startTop = (gameArea.width() - bordes - gameCanvas.width()) / 2;
+        var startTop = (gameArea.height() - bordes - gameCanvas.height()) / 2;
         var marginLeft = Math.min(startLeft, 100);
         var marginTop = Math.min(startTop, 100);
         gameCanvas.css("left", startLeft + 'px');
@@ -294,6 +294,7 @@
     $("#gameArea > div").css("background-size", "180px");
     $("#container > canvas").css("background-size", "100px");
     $("#container > canvas").css("border-width", "100px");
+    
     function reescale(scale) {
         var area = parseInt($("#gameArea > div").css("background-size"));
         $("#gameArea > div").css("background-size", area * scale + "px");
