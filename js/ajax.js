@@ -85,11 +85,11 @@ function getPerfil() {
 }
 
 var gameURL = "/game/";
-function load(hash, callback) {
-    console.log("load() " + hash);
+function load(hash, callback) {    
     if (!hash) {
         hash = location.hash.split("#")[1];
     }
+    console.log("load() " + hash);
 
     if (!hash) {
         console.log("!location.hash");
@@ -111,7 +111,10 @@ function load(hash, callback) {
     }
 }
 window.onload = load;
-window.onhashchange = load;
+$(window).on('hashchange', function() {
+    var hash = location.hash.split("#")[1];
+    load(hash);
+});
 
 function cargar(pagina, id) {
     console.log("pagina = " + pagina);

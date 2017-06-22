@@ -376,7 +376,6 @@ function setProximaBatalla(batalla) {
 
 
 $(window).on('hashchange', function() {
-    console.log("hashchange");
     documentLoad();
 });
 function documentLoad() {
