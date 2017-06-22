@@ -148,40 +148,6 @@ function asignarApodo(id, apodo, pagina) {
     });
 }
 
-function getBatalla(batalla) {
-    if (batalla.tipo != "juvenil") {
-        ajax.call("getBatalla", {id: batalla.id}, function (res) {
-            batalla = res;
-        });
-
-    } else {
-        if (typeof batalla.resultados == 'undefined') {
-            ajax.call("getBatalla", {id: batalla.id}, function (res) {
-                batalla = res;
-            });
-        }
-    }
-
-    getBatallaVisible(batalla, function (batalla) {
-//        console.log(batalla)
-        if (!batalla) {
-            console.log("!batalla");
-            aviso("error al mostrar batalla");
-            return;
-        }
-        if (!batalla.alinLoc || !batalla.alinVis) {
-            console.log("!batalla.alinLoc || !batalla.alinVis");
-            aviso("error al mostrar batalla");
-            return;
-        }
-
-        console.log("batalla cargada: " + batalla);
-        window.batallaJSON = batalla;
-        
-        cargar("batallas");
-    });
-}
-
 function getMiBatalla() {
     var calDiv = global.calendarioDivision;
     var batalla = "";
@@ -204,7 +170,9 @@ function getMiBatalla() {
         return;
     }
 
-    getBatalla(batalla);
+    //getBatalla(batalla);
+    window.batalla = batalla;
+    cargar("batallas");
 }
 
 function getBatallaVisible(batalla, callback) {
