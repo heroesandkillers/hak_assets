@@ -86,7 +86,7 @@ function getPerfil() {
 
 var gameURL = "/game/";
 function load(hash, callback) {
-    console.log("load");
+    console.log("load() " + hash);
     if (!hash) {
         hash = location.hash.split("#")[1];
     }
