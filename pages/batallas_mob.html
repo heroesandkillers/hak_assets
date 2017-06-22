@@ -83,16 +83,18 @@
     //var batallaJSON = global.batallas;
 
     //getBatalla
-    if (batallaINFO.tipo != "juvenil") {
-        ajax.call("getBatalla", {id: batallaINFO.id}, function (res) {
-            batallaINFO = res;
-        });
-
-    } else {
-        if (typeof batallaINFO.resultados == 'undefined') {
+    if (window.batallaINFO) {
+        if (batallaINFO.tipo != "juvenil") {
             ajax.call("getBatalla", {id: batallaINFO.id}, function (res) {
                 batallaINFO = res;
             });
+
+        } else {
+            if (typeof batallaINFO.resultados == 'undefined') {
+                ajax.call("getBatalla", {id: batallaINFO.id}, function (res) {
+                    batallaINFO = res;
+                });
+            }
         }
     }
 
