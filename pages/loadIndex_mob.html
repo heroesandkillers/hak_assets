@@ -415,7 +415,7 @@
     function hideFooterEvent() {
         setTimeout(function() {
             console.log(55)
-            $(document).one("click tap", function() {
+            $(document).one("click", function() {
                 console.log(66)
                 $("footer").css("left", -($("footer > div").width() + 1) + "px");
             });
