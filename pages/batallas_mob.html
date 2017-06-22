@@ -182,9 +182,9 @@
         var left, top, x, y;
         Hammer($(gameCanvas)).on("dragstart", function (e) {
             e.preventDefault();
-            gameCanvas.removeClass("transition");
-
-            $("#gameArea > div").removeClass("transition");
+//            gameCanvas.removeClass("transition");
+//            $("#gameArea > div").removeClass("transition");
+            
             left = parseInt(gameCanvas.css("left"));
             top = parseInt(gameCanvas.css("top"));
             x = parseInt($("#gameArea > div").css('background-position-x'));
@@ -199,8 +199,8 @@
             gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
 
         }).on("dragend", function () {
-            gameCanvas.addClass("transition");
-            $("#gameArea > div").addClass("transition");
+//            gameCanvas.addClass("transition");
+//            $("#gameArea > div").addClass("transition");
 
             var left = parseInt(gameCanvas.css("left"));
             var top = parseInt(gameCanvas.css("top"));
@@ -246,7 +246,7 @@
                 moveGameArea(gameCanvas, top, cambio, "top");
             }
         }).on("pinchin pinchout mousewheel", function (e) {
-            console.log(e);
+            //console.log(e);
             var scale;
             if(e.gesture && e.gesture.scale){
                 scale = e.gesture.scale;
