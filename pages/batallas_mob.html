@@ -184,7 +184,7 @@
             e.preventDefault();
 //            gameCanvas.removeClass("transition");
 //            $("#gameArea > div").removeClass("transition");
-            
+
             left = parseInt(gameCanvas.css("left"));
             top = parseInt(gameCanvas.css("top"));
             x = parseInt($("#gameArea > div").css('background-position-x'));
@@ -248,17 +248,27 @@
         }).on("pinchin pinchout mousewheel", function (e) {
             //console.log(e);
             var scale;
-            if(e.gesture && e.gesture.scale){
+            if (e.gesture && e.gesture.scale) {
                 scale = e.gesture.scale;
-            }else if (e.originalEvent.deltaY > 0) {
+            } else if (e.originalEvent.deltaY > 0) {
                 scale = 0.9;
             } else if (e.originalEvent.deltaY < 0) {
                 scale = 1.1;
-            }else{
+            } else {
                 return;
             }
+
+            var diff = 1 - scale;
+            var diffX = diff * (e.pageX / $(document).width());
+            var diffY = diff * (e.pageY / $(document).height());
+            var left = gameCanvas.css("left") + diffX;
+            var top = gameCanvas.css("top") + diffY;
             gameCanvas.width(gameCanvas.width() * scale);
             gameCanvas.height(gameCanvas.height() * scale);
+            gameCanvas.css({
+                left: left,
+                top: top
+            });
 
             reescale();
         });
