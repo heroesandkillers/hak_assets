@@ -180,7 +180,7 @@
         });
 
         var left, top, x, y;
-        $(gameCanvas).on("mousedown", function (e) {
+        Hammer($(gameCanvas)).on("dragstart", function (e) {
             e.preventDefault();
             gameCanvas.removeClass("transition");
 
@@ -189,32 +189,16 @@
             top = parseInt(gameCanvas.css("top"));
             x = parseInt($("#gameArea > div").css('background-position-x'));
             y = parseInt($("#gameArea > div").css('background-position-y'));
-            
-            var oX = e.pageX;
-            var oY = e.pageY;
-            
-            $(document).on("mousemove.gameCanvas", function (e) {
-                e.preventDefault();                
-                var deltaX = e.pageX - oX;
-                var deltaY = e.pageY - oY;
-                
-                $("#gameArea > div").css('background-position-x', (x + deltaX) + "px");
-                $("#gameArea > div").css('background-position-y', (y + deltaY) + "px");
-                gameCanvas.css("left", (left + deltaX) + "px");
-                gameCanvas.css("top", (top + deltaY) + "px");
-            });
 
-//        }).on("mousemove", function (event) {
-//            event.preventDefault();
-//            $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
-//            $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
-//
-//            gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
-//            gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
+        }).on("drag", function (event) {
+            event.preventDefault();
+            $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
+            $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
 
-        }).on("mouseup", function () {
-            $(document).off(".gameCanvas");
-            
+            gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
+            gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
+
+        }).on("dragend", function () {
             gameCanvas.addClass("transition");
             $("#gameArea > div").addClass("transition");
 
@@ -261,15 +245,14 @@
                 }
                 moveGameArea(gameCanvas, top, cambio, "top");
             }
-        }).on("mousewheel DOMMouseScroll", function (e) {
-            console.log("zoom");
-            //var scale = e.gesture.scale;
-            var scale = $(this).scrollTop();
+        }).on("pinchin pinchout mousewheel", function (e) {
+            var scale = e.gesture.scale;
             gameCanvas.width(gameCanvas.width() * scale);
             gameCanvas.height(gameCanvas.height() * scale);
 
             reescale();
         });
+        $(gameCanvas).on("")
 
     }
 
@@ -355,10 +338,10 @@
 
                 for (var i = 0; i < equipos.length; i++) {
                     var id = equipos[i].id;
-                    var raza = batalla.criaturas[id].raza;
-                    var clase = batalla.criaturas[id].clase;
+                    var raza = batalla.criaturas[id].raza;                    
+                    var clase = batalla.criaturas[id].clase;                    
                     var string = razaClase(raza, clase); //use for repair
-
+                    
                     $.ajax({
                         url: '../img/sprites/' + string + '.js',
                         async: false,
