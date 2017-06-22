@@ -248,12 +248,14 @@
         }).on("pinchin pinchout mousewheel", function (e) {
             console.log(e);
             var scale;
-            if (e.originalEvent.deltaY > 0) {
+            if(e.gesture && e.gesture.scale){
+                scale = e.gesture.scale;
+            }else if (e.originalEvent.deltaY > 0) {
                 scale = 0.9;
             } else if (e.originalEvent.deltaY < 0) {
                 scale = 1.1;
-            } else {
-                scale = e.gesture.scale;
+            }else{
+                return;
             }
             gameCanvas.width(gameCanvas.width() * scale);
             gameCanvas.height(gameCanvas.height() * scale);
