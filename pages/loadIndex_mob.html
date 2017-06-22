@@ -5,37 +5,23 @@
 <link rel='stylesheet' href='../styles/index_mob.css'>
 <link rel='stylesheet' href='../styles/images.css'>
 
-<!--<script type="text/javascript" src="../libs/requirejs/require.js"></script>  
+<script type="text/javascript" src="../libs/requirejs/require.js"></script>  
 <script type="text/javascript" src="../js/jquery.mobile.touch.min.js"></script>        
-<script type="text/javascript" src="../js/plugins/jquery.hammer.min.js"></script>-->
+<script type="text/javascript" src="../js/plugins/jquery.hammer.min.js"></script>
 
 <div id="pantalla"></div>
 <script type="text/javascript">
+    $("#pantalla").height($(document).height());
+    $("#pantalla div").css("margin-top", ($(document).height() - $("#pantalla div").height()) / 2);
+    $("#pantalla").css("display", "inherit");
+    $('#pantalla').load("../pages/carga_mob.html");
+
+    //var o = "../";
+    var gameURL = "/hakMovil/assets/";
+
     if (!window.org) {
         window.org = "../";
     }
-
-    require.config({
-        waitSeconds: 0, //prevent timeout by requirejs
-        paths: {
-            jquery: org + 'js/jquery-1.11.0.min', //jquery.mobile.events.min.js calls this (prevent bug)
-        }
-    });
-
-    var libs = [
-        "jquery",
-        org + "js/jquery.mobile.touch.min.js",
-        org + "js/plugins/jquery.hammer.min.js"
-    ];
-
-    require(libs, function () {
-        $("#pantalla").height($(document).height());
-        $("#pantalla div").css("margin-top", ($(document).height() - $("#pantalla div").height()) / 2);
-        $("#pantalla").css("display", "inherit");
-        $('#pantalla').load("../pages/carga_mob.html");
-    });
-
-    var gameURL = "/hakMovil/assets/";
 </script>
 <script type="text/javascript" src='../styles/images.js'></script>
 
@@ -168,7 +154,22 @@
         "perfilEconomia": "pages/perfil/perfilEconomia.html"
     };
 
+    require.config({
+        waitSeconds: 0, //prevent timeout by requirejs
+        paths: {
+            jquery: org + 'js/jquery-1.11.0.min', //jquery.mobile.events.min.js calls this (prevent bug)
+        }
+    });
+
+//    var libs = [
+//        "jquery",
+//        org + "js/easeljs-0.6.0.min.js"
+//    ];
+
     var commons = [
+        org + "js/jquery.mobile.touch.min.js",
+        org + "js/plugins/jquery.hammer.min.js",
+        //
         org + "js/easeljs-0.6.1.min.js",
         org + "js/easeljs_Touch.js",
         org + "js/common.js",
