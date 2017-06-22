@@ -172,7 +172,9 @@ function getBatalla(batalla) {
         if (window.mostrarDatos) {
             mostrarDatos();
         }
-        centrarGameArea();
+        if (window.centrarGameArea) {
+            centrarGameArea();
+        }
     });
 }
 
