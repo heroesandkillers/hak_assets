@@ -55,7 +55,11 @@ function crearCapas(criaturasCapa, equipoCapa) {
             animations: {}
         };
 
-        Animaciones.frames = spriteJson[raza + clase].frames;
+        var sprite = spriteJson[raza + clase];
+        if (!sprite) {
+            console.log(raza + " + " + clase + " not found");
+        }
+        Animaciones.frames = sprite.frames;
 
         var acciones = ['para', 'move', 'golp', 'espe', 'muer'];
         var direcciones = ['AbaDer', 'AbaIzq', 'Der', 'Izq', 'Arr', 'Aba', 'ArrDer', 'ArrIzq'];
@@ -66,7 +70,7 @@ function crearCapas(criaturasCapa, equipoCapa) {
             }
         }
 
-        var sprite = new createjs.SpriteSheet(Animaciones);        
+        var sprite = new createjs.SpriteSheet(Animaciones);
         var animation = new createjs.BitmapAnimation(sprite);
         spriteArray.push(animation);
 
@@ -183,14 +187,14 @@ function crearCapas(criaturasCapa, equipoCapa) {
             batalla.grupos[id].addChildAt(batalla.oval, 0);
             batalla.oval.visible = true;
             expandir(id, equipo);
-            
+
             //stop sprite animations
             for (var i = 0; i < spriteArray.length; i++) {
                 spriteArray[i].stop();
             }
 
             batalla.stage.update();
-            
+
             //re-play sprite animations
             for (var i = 0; i < spriteArray.length; i++) {
                 spriteArray[i].play();
