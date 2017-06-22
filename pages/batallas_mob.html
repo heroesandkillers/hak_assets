@@ -216,15 +216,15 @@
             var left_limit = left > 0 && left > marginLeft;
             var right_limit = left < left2 && left < marginLeft2;
             if (!(left_limit && right_limit)) { //not all
-                if (right_limit) {
+                var overflows = $(this).width() > $(gameCanvas).width();
+                if ((left_limit && overflows) || (right_limit && !overflows)) {
                     if (marginLeft > 0) {
                         cambio = marginLeft;
                     } else {
                         cambio = 0;
                     }
                     moveGameArea(gameCanvas, left, cambio, "left");
-                }
-                if (left_limit) {
+                }else{
                     if (marginLeft2 < left2) {
                         cambio = marginLeft2;
                     } else {
