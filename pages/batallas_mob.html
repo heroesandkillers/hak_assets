@@ -194,13 +194,12 @@
             var oY = e.pageY;
             
             $(document).on("mousemove.gameCanvas", function (e) {
-                e.preventDefault();
-                
+                e.preventDefault();                
                 var deltaX = e.pageX - oX;
                 var deltaY = e.pageY - oY;
+                
                 $("#gameArea > div").css('background-position-x', (x + deltaX) + "px");
                 $("#gameArea > div").css('background-position-y', (y + deltaY) + "px");
-
                 gameCanvas.css("left", (left + deltaX) + "px");
                 gameCanvas.css("top", (top + deltaY) + "px");
             });
@@ -264,7 +263,8 @@
             }
         }).on("mousewheel DOMMouseScroll", function (e) {
             console.log("zoom");
-            var scale = e.gesture.scale;
+            //var scale = e.gesture.scale;
+            var scale = $(this).scrollTop();
             gameCanvas.width(gameCanvas.width() * scale);
             gameCanvas.height(gameCanvas.height() * scale);
 
