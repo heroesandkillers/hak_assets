@@ -173,7 +173,7 @@ function getBatalla(batalla) {
         }
 
         console.log("batalla cargada: " + batalla);
-        batallaJSON = batalla;
+        window.batallaJSON = batalla;
 
         $("#contenidos").load(org + routes["batallas"], function () {
             mostrarDatos();
