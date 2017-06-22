@@ -217,7 +217,7 @@
             var right_limit = left < left2 && left < marginLeft2;
             if (!(left_limit && right_limit)) { //not all
                 var overflows = $(this).width() > $(gameCanvas).width();
-                if ((left_limit && overflows) || (right_limit && !overflows)) {
+                if ((left_limit && !overflows) || (right_limit && overflows)) {
                     if (marginLeft > 0) {
                         cambio = marginLeft;
                     } else {
@@ -237,15 +237,15 @@
             var top_limit = top > 0 && top > marginTop;
             var bottom_limit = top < top2 && top < marginTop2;
             if (!(top_limit && bottom_limit)) { //not all
-                if (top_limit) {
+                var overflows = $(this).hight() > $(gameCanvas).hight();
+                if ((top_limit && !overflows) || (bottom_limit && overflows)) {
                     if (marginTop > 0) {
                         cambio = marginTop;
                     } else {
                         cambio = 0;
                     }
                     moveGameArea(gameCanvas, top, cambio, "top");
-                }
-                if (bottom_limit) {
+                }else {
                     if (marginTop2 < top2) {
                         cambio = marginTop2;
                     } else {
