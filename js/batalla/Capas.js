@@ -218,5 +218,7 @@ function razaClase(raza, clase) {
         console.log("wrong clase " + clase);
         clase = "barbaro";
     }
+    
+    console.log("raza + clase: " + raza + clase);
     return raza + clase;
 }
