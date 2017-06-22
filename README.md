@@ -1,0 +1,1 @@
+git clone https://trollderiu@bitbucket.org/trollderiu/hak_assets.git assets
