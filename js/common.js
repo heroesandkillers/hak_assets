@@ -392,17 +392,17 @@ function aviso(aviso) {
 
 function confirmacion(mensaje) {
     $("#mensajeConfirmacion").html(mensaje);
-
+    
     $('#confirmacion').css("transition-duration", 0);
-    $('#confirmacion').css("display", "none");
     $('#confirmacion').css("opacity", "100");
-    $('#confirmacion').css("transition-duration", "500ms");
-
     $('#confirmacion').css("display", "block");
-    $('#confirmacion').css("top", $(window).height() / 2 - $('#confirmacion').height() / 2 + "px");
-    $('#confirmacion').css("left", $(window).width() / 2 - $('#confirmacion').width() / 2 + "px");
+    
     setTimeout(function() {
+        $('#confirmacion').css("transition-duration", "500ms");  
         $('#confirmacion').css("opacity", "0");
+        setTimeout(function(){
+            $('#confirmacion').css("display", "none");
+        }, 300);
     }, 800);
 }
 
