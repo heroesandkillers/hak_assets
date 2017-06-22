@@ -180,7 +180,7 @@
         });
 
         var left, top, x, y;
-        Hammer($(gameCanvas)).on("dragstart", function (e) {
+        $(gameCanvas).on("mousedown", function (e) {
             e.preventDefault();
             gameCanvas.removeClass("transition");
 
@@ -190,7 +190,7 @@
             x = parseInt($("#gameArea > div").css('background-position-x'));
             y = parseInt($("#gameArea > div").css('background-position-y'));
 
-        }).on("drag", function (event) {
+        }).on("mousemove", function (event) {
             event.preventDefault();
             $("#gameArea > div").css('background-position-x', (x + event.gesture.deltaX) + "px");
             $("#gameArea > div").css('background-position-y', (y + event.gesture.deltaY) + "px");
@@ -198,7 +198,7 @@
             gameCanvas.css("left", (left + event.gesture.deltaX) + "px");
             gameCanvas.css("top", (top + event.gesture.deltaY) + "px");
 
-        }).on("dragend", function () {
+        }).on("mouseout", function () {
             gameCanvas.addClass("transition");
             $("#gameArea > div").addClass("transition");
 
@@ -245,7 +245,7 @@
                 }
                 moveGameArea(gameCanvas, top, cambio, "top");
             }
-        }).on("scoll, mousewheel, pinchin, pinchout", function (e) {
+        }).on("mousewheel DOMMouseScroll", function (e) {
             console.log("zoom");
             var scale = e.gesture.scale;
             gameCanvas.width(gameCanvas.width() * scale);
