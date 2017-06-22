@@ -414,12 +414,10 @@
 
     function hideFooterEvent() {
         setTimeout(function() {
-            console.log(55)
             $(document).one("click", function() {
-                console.log(66)
                 $("footer").css("left", -($("footer > div").width() + 1) + "px");
             });
-        }, 1);
+        }, 1200); //w8 1 sec. of swipe
     }
 
 
