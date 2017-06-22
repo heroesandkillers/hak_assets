@@ -245,7 +245,7 @@
                 }
                 moveGameArea(gameCanvas, top, cambio, "top");
             }
-        }).on("scoll, pinchin, pinchout", function (e) {
+        }).on("scoll, mousewheel, pinchin, pinchout", function (e) {
             console.log("zoom");
             var scale = e.gesture.scale;
             gameCanvas.width(gameCanvas.width() * scale);
