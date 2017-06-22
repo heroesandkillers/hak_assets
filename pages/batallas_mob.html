@@ -207,14 +207,14 @@
             var top = parseInt(gameCanvas.css("top"));
             var cambio;
 
-//            if (left > 0 && left > marginLeft) {
-//                if (marginLeft > 0) {
-//                    cambio = marginLeft;
-//                } else {
-//                    cambio = 0;
-//                }
-//                moveGameArea(gameCanvas, left, cambio, "left");
-//            }
+            if (left > 0 && left > marginLeft) {
+                if (marginLeft > 0) {
+                    cambio = marginLeft;
+                } else {
+                    cambio = 0;
+                }
+                moveGameArea(gameCanvas, left, cambio, "left");
+            }
 //            if (top > 0 && top > marginTop) {
 //                if (marginTop > 0) {
 //                    cambio = marginTop;
