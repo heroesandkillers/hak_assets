@@ -171,7 +171,7 @@ function getMiBatalla() {
     }
 
     //getBatalla(batalla);
-    window.batalla = batalla;
+    window.batallaINFO = batalla;
     cargar("batallas");
 }
 

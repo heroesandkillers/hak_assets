@@ -92,7 +92,7 @@ function crearCapas(criaturasCapa, equipoCapa) {
         var contorno = new createjs.Shape();
         contorno.graphics.beginStroke("black").drawRect(-25, -50, 50, 6);
         subgrupo.addChild(contorno);
-
+        
         for (var q = 1; q < criaturasCapa[i].vida / 50; q++) {
             var linea = new createjs.Shape();
             linea.graphics.beginStroke('rgba(0,0,0,0.3)').drawRect(-25 + q * ((50 / criaturasCapa[i].vida) * 50), -50, 1, 5);
