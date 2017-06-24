@@ -138,13 +138,17 @@
         var muertes = res.muertes.split(",");
         var table = $("#muertes");
 
-        for (var i = 0; i < muertes.length - 1; i++) {
+        for (var i = 0; i < muertes.length; i++) {
+            var muerte = muertes[i];
+            if(!muerte){
+                continue;
+            }
+            var arr = muerte.split(":");
+            
             var row = $("<tr class='UnHighLight'>").appendTo(table);
-            var muerte = muertes[i].split(":");
-
-            $("<td style='text-align:right'>" + getNombreAlineacion(muerte[0]) + "</td>").appendTo(row);
+            $("<td style='text-align:right'>" + getNombreAlineacion(arr[0]) + "</td>").appendTo(row);
             $("<td><img src='../img/iconos/espada.png'/></td>").appendTo(row);
-            $("<td style='text-align:left'>" + getNombreAlineacion(muerte[1]) + "</td>").appendTo(row);
+            $("<td style='text-align:left'>" + getNombreAlineacion(arr[1]) + "</td>").appendTo(row);
         }
 
         reloadTablas();
@@ -165,6 +169,9 @@
                 return alineacion[i].nombre;
             }
         }
+        
+        console.log("nombre not found " + id + " en batallaJSON");
+        return " - ";
     }
 
     function centrarGameArea() {
