@@ -329,6 +329,7 @@
 
     function reescale(scale) {
         var size = parseInt(($("#gameArea > div").css("background-size")) * scale) || 150;
+        console.log("reescale(" + scale + ") " + size);
 
         $("#gameArea > div").css("background-size", size + "px");
         var offset = $("#container > canvas").offset();
