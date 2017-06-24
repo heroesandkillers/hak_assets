@@ -138,26 +138,15 @@
         $("#resultado").text(res.resultado);
 
         var muertes = res.muertes.split(",");
-        var table = document.getElementById("muertes");
+        var table = $("#muertes");
 
         for (var i = 0; i < muertes.length - 1; i++) {
-
-            var row = table.insertRow(i);
-            row.setAttribute("class", "UnHighLight");
+            var row = $("<tr class='UnHighLight'>").appendTo(table);
             var muerte = muertes[i].split(":");
-
-            var cell = row.insertCell(0);
-            cell.style.textAlign = "right";
-            var asesino = getNombreAlineacion(muerte[0]);
-            cell.innerHTML = asesino;
-
-            var cell = row.insertCell(1);
-            cell.innerHTML = "<img src='../img/iconos/espada.png'/>";
-
-            var cell = row.insertCell(2);
-            cell.style.textAlign = "left";
-            var victima = getNombreAlineacion(muerte[1]);
-            cell.innerHTML = victima;
+            
+            $("<td style='text-align:right'>" + getNombreAlineacion(muerte[0]) + "</td>").appendTo(row);
+            $("<td><img src='../img/iconos/espada.png'/></td>").appendTo(row);
+            $("<td style='text-align:left'>" + getNombreAlineacion(muerte[1]) + "</td>").appendTo(row);
         }
 
         reloadTablas();
@@ -382,7 +371,7 @@
             }
 
             var equipo1, equipo2;
-            
+
             if (batallaJSON.tipo !== "academia") {
                 batalla.loadBatalla = (function () {
                     equipo1 = JSON.parse(batallaJSON.alinLoc);
