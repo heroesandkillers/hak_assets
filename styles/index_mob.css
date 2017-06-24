@@ -56,6 +56,9 @@ footer{
     -webkit-transition: left 250ms; 
     -o-transition: left 250ms; 
 }
+footer .show{
+    left: -1px !important;
+}
 footer > div{
     background-position: 100%;
     min-height: 100%;

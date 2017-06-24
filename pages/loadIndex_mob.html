@@ -187,7 +187,6 @@
         org + "js/plugins/jquery.sortElements.js",
     ];
 
-//    $("footer > div").css("min-height", $(document).height());
     var global = {};
     var local = "http://localhost/";
 //  var servidor = "http://www.heroesandkillers.com/";
@@ -412,7 +411,6 @@
             $("footer")[0].addEventListener("touchstart", footerEvent, false);
 
             function footerEvent(e) {
-                console.log(1)
                 var originX, originY;
                 if (e.touches) {
                     originX = e.touches[0].pageX;
@@ -423,13 +421,11 @@
                 }
 
                 $(document).on("mousemove.footer touchmove.footer", function (e) {
-                    console.log(2)
                     var x = event(e).pageX - originX;
                     var y = event(e).pageY - originY;
 
                     if (x > 50 && Math.abs(x) > Math.abs(y)) {
-                        console.log(3)
-                        $("footer").css("left", "-1px");
+                        $("footer").addClass("show");
                         $(document).off(".footer");
                         hideFooterEvent();
                     }
@@ -450,7 +446,7 @@
         clearTimeout(window.hideFooterTimeout);
         window.hideFooterTimeout = setTimeout(function () {
             $(document).one("click", function () {
-                $("footer").css("left", -($("footer > div").width() + 1) + "px");
+                $("footer").removeClass("show");
             });
         }, 1200); //w8 1 sec. of swipe
     }
@@ -466,7 +462,7 @@
 
     function windowLoad() {
         baseEvents.e();
-        //$("#footer > div").width($("#footer > div").width() + 30);
+        $("footer").css("left", -($("footer > div").width() + 1) + "px");
     }
 
 </script>
