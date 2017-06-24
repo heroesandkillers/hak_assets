@@ -56,13 +56,15 @@
                             <div>Nombre: <span  id="nombre"></span></div>-->
             <div>Equipo: <span  id="equipo"></span></div>
 
-            <div>Fuerza: <span id="fuerza"></span></div>
-            <div>Magia: <span id="magia"></span></div>
-            <div>Agilidad: <span id="agilidad"></span></div>
-            <div>Reflejos <span id="reflejos"></span></div>
-            <div>Constitucion: <span id="constitucion"></span></div>
-            <div>Defensa: <span id="defensa"></span></div>
-            <div>Reaccion: <span id="reaccion"></span></div>
+            <div class="stats">
+                <div>Fuerza: <span id="fuerza"></span></div>
+                <div>Magia: <span id="magia"></span></div>
+                <div>Agilidad: <span id="agilidad"></span></div>
+                <div>Reflejos <span id="reflejos"></span></div>
+                <div>Constitucion: <span id="constitucion"></span></div>
+                <div>Defensa: <span id="defensa"></span></div>
+                <div>Reaccion: <span id="reaccion"></span></div>
+            </div>
 
             <div>
                 <canvas id="aspecto" height="300" width="200"></canvas>
@@ -371,8 +373,8 @@
     function verBatalla() {
         loaderBatalla.start(function () {
             //comprobarTipo(batallaJSON.tipo, function () {
-
             document.body.style.cursor = 'wait';
+            $("#estadisticas .temp").remove();
 
             if (typeof batallaJSON.alinLoc === 'undefined') {
                 aviso("A�n no tienes nuevas batallas!");
@@ -380,7 +382,7 @@
             }
 
             var equipo1, equipo2;
-
+            
             if (batallaJSON.tipo !== "academia") {
                 batalla.loadBatalla = (function () {
                     equipo1 = JSON.parse(batallaJSON.alinLoc);
@@ -406,6 +408,8 @@
                     setCriaturasBatallaJuv(equipo1);
                     setCriaturasBatallaJuv(equipo2);
                 }
+
+                $("#estadisticas").append("<div class='temp'>(En las batallas de academia los stats están comienzan ocultos)</div>");
             }
 
             var imagenes = [];
@@ -501,13 +505,12 @@
 
         mostrarStats(id);
     }
-    
+
     //CANVAS ASPECTO
     window.stageAspectoBatalla = new createjs.Stage($("#estadisticas #aspecto")[0]);
-    function mostrarStats(id) {        
+    function mostrarStats(id) {
         var criaturaId = batalla.criaturas[id];
-        console.log(criaturaId);
-        
+
         $("#estadisticas #fuerza").text(criaturaId.fuerza);
         $("#estadisticas #magia").text(criaturaId.magia);
         $("#estadisticas #agilidad").text(criaturaId.agilidad);
