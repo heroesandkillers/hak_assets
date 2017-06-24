@@ -334,11 +334,11 @@
     $("#container > canvas").css("border-width", "100px");
 
     function reescale(scale) {
-        var area = parseInt($("#gameArea > div").css("background-size"));
+        var area = parseInt($("#gameArea > div").css("background-size")) || 1;
         $("#gameArea > div").css("background-size", area * scale + "px");
-        var background = parseInt($("#gameArea > div").css("background-size"));
+        var background = parseInt($("#gameArea > div").css("background-size")) || 1;
         $("#container > canvas").css("background-size", background * scale + "px");
-        var border = parseInt($("#gameArea > div").css("background-size"));
+        var border = parseInt($("#gameArea > div").css("background-size")) || 1;
         $("#container > canvas").css("border-width", border * scale + "px");
     }
 
