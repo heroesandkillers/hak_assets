@@ -143,9 +143,9 @@
                     
         }
                 
-        $("#cuentaAntes").text(numero(perfil.oro + gasto + ""));
-        $("#cuentaAhora").text(numero(perfil.oro + ""));
-        $("#cuentaDespues").text(numero(perfil.oro - gasto + ""));
+        $("#cuentaAntes").text(numero(global.perfil.oro + gasto + ""));
+        $("#cuentaAhora").text(numero(global.perfil.oro + ""));
+        $("#cuentaDespues").text(numero(global.perfil.oro - gasto + ""));
                 
         $("#tierras td:eq(1)").text(tierras);
         $("#reclutamiento td:eq(2)").text(reclutamiento);

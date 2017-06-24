@@ -394,11 +394,11 @@
                 equipo1 = JSON.parse(batallaJSON.alinLoc);
                 equipo2 = JSON.parse(batallaJSON.alinVis);
 
-                if (batallaJSON.eqLocId === perfil.id) {
+                if (batallaJSON.eqLocId === global.perfil.id) {
                     setCriaturasBatallaJuvPropio(equipo1);
                     setCriaturasBatallaJuv(equipo2);
 
-                } else if (batallaJSON.eqVisId === perfil.id) {
+                } else if (batallaJSON.eqVisId === global.perfil.id) {
                     setCriaturasBatallaJuv(equipo1);
                     setCriaturasBatallaJuvPropio(equipo2);
                 } else {

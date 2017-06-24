@@ -27,7 +27,7 @@ function listarMensajes() {
 
     for (var i = 0; i < arr_mensajes.length; i++) {
 
-        if (arr_mensajes[i].receptorId === perfil.id) {
+        if (arr_mensajes[i].receptorId === global.perfil.id) {
             table = document.getElementById("bandejaEntrada").getElementsByTagName("tbody")[0];
         } else {
             table = document.getElementById("bandejaSalida").getElementsByTagName("tbody")[0];
@@ -44,7 +44,7 @@ function listarMensajes() {
         row.setAttribute("onMouseOut", "UnHighLight(this)");
         row.setAttribute("onclick", 'Select(this), mostrarMensaje(' + i + ')');
 
-        if (arr_mensajes[i].receptorId === perfil.id) {
+        if (arr_mensajes[i].receptorId === global.perfil.id) {
             row.setAttribute("onclick", 'Select(this), mostrarMensaje(' + i + '), marcarLeido(this,' + i + ')');
 
             if (arr_mensajes[i].leido === false) {
@@ -56,7 +56,7 @@ function listarMensajes() {
         cell1.innerHTML = arr_mensajes[i].fecha;
 
         var cell2 = row.insertCell(1);
-        if (arr_mensajes[i].receptorId === perfil.id) {
+        if (arr_mensajes[i].receptorId === global.perfil.id) {
             row.setAttribute("ondblclick", 'contacto(' + arr_mensajes[i].emisorId + ')');
             cell2.innerHTML = arr_mensajes[i].emisor;
 
@@ -76,7 +76,7 @@ function listarMensajes() {
 }
 
 function mostrarMensaje(i) {
-    if (arr_mensajes[i].receptorId === perfil.id) {
+    if (arr_mensajes[i].receptorId === global.perfil.id) {
         $("#responderMensaje").css("display", "inherit");
     } else {
         $("#responderMensaje").css("display", "none");
@@ -105,7 +105,7 @@ function marcarLeido(elem, i) {
         },
         complete: function() {
             arr_mensajes[i].leido = true;
-            perfil.mensajes = perfil.mensajes - 1;
+            global.perfil.mensajes -= 1;
             cargarMensajesPerfil();
         }
     });

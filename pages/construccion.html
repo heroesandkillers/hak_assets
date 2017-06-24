@@ -353,7 +353,7 @@
         ampliar: function(edificio) {
             var ths = this;
             var precio = ths.edificios[edificio + "Precio"];
-            var oro = perfil.oro;
+            var oro = global.perfil.oro;
             if (oro >= precio) {
                 $.ajax({
                     type: "GET",
@@ -364,8 +364,8 @@
                     success: function(response) {
                         if (response !== "error") {
                             ths.edificios = JSON.parse(response);
-                            perfil.oro = oro - precio;
-                            $("#oro").text(numero(perfil.oro + ""));
+                            global.perfil.oro = oro - precio;
+                            $("#oro").text(numero(global.perfil.oro + ""));
                             cargar("construccion");
                         } else {
                             error("error");
