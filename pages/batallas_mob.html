@@ -325,20 +325,16 @@
 
             reescale(scale);
         });
-        $(gameCanvas).on("")
-
     }
-
-//    $("#gameArea > div").css("background-size", "180px");
-//    $("#container > canvas").css("background-size", "100px");
-//    $("#container > canvas").css("border-width", "100px");
 
     function reescale(scale) {
         var area = parseInt($("#gameArea > div").css("background-size")) || 180;
         $("#gameArea > div").css("background-size", parseInt(area * scale) + "px");
-        var background = parseInt($("#gameArea > div").css("background-size")) || 100;
+        var offset = $("#container > canvas").offset();
+        $("#gameArea > div").css("background-position",  offset.left + "px " + offset.top + "px");
+        var background = parseInt($("#container > canvas").css("background-size")) || 100;
         $("#container > canvas").css("background-size", parseInt(background * scale) + "px");
-        var border = parseInt($("#gameArea > div").css("background-size")) || 100;
+        var border = parseInt($("#container > canvas").css("background-size")) || 100;
         $("#container > canvas").css("border-width", parseInt(border * scale) + "px");
     }
 
