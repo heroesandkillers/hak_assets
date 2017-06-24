@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div id="datosBatalla" class="" style="height: 100%">
+<div id="datosBatalla" style="height:100%; width:225px">
     <div id="resultadosBatalla" class="tabla" style="display:none">
         <div class="subtitulo">
             <table class="thead" style="width:100%">
@@ -49,28 +49,26 @@
         </div>        
     </div>
 
-    <div id="estadisticas" class="tabla" style="display:none">
-        <div>
-            <!--                <div>ID: <span id="id"></span></div>-->
-            <!--                <div>Numero: <span  id="numero"></span></div>
-                            <div>Nombre: <span  id="nombre"></span></div>-->
-            <div>Equipo: <span  id="equipo"></span></div>
+    <div id="estadisticas" class="tabla" style="display:none; padding:10px;">
+        <!--                <div>ID: <span id="id"></span></div>-->
+        <!--                <div>Numero: <span  id="numero"></span></div>
+                        <div>Nombre: <span  id="nombre"></span></div>-->
+        <div>Equipo: <span  id="equipo"></span></div>
 
-            <div class="stats">
-                <div>Fuerza: <span id="fuerza"></span></div>
-                <div>Magia: <span id="magia"></span></div>
-                <div>Agilidad: <span id="agilidad"></span></div>
-                <div>Reflejos <span id="reflejos"></span></div>
-                <div>Constitucion: <span id="constitucion"></span></div>
-                <div>Defensa: <span id="defensa"></span></div>
-                <div>Reaccion: <span id="reaccion"></span></div>
-            </div>
-
-            <div>
-                <canvas id="aspecto" height="300" width="200"></canvas>
-            </div>
-            <!--                <div><span id="param"></span></div>-->
+        <div class="stats">
+            <div>Fuerza: <span id="fuerza"></span></div>
+            <div>Magia: <span id="magia"></span></div>
+            <div>Agilidad: <span id="agilidad"></span></div>
+            <div>Reflejos <span id="reflejos"></span></div>
+            <div>Constitucion: <span id="constitucion"></span></div>
+            <div>Defensa: <span id="defensa"></span></div>
+            <div>Reaccion: <span id="reaccion"></span></div>
         </div>
+
+        <div>
+            <canvas id="aspecto" height="300" width="200"></canvas>
+        </div>
+        <!--                <div><span id="param"></span></div>-->
     </div>
 
 </div>
@@ -143,7 +141,7 @@
         for (var i = 0; i < muertes.length - 1; i++) {
             var row = $("<tr class='UnHighLight'>").appendTo(table);
             var muerte = muertes[i].split(":");
-            
+
             $("<td style='text-align:right'>" + getNombreAlineacion(muerte[0]) + "</td>").appendTo(row);
             $("<td><img src='../img/iconos/espada.png'/></td>").appendTo(row);
             $("<td style='text-align:left'>" + getNombreAlineacion(muerte[1]) + "</td>").appendTo(row);
