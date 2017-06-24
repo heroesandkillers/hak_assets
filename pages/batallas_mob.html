@@ -501,7 +501,9 @@
 
         mostrarStats(id);
     }
-
+    
+    //CANVAS ASPECTO
+    window.stageAspectoBatalla = new createjs.Stage($("#estadisticas #aspecto")[0]);
     function mostrarStats(id) {
         var criaturaId = batalla.criaturas[id];
         document.getElementById("fuerza").innerHTML = criaturaId.fuerza;
@@ -511,12 +513,6 @@
         document.getElementById("constitucion").innerHTML = criaturaId.constitucion;
         document.getElementById("defensa").innerHTML = criaturaId.defensa;
         document.getElementById("reaccion").innerHTML = criaturaId.reaccion;
-
-        //CANVAS ASPECTO
-        if (!window.stageAspectoBatalla) {
-            var canvas = $("#estadisticas #aspecto")[0]
-            window.stageAspectoBatalla = new createjs.Stage(canvas);
-        }
 
         loadCanvasAspecto(criaturaId, window.stageAspectoBatalla);
     }
