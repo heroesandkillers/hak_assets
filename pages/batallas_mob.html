@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div id="datosBatalla" style="height:100%; width:230px">
+<div id="datosBatalla" style="height:100%; width:230px; padding:10px;">
     <div id="resultadosBatalla" class="tabla" style="display:none">
         <div class="subtitulo">
             <table class="thead" style="width:100%">
@@ -49,7 +49,7 @@
         </div>        
     </div>
 
-    <div id="estadisticas" class="tabla" style="display:none; padding:10px;">
+    <div id="estadisticas" class="tabla" style="display:none">
         <!--                <div>ID: <span id="id"></span></div>-->
         <!--                <div>Numero: <span  id="numero"></span></div>
                         <div>Nombre: <span  id="nombre"></span></div>-->
@@ -146,13 +146,20 @@
             var arr = muerte.split(":");
 
             var row = $("<tr class='UnHighLight'>").appendTo(table);
-            $("<td style='text-align:right'><div style='text-overflow:ellipsis'>"
+            
+            $("<td style='text-align:right'>"
+                    + "<div style='overflow:hidden; text-overflow:ellipsis'>"
                     + getNombreAlineacion(arr[0])
-                    + "</div></td>").appendTo(row);
+                    + "</div>"
+                    + "</td>").appendTo(row);
+            
             $("<td style='width:15px'><img src='../img/iconos/espada.png'/></td>").appendTo(row);
-            $("<td style='text-align:left'><div style='text-overflow:ellipsis'>"
+            
+            $("<td style='text-align:left'>"
+                    + "<div style='overflow:hidden; text-overflow:ellipsis'>"
                     + getNombreAlineacion(arr[1])
-                    + "</div></td>").appendTo(row);
+                    + "</div>"
+                    + "</td>").appendTo(row);
         }
 
         reloadTablas();
