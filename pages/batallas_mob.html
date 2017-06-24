@@ -64,7 +64,7 @@
             <div>Defensa: <span id="defensa"></span></div>
             <div>Reaccion: <span id="reaccion"></span></div>
 
-            <div style="height:100px">
+            <div>
                 <canvas id="aspecto" height="300" width="200"></canvas>
             </div>
             <!--                <div><span id="param"></span></div>-->
@@ -506,13 +506,13 @@
     window.stageAspectoBatalla = new createjs.Stage($("#estadisticas #aspecto")[0]);
     function mostrarStats(id) {
         var criaturaId = batalla.criaturas[id];
-        document.getElementById("fuerza").innerHTML = criaturaId.fuerza;
-        document.getElementById("magia").innerHTML = criaturaId.magia;
-        document.getElementById("agilidad").innerHTML = criaturaId.agilidad;
-        document.getElementById("reflejos").innerHTML = criaturaId.reflejos;
-        document.getElementById("constitucion").innerHTML = criaturaId.constitucion;
-        document.getElementById("defensa").innerHTML = criaturaId.defensa;
-        document.getElementById("reaccion").innerHTML = criaturaId.reaccion;
+        $("#estadisticas #fuerza").text(criaturaId.fuerza);
+        $("#estadisticas #magia").text(criaturaId.magia);
+        $("#estadisticas #agilidad").text(criaturaId.agilidad);
+        $("#estadisticas #reflejos").text(criaturaId.reflejos);
+        $("#estadisticas #constitucion").text(criaturaId.constitucion);
+        $("#estadisticas #defensa").text(criaturaId.defensa);
+        $("#estadisticas #reaccion").text(criaturaId.reaccion);
 
         loadCanvasAspecto(criaturaId, window.stageAspectoBatalla);
     }
