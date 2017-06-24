@@ -328,14 +328,15 @@
     }
 
     function reescale(scale) {
-        var area = parseInt($("#gameArea > div").css("background-size")) || 180;
-        $("#gameArea > div").css("background-size", parseInt(area * scale) + "px");
+        var size = parseInt($("#gameArea > div").css("background-size")) || 150;
+        
+        $("#gameArea > div").css("background-size", parseInt(size * scale) + "px");        
         var offset = $("#container > canvas").offset();
-        $("#gameArea > div").css("background-position",  offset.left + "px " + offset.top + "px");
-        var background = parseInt($("#container > canvas").css("background-size")) || 100;
-        $("#container > canvas").css("background-size", parseInt(background * scale) + "px");
-        var border = parseInt($("#container > canvas").css("background-size")) || 100;
-        $("#container > canvas").css("border-width", parseInt(border * scale) + "px");
+        $("#gameArea > div").css("background-position",  offset.left + "px " + offset.top + "px");      
+        
+        $("#container > canvas").css("background-size", parseInt(size * scale) + "px");
+        
+        $("#container > canvas").css("border-width", parseInt(size * scale) + "px");
     }
 
     function moveGameArea(gameCanvas, margenActual, cambio, margen) {
