@@ -225,6 +225,9 @@
                 });
             }
         });
+        
+        //FOOTER HIDE WIDTH
+        $("footer").css("left", -($("footer > div").width() + 1) + "px");
     });
 
     function conexionEstablecida() {
@@ -461,8 +464,8 @@
     });
 
     function windowLoad() {
-        baseEvents.e();
-        $("footer").css("left", -($("footer > div").width() + 1) + "px");
+        console.log("windowLoad()");
+        baseEvents.e();        
     }
 
 </script>
