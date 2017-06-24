@@ -158,14 +158,14 @@
     function getNombreAlineacion(id) {
         var alineacion = JSON.parse(batallaJSON.alinLoc);
         for (var i = 0; i < alineacion.length; i++) {
-            if (alineacion[i].id === id) {
+            if (alineacion[i].id == id) {
                 return alineacion[i].nombre;
             }
         }
 
         alineacion = JSON.parse(batallaJSON.alinVis);
         for (var i = 0; i < alineacion.length; i++) {
-            if (alineacion[i].id === id) {
+            if (alineacion[i].id == id) {
                 return alineacion[i].nombre;
             }
         }
