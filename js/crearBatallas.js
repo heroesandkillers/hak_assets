@@ -37,7 +37,7 @@ function calcularBatallas(batallas) {
         var muertos2 = 0;
 
         var frame = 0;
-        
+
         var startCalculation = (new Date()).getTime();
         while (muertos1 < 5 && muertos2 < 5) {
 
@@ -162,7 +162,7 @@ function calcularBatalla(equipo1, equipo2) {
             data: {
                 id: batallaJSON.id
             },
-            complete: function() {
+            complete: function () {
                 aviso("Se ha detectado una incoherencia en el resultado de la batalla, si este mensaje se repite pasadas unas horas, por favor contacta con un administrador.")
             }
         });
@@ -309,7 +309,7 @@ function setResultadosBatallas(resultados) {
     if (window.willContinueLoading) {
         //get more
         getBatallasCalculo();
-    }else{
+    } else {
         //TODO: continue loading
     }
 }
@@ -431,70 +431,69 @@ function setCriaturasBatallaJuv(equipo) {
 }
 
 function setCriaturasBatallaJuvPropio(equipo) {
+    //getAcademia(function() {
 
-    getAcademia(function() {
+    var promesas = jsonPaginas["academia"];
+    var criatura;
 
-        var promesas = jsonPaginas["academia"];
-        var criatura;
+    for (var i = 0; i < equipo.length; i++) {
+        criatura = equipo[i];
 
-        for (var i = 0; i < equipo.length; i++) {
-            criatura = equipo[i];
-
-            var promesa = getObjById(promesas, criatura.id);
-            if (promesa.fuerza != 0) {
-                criatura.fuerza = promesa.fuerza
-            } else {
-                criatura.fuerza = "-";
-            }
-            if (promesa.magia != 0) {
-                criatura.magia = promesa.magia
-            } else {
-                criatura.magia = "-";
-            }
-            if (promesa.agilidad != 0) {
-                criatura.agilidad = promesa.agilidad
-            } else {
-                criatura.agilidad = "-";
-            }
-            if (promesa.reflejos != 0) {
-                criatura.reflejos = promesa.reflejos
-            } else {
-                criatura.reflejos = "-";
-            }
-            if (promesa.constitucion != 0) {
-                criatura.constitucion = promesa.constitucion
-            } else {
-                criatura.constitucion = "-";
-            }
-            if (promesa.defensa != 0) {
-                criatura.defensa = promesa.defensa
-            } else {
-                criatura.defensa = "-";
-            }
-            if (promesa.reaccion != 0) {
-                criatura.reaccion = promesa.reaccion
-            } else {
-                criatura.reaccion = "-";
-            }
-
-            criatura.vida = 25;
-            if (criatura.clase == 'arquero') {
-                criatura.velocidadProyectil = VPArquero;
-            } else if (criatura.clase == 'mago') {
-                criatura.velocidadProyectil = VPMAGO;
-            } else if (criatura.clase == 'healer') {
-                criatura.velocidadProyectil = VPMAGO;
-            }
-
-            batalla.ids.push(equipo[i].id);
-            batalla.criaturas[equipo[i].id] = criatura;
+        var promesa = getObjById(promesas, criatura.id);
+        if (promesa.fuerza != 0) {
+            criatura.fuerza = promesa.fuerza
+        } else {
+            criatura.fuerza = "-";
         }
-    });
+        if (promesa.magia != 0) {
+            criatura.magia = promesa.magia
+        } else {
+            criatura.magia = "-";
+        }
+        if (promesa.agilidad != 0) {
+            criatura.agilidad = promesa.agilidad
+        } else {
+            criatura.agilidad = "-";
+        }
+        if (promesa.reflejos != 0) {
+            criatura.reflejos = promesa.reflejos
+        } else {
+            criatura.reflejos = "-";
+        }
+        if (promesa.constitucion != 0) {
+            criatura.constitucion = promesa.constitucion
+        } else {
+            criatura.constitucion = "-";
+        }
+        if (promesa.defensa != 0) {
+            criatura.defensa = promesa.defensa
+        } else {
+            criatura.defensa = "-";
+        }
+        if (promesa.reaccion != 0) {
+            criatura.reaccion = promesa.reaccion
+        } else {
+            criatura.reaccion = "-";
+        }
+
+        criatura.vida = 25;
+        if (criatura.clase == 'arquero') {
+            criatura.velocidadProyectil = VPArquero;
+        } else if (criatura.clase == 'mago') {
+            criatura.velocidadProyectil = VPMAGO;
+        } else if (criatura.clase == 'healer') {
+            criatura.velocidadProyectil = VPMAGO;
+        }
+
+        batalla.ids.push(equipo[i].id);
+        batalla.criaturas[equipo[i].id] = criatura;
+    }
+    //});
 }
 
 //LZW Compression/Decompression for Strings
 var LZW = {
-    compress: function(uncompressed) {
+    compress: function (uncompressed) {
         //"use strict";
         // Build the dictionary.
         var i,
@@ -530,7 +529,7 @@ var LZW = {
         }
         return result;
     },
-    decompress: function(compressed) {
+    decompress: function (compressed) {
         "use strict";
         // Build the dictionary.
         var i,

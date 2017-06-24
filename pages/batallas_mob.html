@@ -74,7 +74,7 @@
 </div>
 
 <script>
-    
+
     //reset?
     batalla.loadBatalla = [];
     batalla.grupos = {};
@@ -329,13 +329,13 @@
 
     function reescale(scale) {
         var size = parseInt(($("#gameArea > div").css("background-size") || 150) * scale);
-        
-        $("#gameArea > div").css("background-size", size + "px");        
+
+        $("#gameArea > div").css("background-size", size + "px");
         var offset = $("#container > canvas").offset();
-        $("#gameArea > div").css("background-position",  offset.left + "px " + offset.top + "px");      
-        
+        $("#gameArea > div").css("background-position", offset.left + "px " + offset.top + "px");
+
         $("#container > canvas").css("background-size", size + "px");
-        
+
         $("#container > canvas").css("border-width", size + "px");
     }
 
@@ -357,84 +357,82 @@
         ordenarGameArea();
     });
 
-    function comprobarTipo(tipo, callback) {
-        if (tipo === "academia") {
-            getAcademia(function () {
-                callback();
-            });
-        } else {
-            callback();
-        }
-    }
+//    function comprobarTipo(tipo, callback) {
+//        if (tipo === "academia") {
+//            getAcademia(function () {
+//                callback();
+//            });
+//        } else {
+//            callback();
+//        }
+//    }
 
     function verBatalla() {
-
         loaderBatalla.start(function () {
+            //comprobarTipo(batallaJSON.tipo, function () {
 
-            comprobarTipo(batallaJSON.tipo, function () {
+            document.body.style.cursor = 'wait';
 
-                document.body.style.cursor = 'wait';
+            if (typeof batallaJSON.alinLoc === 'undefined') {
+                aviso("A�n no tienes nuevas batallas!");
+                return;
+            }
 
-                if (typeof batallaJSON.alinLoc === 'undefined') {
-                    aviso("A�n no tienes nuevas batallas!");
-                    return;
-                }
+            var equipo1, equipo2;
 
-                var equipo1, equipo2;
-
-                if (batallaJSON.tipo !== "academia") {
-                    batalla.loadBatalla = (function () {
-                        equipo1 = JSON.parse(batallaJSON.alinLoc);
-                        equipo2 = JSON.parse(batallaJSON.alinVis);
-
-                        return calcularBatalla(equipo1, equipo2);
-                    })();
-
-                } else {
-                    batalla.loadBatalla = JSON.parse(LZW.decompress(JSON.parse(JSON.parse(batallaJSON.res).batalla)));
-
+            if (batallaJSON.tipo !== "academia") {
+                batalla.loadBatalla = (function () {
                     equipo1 = JSON.parse(batallaJSON.alinLoc);
                     equipo2 = JSON.parse(batallaJSON.alinVis);
 
-                    if (batallaJSON.eqLocId === perfil.id) {
-                        setCriaturasBatallaJuvPropio(equipo1);
-                        setCriaturasBatallaJuv(equipo2);
+                    return calcularBatalla(equipo1, equipo2);
+                })();
 
-                    } else if (batallaJSON.eqVisId === perfil.id) {
-                        setCriaturasBatallaJuv(equipo1);
-                        setCriaturasBatallaJuvPropio(equipo2);
-                    } else {
-                        setCriaturasBatallaJuv(equipo1);
-                        setCriaturasBatallaJuv(equipo2);
-                    }
+            } else {
+                batalla.loadBatalla = JSON.parse(LZW.decompress(JSON.parse(JSON.parse(batallaJSON.res).batalla)));
+
+                equipo1 = JSON.parse(batallaJSON.alinLoc);
+                equipo2 = JSON.parse(batallaJSON.alinVis);
+
+                if (batallaJSON.eqLocId === perfil.id) {
+                    setCriaturasBatallaJuvPropio(equipo1);
+                    setCriaturasBatallaJuv(equipo2);
+
+                } else if (batallaJSON.eqVisId === perfil.id) {
+                    setCriaturasBatallaJuv(equipo1);
+                    setCriaturasBatallaJuvPropio(equipo2);
+                } else {
+                    setCriaturasBatallaJuv(equipo1);
+                    setCriaturasBatallaJuv(equipo2);
                 }
+            }
 
-                var imagenes = [];
-                var equipos = equipo1.concat(equipo2);
+            var imagenes = [];
+            var equipos = equipo1.concat(equipo2);
 
-                for (var i = 0; i < equipos.length; i++) {
-                    var id = equipos[i].id;
-                    var raza = batalla.criaturas[id].raza;
-                    var clase = batalla.criaturas[id].clase;
-                    var string = razaClase(raza, clase); //use for repair
+            for (var i = 0; i < equipos.length; i++) {
+                var id = equipos[i].id;
+                var raza = batalla.criaturas[id].raza;
+                var clase = batalla.criaturas[id].clase;
+                var string = razaClase(raza, clase); //use for repair
 
-                    $.ajax({
-                        url: '../img/sprites/' + string + '.js',
-                        async: false,
-                        dataType: "script"
-                    });
-                    var src = '../img/sprites/' + string + '.png';
-                    imagenes[imagenes.length] = src;
-                }
-                loadImagenes(imagenes, function () {
-
-                    crearCapas(equipo1, 1);
-                    crearCapas(equipo2, 2);
-
-                    runBatalla();
-                    document.body.style.cursor = 'default';
+                $.ajax({
+                    url: '../img/sprites/' + string + '.js',
+                    async: false,
+                    dataType: "script"
                 });
+                var src = '../img/sprites/' + string + '.png';
+                imagenes[imagenes.length] = src;
+            }
+            loadImagenes(imagenes, function () {
+
+                crearCapas(equipo1, 1);
+                crearCapas(equipo2, 2);
+
+                runBatalla();
+                document.body.style.cursor = 'default';
             });
+            //});
         });
     }
 
