@@ -505,6 +505,7 @@
     //CANVAS ASPECTO
     window.stageAspectoBatalla = new createjs.Stage($("#estadisticas #aspecto")[0]);
     function mostrarStats(id) {
+        console.log(criaturaId);
         var criaturaId = batalla.criaturas[id];
         $("#estadisticas #fuerza").text(criaturaId.fuerza);
         $("#estadisticas #magia").text(criaturaId.magia);
