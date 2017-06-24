@@ -47,7 +47,7 @@
                 </tbody>
             </table>
         </div>        
-    </div>    
+    </div>
 
     <div id="estadisticas" class="tabla" style="display:none">
         <div>
@@ -512,7 +512,13 @@
         document.getElementById("defensa").innerHTML = criaturaId.defensa;
         document.getElementById("reaccion").innerHTML = criaturaId.reaccion;
 
-        loadCanvasAspecto(criaturaId, batalla.stage);
+        //CANVAS ASPECTO
+        if (!window.stageAspectoBatalla) {
+            var canvas = $("#estadisticas #aspecto")[0]
+            window.stageAspectoBatalla = new createjs.Stage(canvas);
+        }
+
+        loadCanvasAspecto(criaturaId, window.stageAspectoBatalla);
     }
 
     var iniciado = false;
