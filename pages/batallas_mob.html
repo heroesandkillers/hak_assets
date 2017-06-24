@@ -3,6 +3,14 @@
 <script type="text/javascript" src="../js/batalla/IAsprite.js"></script>
 <script type="text/javascript" src="../js/batalla/Capas.js"></script>
 
+<style>
+    #muertes .muerte > div{
+        overflow:hidden;
+        text-overflow:ellipsis; 
+        width: 100%
+    }
+</style>
+
 <div id="gameArea" class="profundidad">
     <div style="height: 100%">
         <div id="container"></div>
@@ -146,17 +154,17 @@
             var arr = muerte.split(":");
 
             var row = $("<tr class='UnHighLight'>").appendTo(table);
-            
-            $("<td style='text-align:right'>"
-                    + "<div style='overflow:hidden; text-overflow:ellipsis'>"
+
+            $("<td class='muerte' style='text-align:right'>"
+                    + "<div>"
                     + getNombreAlineacion(arr[0])
                     + "</div>"
                     + "</td>").appendTo(row);
-            
+
             $("<td style='width:15px'><img src='../img/iconos/espada.png'/></td>").appendTo(row);
-            
-            $("<td style='text-align:left'>"
-                    + "<div style='overflow:hidden; text-overflow:ellipsis'>"
+
+            $("<td class='muerte' style='text-align:left'>"
+                    + "<div>"
                     + getNombreAlineacion(arr[1])
                     + "</div>"
                     + "</td>").appendTo(row);
