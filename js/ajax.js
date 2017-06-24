@@ -184,7 +184,7 @@ function getMiBatalla() {
 
 function getBatallaVisible(batalla, callback) {
     if(!batalla){
-        ajax.call("getBatalla", function (visible) {
+        ajax.call("getBatalla", null, function (visible) {
 //            if (!visible.alinLoc || !visible.alinVis) {
 //                console.log(visible)
 //                callback(false);
