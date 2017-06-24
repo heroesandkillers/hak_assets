@@ -39,7 +39,7 @@ function cargarPerfil() {
 }
 
 function getBatallasCalculo(callback) {
-    ajax.call("getBatallasCalculo", null, function(batallas) {
+    ajax.call("getBatallasCalculo", null, function (batallas) {
         if (batallas.length != 0) {
             calcularBatallas(batallas);
         } else {
@@ -72,14 +72,14 @@ function getTimerEntreno(timers) {
 //....................................................................................
 
 function reloadTablas() {
-    $('.tabla').each(function() {
+    $('.tabla').each(function () {
         var tabla = $(this);
         var width;
         var i = 0;
-        $(this).find('.thead th').each(function() {
+        $(this).find('.thead th').each(function () {
             width = $(this).outerWidth();
 //            $(this).width(width);
-            tabla.find(".tbody tbody tr").each(function() {
+            tabla.find(".tbody tbody tr").each(function () {
                 $(this).find("td:eq(" + i + ") > div").width(width - 5);
             });
             i++;
@@ -109,11 +109,11 @@ function parseDate(input) {
 function ordenarTablas() {
     var inverse = true;
 
-    $('.arrowDown, .arrowUp').each(function() {
+    $('.arrowDown, .arrowUp').each(function () {
         sortElements($(this));
     });
 
-    $('.arrowDown, .arrowUp, .arrows').each(function() {
+    $('.arrowDown, .arrowUp, .arrows').each(function () {
         inverse = ordenClicable($(this), inverse);
         inverse = true;
     });
@@ -121,13 +121,13 @@ function ordenarTablas() {
 
 function ordenClicable(th, inverse) {
 
-    th.click(function() {
+    th.click(function () {
 
         sortElements(th, inverse);
 
         inverse = !inverse;
 
-        th.parent().find("th").each(function() {
+        th.parent().find("th").each(function () {
             $(this).removeClass('arrowDown');
             $(this).removeClass('arrowUp');
         });
@@ -145,70 +145,70 @@ function sortElements($th, inverse) {
 
     var thIndex = $th.index();
     if ($th.hasClass("fecha")) {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return parseDate($.text([a])) > parseDate($.text([b])) ? inverse ? -1 : 1 : inverse ? 1 : -1;
-        }, function() {
+        }, function () {
             // parentNode is the element we want to move
             return this.parentNode;
         });
 
     } else if ($th.hasClass("dias")) {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return $(a).find("input").val() > $(b).find("input").val() ? inverse ? -1 : 1 : inverse ? 1 : -1;
 
             //                return $(a).find('img')[0].src
 
-        }, function() {
+        }, function () {
             return this.parentNode;
         });
 
     } else if ($th.hasClass("numero")) {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return parseInt($(a).text().replace(/\./g, '')) > parseInt($(b).text().replace(/\./g, '')) ? inverse ? -1 : 1 : inverse ? 1 : -1;
-        }, function() {
+        }, function () {
             return this.parentNode;
         });
 
     } else if ($th.hasClass("decimal")) {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return parseFloat($(a).text()) > parseFloat($(b).text()) ? inverse ? -1 : 1 : inverse ? 1 : -1;
-        }, function() {
+        }, function () {
             return this.parentNode;
         });
 
     } else if ($th.hasClass("innerHTML")) {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return $(a).find('img')[0].src > $(b).find('img')[0].src ? inverse ? -1 : 1 : inverse ? 1 : -1;
-        }, function() {
+        }, function () {
             return this.parentNode;
         });
 
         //liga position
     } else if ($th.hasClass("pos")) {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return parseInt($(a).attr('pos')) > parseInt($(b).attr('pos')) ? inverse ? -1 : 1 : inverse ? 1 : -1;
-        }, function() {
+        }, function () {
             return this.parentNode;
         });
 
     } else {
-        $th.closest(".contenedor").find("td").filter(function() {
+        $th.closest(".contenedor").find("td").filter(function () {
             return $(this).index() === thIndex;
-        }).sortElements(function(a, b) {
+        }).sortElements(function (a, b) {
             return $(a).text() > $(b).text() ? inverse ? -1 : 1 : inverse ? 1 : -1;
-        }, function() {
+        }, function () {
             return this.parentNode;
         });
     }
@@ -243,7 +243,7 @@ function loadCanvasAspecto(criatura, stage) {
     } else if (criatura.raza === 'muerto') {
         raza.src = org + 'img/aspectos/muerto.png';
     }
-    loadImagenes([raza.src], function() {
+    loadImagenes([raza.src], function () {
         var aspecto = criatura.aspecto;
         montarAspecto(aspecto, raza, stage);
     });
@@ -261,7 +261,7 @@ function loadCanvasAspectoAcademia(criatura, stage) {
     } else if (criatura.raza === 'muerto') {
         raza.src = org + 'img/aspectos/muertoGris.png';
     }
-    loadImagenes([raza.src], function() {
+    loadImagenes([raza.src], function () {
         var aspecto = criatura.aspecto;
         montarAspecto(aspecto, raza, stage);
     });
@@ -269,7 +269,7 @@ function loadCanvasAspectoAcademia(criatura, stage) {
 
 function montarAspecto(aspecto, raza, stage) {
     console.log(stage);
-    
+
     stage.removeAllChildren();
     var grupo = new createjs.Container();
     raza.onload = updateOnLoad(stage);
@@ -359,8 +359,10 @@ function error(error) {
     if (error.indexOf("Struts Problem Report") != -1) {
         console.log("STRUTS ERROR!");
         var myWindow = window.open('', '', 'width=200,height=100');
-        myWindow.document.write(error);
-        myWindow.focus();
+        if (myWindow) {
+            myWindow.document.write(error);
+            myWindow.focus();
+        }
         return;
     }
 
@@ -392,15 +394,15 @@ function aviso(aviso) {
 
 function confirmacion(mensaje) {
     $("#mensajeConfirmacion").html(mensaje);
-    
+
     $('#confirmacion').css("transition-duration", 0);
     $('#confirmacion').css("opacity", "100");
     $('#confirmacion').css("display", "block");
-    
-    setTimeout(function() {
-        $('#confirmacion').css("transition-duration", "500ms");  
+
+    setTimeout(function () {
+        $('#confirmacion').css("transition-duration", "500ms");
         $('#confirmacion').css("opacity", "0");
-        setTimeout(function(){
+        setTimeout(function () {
             $('#confirmacion').css("display", "none");
         }, 300);
     }, 800);
@@ -433,7 +435,7 @@ function botonApodo(obj, pagina) {
     apodo.pagina = pagina;
     apodo.id = obj.id;
 }
-$("#botonApodo").click(function() {
+$("#botonApodo").click(function () {
     asignarApodo(apodo.id, $("#nuevoApodo").val(), apodo.pagina);
 });
 
@@ -450,7 +452,7 @@ function popApodo(nombre) {
     });
 }
 
-$('body').bind('click', function(e) {
+$('body').bind('click', function (e) {
     if (
             jQuery('#dialog').dialog('isOpen')
             && !jQuery(e.target).is('.ui-dialog, a')
@@ -619,7 +621,7 @@ function getApodo(criat) {
 var nombres = ["Thonald", "Sunggorma", "Bribeo", "Caeli", "Nyaegel", "Thonychell", "Lynya", "Marmarisa", "Canvid", "Renea", "Cysa", "Soing", "Wen", "Thaegard", "Ruthja", "Stecia", "Thasthae", "Stechael", "Nyawilwaru", "Braswise"];
 var apellidos = ["Glazewater", "Gold", "Summerred", "Oakfire", "Seaside", "Capeflare", "Tallmountain", "Shortbright", "Orefalconbear", "Birdblur", "Sandrunner", "Tallragemetal", "Long", "Forceborne", "Helmshort", "Spearmace", "Walkerfire", "Eyeheart", "Battlerroad", "Fallbreak"];
 function getNombre(nombre) {
-    if(!nombre){
+    if (!nombre) {
         return nombre;
     }
     var arr = nombre.split("_")
@@ -643,7 +645,7 @@ function loadImagenes(imagenes, callback) {
 
         var count = imagenes.length;
 
-        var thingToDoCompleted = function(imagenes, i) {
+        var thingToDoCompleted = function (imagenes, i) {
             count--;
             if (0 === count) {
                 allDone(imagenes);
@@ -656,7 +658,7 @@ function loadImagenes(imagenes, callback) {
     }
 
     function loadImage(imagenes, i, onComplete) {
-        var onLoad = function(e) {
+        var onLoad = function (e) {
             e.target.removeEventListener("load", onLoad);
 
             onComplete(imagenes, i);
@@ -666,7 +668,7 @@ function loadImagenes(imagenes, callback) {
         img.src = imagenes[i];
     }
 
-    loader(imagenes, loadImage, function() {
+    loader(imagenes, loadImage, function () {
         callback();
     });
 }
@@ -755,7 +757,7 @@ function atr(atr) {
     return atr;
 }
 
-$(".icono").click(function() {
+$(".icono").click(function () {
     $(".icono").css("color", "inherit");
     $(this).css("color", "gold");
 });
@@ -772,7 +774,7 @@ function capitalise(string) {
 }
 function timePropagation() {
     stopPropagation = true;
-    setTimeout(function() {
+    setTimeout(function () {
         stopPropagation = false;
     }, 500);
 }
