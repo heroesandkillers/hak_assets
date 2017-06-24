@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<div id="datosBatalla" style="height:100%; width:225px">
+<div id="datosBatalla" style="height:100%; width:230px">
     <div id="resultadosBatalla" class="tabla" style="display:none">
         <div class="subtitulo">
             <table class="thead" style="width:100%">
@@ -41,7 +41,7 @@
             </table>
         </div>
         <div>
-            <table class="tbody" style="width:100%">
+            <table class="tbody" style="width:100%; table-layout:fixed;">
                 <tbody  id="muertes">
 
                 </tbody>
@@ -140,15 +140,19 @@
 
         for (var i = 0; i < muertes.length; i++) {
             var muerte = muertes[i];
-            if(!muerte){
+            if (!muerte) {
                 continue;
             }
             var arr = muerte.split(":");
-            
+
             var row = $("<tr class='UnHighLight'>").appendTo(table);
-            $("<td style='text-align:right'>" + getNombreAlineacion(arr[0]) + "</td>").appendTo(row);
-            $("<td><img src='../img/iconos/espada.png'/></td>").appendTo(row);
-            $("<td style='text-align:left'>" + getNombreAlineacion(arr[1]) + "</td>").appendTo(row);
+            $("<td style='text-align:right'><div style='text-overflow:ellipsis'>"
+                    + getNombreAlineacion(arr[0])
+                    + "</div></td>").appendTo(row);
+            $("<td style='width:15px'><img src='../img/iconos/espada.png'/></td>").appendTo(row);
+            $("<td style='text-align:left'><div style='text-overflow:ellipsis'>"
+                    + getNombreAlineacion(arr[1])
+                    + "</div></td>").appendTo(row);
         }
 
         reloadTablas();
@@ -169,7 +173,7 @@
                 return alineacion[i].nombre;
             }
         }
-        
+
         console.log("nombre not found " + id + " en batallaJSON");
         return " - ";
     }
