@@ -423,7 +423,7 @@
                     originY = e.pageY;
                 }
 
-                $(document).on("mousemove.footer touchmove.footer", function (e) {
+                $(document).on("mousemove.footer", function (e) {
                     var x = event(e).pageX - originX;
                     var y = event(e).pageY - originY;
 
