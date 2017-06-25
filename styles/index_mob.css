@@ -56,7 +56,7 @@ footer{
     -webkit-transition: left 250ms; 
     -o-transition: left 250ms; 
 }
-footer .show{
+footer.show{
     left: -1px !important;
 }
 footer > div{
@@ -185,7 +185,8 @@ footer > div{
 #gameArea{
     z-index:2;
     position:absolute;
-    top:0;
+    top: 0;
+    bottom: 0;
     overflow: hidden;
     width:100%;
 }
