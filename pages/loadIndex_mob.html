@@ -423,7 +423,8 @@
                     originY = e.pageY;
                 }
 
-                $(document).on("mousemove.footer", function (e) {
+                $(document).on("mousemove.footer touchmove.footer", function (e) {
+                    consoe.log()
                     var x = event(e).pageX - originX;
                     var y = event(e).pageY - originY;
 
@@ -446,15 +447,13 @@
     };
 
     function hideFooterEvent() {
-        console.log("hideFooterEvent()")
+        //console.log("hideFooterEvent()")
         clearTimeout(window.hideFooterTimeout);
         $(document).off(".hideFooterEvent");
         
         window.hideFooterTimeout = setTimeout(function () {
             $(document).one("mousedown.hideFooterEvent", function () {
-                console.log("mousedown")
                 $(document).one("mouseup.hideFooterEvent", function () {
-                    console.log("mouseup")
                     $(document).off(".hideFooterEvent");
                     $("footer").removeClass("show");
                 });
