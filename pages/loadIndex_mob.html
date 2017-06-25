@@ -411,6 +411,7 @@
 
             //no scalable page not prevented delay touch here   
             $("footer").on("mousedown touchstart", function (e) {
+                console.log(e)
                 var originX, originY;
                 if (e.touches && e.touches[0]) {
                     originX = e.touches[0].pageX;
@@ -424,7 +425,7 @@
                     var x = event(e).pageX - originX;
                     var y = event(e).pageY - originY;
 
-                    console.log("mousemove touchmove " + event(e).pageX + " - " + originX + " +," + event(e).pageY + " - " + originY);
+                    console.log("mousemove touchmove " + event(e).pageX + " - " + originX + " ," + event(e).pageY + " - " + originY);
                     if (x > 50 && Math.abs(x) > Math.abs(y)) {
                         $("footer").addClass("show");
                         $(document).off(".footer");
