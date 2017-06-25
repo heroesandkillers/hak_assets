@@ -410,10 +410,7 @@
             hideFooterEvent();
 
             //no scalable page not prevented delay touch here   
-            $("footer")[0].addEventListener("mousedown", footerEvent, false);
-            $("footer")[0].addEventListener("touchstart", footerEvent, false);
-
-            function footerEvent(e) {
+            $("footer").on("mousedown touchstart", function (e) {
                 var originX, originY;
                 if (e.touches) {
                     originX = e.touches[0].pageX;
@@ -434,7 +431,11 @@
                         hideFooterEvent();
                     }
                 });
-            }
+
+                $(document).one("mouseup touchend", function (e) {
+                    $(document).off(".footer");
+                });
+            });
 
             function event(e) {
                 if (e.originalEvent && e.originalEvent.touches && e.originalEvent.touches.length) {
@@ -450,7 +451,7 @@
         //console.log("hideFooterEvent()")
         clearTimeout(window.hideFooterTimeout);
         $(document).off(".hideFooterEvent");
-        
+
         window.hideFooterTimeout = setTimeout(function () {
             $(document).one("mousedown.hideFooterEvent", function () {
                 $(document).one("mouseup.hideFooterEvent", function () {
