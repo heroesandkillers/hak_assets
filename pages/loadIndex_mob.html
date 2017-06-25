@@ -412,7 +412,7 @@
             //no scalable page not prevented delay touch here   
             $("footer").on("mousedown touchstart", function (e) {
                 var originX, originY;
-                if (e.touches) {
+                if (e.touches && e.touches[0]) {
                     originX = e.touches[0].pageX;
                     originY = e.touches[0].pageY;
                 } else {
