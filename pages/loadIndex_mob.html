@@ -446,11 +446,12 @@
     };
 
     function hideFooterEvent() {
+        console.log("hideFooterEvent()")
         clearTimeout(window.hideFooterTimeout);
         $(document).off(".hideFooterEvent");
         
         window.hideFooterTimeout = setTimeout(function () {
-            $(document).on("mousedown.hideFooterEvent", function () {
+            $(document).one("mousedown.hideFooterEvent", function () {
                 console.log("mousedown")
                 $(document).one("mouseup.hideFooterEvent", function () {
                     console.log("mouseup")
