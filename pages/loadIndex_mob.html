@@ -446,11 +446,13 @@
     };
 
     function hideFooterEvent() {
-//        clearTimeout(window.hideFooterTimeout);
+        clearTimeout(window.hideFooterTimeout);
+        $(document).off(".hideFooterEvent");
+        
         window.hideFooterTimeout = setTimeout(function () {
             $(document).on("mousedown.hideFooterEvent", function () {
                 console.log("mousedown")
-                $(document).one("mouseup", function () {
+                $(document).one("mouseup.hideFooterEvent", function () {
                     console.log("mouseup")
                     $(document).off(".hideFooterEvent");
                     $("footer").removeClass("show");
