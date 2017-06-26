@@ -38,6 +38,7 @@
         <tr>
             <td style="vertical-align:top">
                 <div class="cuerpo tabla">
+
                     <table id="tablaLiga">
                         <thead class="thead subtitulo">
                             <tr>
@@ -59,6 +60,7 @@
                             <!-- -->
                         </tbody>
                     </table>
+
                 </div>
             </td>
         </tr>
@@ -66,17 +68,17 @@
 </div>
 
 <div id="foro" class="contenedor">
-    <div class="cuerpo">
-        <div id="comentarios" class="scrollComentarios" style="width: 100%">
-            <div id="mensajes"></div>
-        </div>
-        <div id="textarea">
-            <div>
-                <textarea id="mensaje" rows="1"></textarea>
-                <div id="mensajeBoton" onclick="mapaJs.enviarMensajePrensa();">></div>
-            </div>
-        </div>
+    <!--<div class="cuerpo">-->
+    <!--<div id="comentarios" class="scrollComentarios" style="width: 100%">-->
+    <div id="mensajes"></div>
+    <!--</div>-->
+    <div id="textarea">
+        <!--<div>-->
+        <textarea id="mensaje" rows="1"></textarea>
+        <div id="mensajeBoton" onclick="mapaJs.enviarMensajePrensa();">></div>
+        <!--</div>-->
     </div>
+    <!--</div>-->
 </div>
 
 <div id="listaBatallas" class="pageRight">
@@ -228,7 +230,7 @@
                 for (var i = 0; i < ths.calendarioDivision.length; i++) {
 
                     if (dias !== ths.calendarioDivision[i].fecha) {
-                        
+
                         var $row = $("<tr class='UnHighLight saltoCalendario'>").appendTo($listaBatallas);
 
                         if (disputados) {
@@ -236,27 +238,27 @@
                         } else {
                             $row.addClass("calendarioPosterior");
                         }
-                        
+
                         var $cell0 = $("<td class='fechaCell' colspan='5'>").appendTo($row)
                         var fecha = getFechaCompletaBySeconds(ths.calendarioDivision[i].fecha);
                         $cell0.text(fecha);
-                        
+
                         rowCount++;
                     }
 
                     var $row = $("<tr class='UnHighLight'>").appendTo($listaBatallas);
-                    
+
                     var $cell0 = $("<td>").appendTo($row);
                     $("<div style='text-align:right'>").text(ths.calendarioDivision[i].eqLocName).appendTo($cell0);
-                    
+
                     $("<td><div> - </div></td>").appendTo($row);
-                    
+
                     var $cell2 = $("<td>").appendTo($row);
                     $("<div>").text(ths.calendarioDivision[i].eqVisName).appendTo($cell2);
 
                     if (typeof ths.calendarioDivision[i].resultado !== "undefined") {
                         var result = ths.calendarioDivision[i].resultado.split("-");
-                        
+
                         $("<div style='text-align:right'>").text(result[0]).appendTo($cell0);
                         $("<div>").text(result[1]).appendTo($cell2);
 
