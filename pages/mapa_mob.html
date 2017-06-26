@@ -149,8 +149,9 @@
                 $("#tablaLiga tbody").html("");
 
                 var table = $("#tablaLiga tbody");
-                
-                ths.liga.sort(function(a, b){
+
+                //SORT
+                ths.liga.sort(function (a, b) {
                     return a.posicion - b.posicion;
                 });
 
