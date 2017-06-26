@@ -341,6 +341,7 @@ a:active {
 }
 
 .titulo{
+    position: relative;
     padding-left: 10px;
     color: rgb(100,70,0);
     text-shadow: -1px -1px white;

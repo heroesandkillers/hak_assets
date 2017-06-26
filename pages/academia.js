@@ -44,7 +44,6 @@ var academiaEquipoJs = {
 
         $("#numCriaturasAcademia").text(" (" + eqAcademia.length + ") ");
 
-        var cell;
         for (var i = 0; i < eqAcademia.length; i++) {
 
             var row = table.insertRow(rowCount);
@@ -211,44 +210,44 @@ var academiaEquipoJs = {
         });
     },
     events: function () {
-        var ths = this;
+//        var ths = this;
         $('#botonFinalExpular').keydown(function (e) {
             if (e.keyCode === 13) {
                 return false;
             }
         });
-        Hammer($("#detalleCriatura")).on("tap", function () {
-
-            var atributos = ["fu", "ma", "ag", "rf", "co", "df", "rc"];
-            var menu = $("#divOcultables");
-            var div = $("<div>");
-
-            if (typeof global.criatura.destapes !== 'undefined') {
-                var dest = JSON.parse(global.criatura.destapes);
-
-                for (var j = 0; j < atributos.length; j++) {
-                    div = $("<div>");
-                    div.append(setDest(dest[atributos[j]]));
-                    menu.append(div);
-                }
-            } else {
-                menu.append("no hay atributos para destapar");
-            }
-
-            var nombre = global.criatura.nombre;
-            $('#divOcultables').dialog({
-                resizable: false,
-                closeOnEscape: false,
-                height: 150,
-                width: 300,
-                title: nombre,
-                modal: true,
-                draggable: true,
-                close: function () {
-                    $(ths).dialog("destroy");
-                }
-            });
-        });
+//        Hammer($("#detalleCriatura")).on("tap", function () {
+//
+//            var atributos = ["fu", "ma", "ag", "rf", "co", "df", "rc"];
+//            var menu = $("#divOcultables").html("");
+//            var div = $("<div>");
+//
+//            if (typeof global.criatura.destapes !== 'undefined') {
+//                var dest = JSON.parse(global.criatura.destapes);
+//
+//                for (var j = 0; j < atributos.length; j++) {
+//                    div = $("<div>");
+//                    div.append(setDest(dest[atributos[j]]));
+//                    menu.append(div);
+//                }
+//            } else {
+//                menu.append("no hay atributos para destapar");
+//            }
+//
+//            var nombre = global.criatura.nombre;
+//            $('#divOcultables').dialog({
+//                resizable: false,
+//                closeOnEscape: false,
+//                height: 150,
+//                width: 300,
+//                title: nombre,
+//                modal: true,
+//                draggable: true,
+////                close: function () {
+////                    $(ths).dialog("destroy");
+////                }
+//            });
+//        });
     }
 };
 
