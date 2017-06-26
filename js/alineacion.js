@@ -452,7 +452,7 @@ var alineacionObj = {
     textoAlineacion: function(id) {
         for (var i = 0; i < this.obj.length; i++) {
             if (this.obj[i].id === id) {
-                var apodo = getApodo(this.obj[i].apodo);
+                var apodo = getApodo(this.obj[i]);
                 if (apodo !== "") {
                     return apodo;
                 }
