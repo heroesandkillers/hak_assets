@@ -216,14 +216,15 @@ var equipoJs = {
             },
             success: function (response) {
                 if (response === "") {
-                    global.perfil.oro -= ths.precioVenta;
+                    global.perfil.oro += ths.precioVenta;
                     cargarPerfil();
 
                     var index = getIndexById(id, global.equipo);
                     global.equipo.splice(index, 1);
-                    setTimeout(function(){
-                        ths.mostrarEquipo();
-                    },1);                    
+                    
+//                    setTimeout(function(){
+//                        ths.mostrarEquipo();
+//                    },1);                    
 
                     confirmacion("criatura vendida");
                 } else {

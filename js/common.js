@@ -268,7 +268,7 @@ function loadCanvasAspectoAcademia(criatura, stage) {
 }
 
 function montarAspecto(aspecto, raza, stage) {
-    console.log(stage);
+    //console.log(stage);
 
     stage.removeAllChildren();
     var grupo = new createjs.Container();
