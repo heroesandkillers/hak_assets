@@ -411,15 +411,9 @@
 
             //no scalable page not prevented delay touch here   
             $("footer").on("mousedown touchstart", function (e) {
-                console.log(e)
-                var originX, originY;
-                if (e.touches && e.touches[0]) {
-                    originX = e.touches[0].pageX;
-                    originY = e.touches[0].pageY;
-                } else {
-                    originX = e.pageX;
-                    originY = e.pageY;
-                }
+                //console.log(e)
+                var originX = event(e).pageX;
+                var originY = event(e).pageY;
 
                 $(document).on("mousemove.footer touchmove.footer", function (e) {
                     var x = event(e).pageX - originX;
