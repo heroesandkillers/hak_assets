@@ -103,6 +103,7 @@ var academiaEquipoJs = {
     },
     detalle: function (i) {
         var ths = this;
+        this.i = i;        
         $(".alturaDetalle").removeClass("alturaDetalle");
 
         $(".none").removeClass("none");
