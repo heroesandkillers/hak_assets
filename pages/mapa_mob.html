@@ -152,7 +152,7 @@
                             + " onclick='Select(this)'"
                             + " ondblclick='contacto('" + ths.liga[i].id + "')'>").appendTo(table);
 
-                    $("<td style='text-align:right' pos='" + ths.liga[i].posicion + "'>").appendTo($row);
+                    $("<td style='text-align:right' pos='" + ths.liga[i].posicion + "'>" + ths.liga[i].posicion + "</td>").appendTo($row);
                     $("<td style='text-align:center'>" + ths.liga[i].username + "</td>").appendTo($row);
 
                     var p1 = $("<td>").appendTo($row);
