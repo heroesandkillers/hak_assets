@@ -35,8 +35,8 @@ var alineacionObj = {
 //        ths.canvasAncho = ths.contenedor.width() * 0.65;
         ths.canvasAncho = ths.contenedor.width() - 20;
         ths.canvasAlto = ths.contenedor.height() - 35;
-//        ths.canvas.height = ths.canvasAlto;
-//        ths.canvas.width = ths.canvasAncho;
+        ths.canvas.height = ths.canvasAlto;
+        ths.canvas.width = ths.canvasAncho;
 
         ths.stage = new createjs.Stage(ths.canvas);
         ths.stage.enableMouseOver();
