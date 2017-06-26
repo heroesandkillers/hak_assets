@@ -161,7 +161,7 @@ var academiaEquipoJs = {
                     error(response);
                 }
                 ths.eqAcademia[ths.i][ths.atributo] = 0;
-                ths.pestanaAcademia('academiaEquipo');
+                //ths.pestanaAcademia('academiaEquipo');
             }
         });
     },
@@ -206,7 +206,7 @@ var academiaEquipoJs = {
                 }
                 $('#divExpulsar').dialog('close');
                 global.equipoAcademia = "";
-                ths.pestanaAcademia('academiaEquipo');
+                //ths.pestanaAcademia('academiaEquipo');
             }
         });
     },

@@ -520,7 +520,7 @@ var alineacionObj = {
                         error(response);
                     }
                     global[ths.alineacion] = alineacion;
-                    cargar(pestanaAcademia('academiaAlineacion'));
+                    //cargar(pestanaAcademia('academiaAlineacion'));
                 }
             });
         }
