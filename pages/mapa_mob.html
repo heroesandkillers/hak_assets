@@ -1,5 +1,8 @@
 
 <style>
+    #tablaLiga{
+        width: 100%;
+    }
     #foro{
         flex-grow: 1;
         margin-top:5px
@@ -35,16 +38,16 @@
                     <table id="tablaLiga" class="subtitulo">
                         <thead class="thead">
                             <tr>
-                                <th id="ordenar" class="pos">
+                                <th id="ordenar" class="pos" style='text-align: center'>
                                     Po
                                 </th>
-                                <th>
+                                <th style='text-align: center'>
                                     Equipo
                                 </th>
                                 <th>
                                     Punt.
                                 </th>
-                                <th>
+                                <th style='text-align: right'>
                                     Vict.
                                 </th>
                             </tr>
@@ -153,7 +156,7 @@
                     $("<td style='text-align:center'>" + ths.liga[i].username + "</td>").appendTo($row);
 
                     var p1 = $("<td>").appendTo($row);
-                    var p2 = $("<td>").appendTo($row);
+                    var p2 = $("<td style='text-align:right'>").appendTo($row);
 
                     var puntos = ths.liga[i].puntos;
                     if (typeof puntos !== 'undefined') {
