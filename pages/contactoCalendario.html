@@ -287,7 +287,7 @@
             if (global.perfil.id !== global.contactoId) {
                 $.ajax({
                     type: "GET",
-                    url: "getcalendario",
+                    url: url + "getcalendario",
                     data: {
                         id: global.contactoId
                     },
@@ -301,7 +301,7 @@
 
                     $.ajax({
                         type: "GET",
-                        url: "getcalendario",
+                        url: url + "getcalendario",
                         data: {
                             id: contactoId
                         },

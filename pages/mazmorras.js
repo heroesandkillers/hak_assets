@@ -14,7 +14,7 @@ var mazmorrasJs = {
     pre: 0,
     notReady: true,
     canvas: document.createElement('canvas'),
-    medidas: function() {
+    medidas: function () {
         var ths = this;
         var alto = 200 / $("#bloquePrincipal").parent().height() * 100;
         var alto2 = 200 / ($("#bloquePrincipal").parent().height() - 60) * 100;
@@ -30,12 +30,12 @@ var mazmorrasJs = {
         }
         $("#contenedorBarra").css("width", $("#buscadorMazmorras").width() - 61 + "px");
     },
-    getMisPujas: function() {
+    getMisPujas: function () {
         var ths = this;
 
 //        $.ajax({
 //            type: "GET",
-//            url: "getMisPujas",
+//            url: url + "getMisPujas",
 //            success: function(response) {
 //                if (response !== "") {
 //                    try {
@@ -49,14 +49,14 @@ var mazmorrasJs = {
 //            }
 //        });
 
-        ajax.call("getMisPujas", null, function(response) {
+        ajax.call("getMisPujas", null, function (response) {
             console.log("response = ")
             console.log(response)
             ths.obj = response;
             ths.colocarCells();
         });
     },
-    getMazmorrasRango: function(elem) {
+    getMazmorrasRango: function (elem) {
         var ths = this;
         var recarga = false;
         if (typeof elem !== 'undefined') {
@@ -89,15 +89,15 @@ var mazmorrasJs = {
         ths.peticion = peticion;
         ths.ajaxMazmorrasRango(recarga);
     },
-    ajaxMazmorrasRango: function(recarga) {
+    ajaxMazmorrasRango: function (recarga) {
         var ths = this;
         $.ajax({
             type: "GET",
-            url: "getMazmorrasRango",
+            url: url + "getMazmorrasRango",
             data: {
                 peticionJson: ths.peticion
             },
-            success: function(response) {
+            success: function (response) {
                 try {
                     ths.obj = JSON.parse(response);
                 } catch (e) {
@@ -115,11 +115,11 @@ var mazmorrasJs = {
             }
         });
     },
-    paralizarBoton: function(elem) {
+    paralizarBoton: function (elem) {
 
         var segundos = 2;
         $(elem).addClass('noClick');
-        var timerId = setInterval(function() {
+        var timerId = setInterval(function () {
 
             $(elem).text(segundos);
             if (segundos === 0) {
@@ -127,12 +127,12 @@ var mazmorrasJs = {
             }
             segundos--;
         }, 1000);
-        setTimeout(function() {
+        setTimeout(function () {
             $(elem).removeClass('noClick');
             $(elem).text("Buscar");
         }, (segundos + 2) * 1000);
     },
-    colocarCells: function() {
+    colocarCells: function () {
         //clean
         $("#tableMazmorras .scrollMazmorras tbody tr").remove();
 
@@ -166,9 +166,9 @@ var mazmorrasJs = {
             $(".buscadorCell").css("display", "none");
         }
     },
-    clicableCell: function(elem, min, max) {
+    clicableCell: function (elem, min, max) {
         var ths = this;
-        elem.click(function() {
+        elem.click(function () {
             ths.cargado = false;
             $(".buscadorCell").removeClass("apretado");
             $(this).addClass("apretado");
@@ -181,14 +181,14 @@ var mazmorrasJs = {
             ths.cargado = true;
         });
     },
-    recargarMazmorras: function(indice) {
+    recargarMazmorras: function (indice) {
         this.indiceApretado = indice;
         this.ajaxMazmorrasRango(true);
     },
-    moverBarra: function(elem, inicial, termino, tiempo) {
+    moverBarra: function (elem, inicial, termino, tiempo) {
 
         var variacion = (inicial - termino) / tiempo;
-        var intervalo = setInterval(function() {
+        var intervalo = setInterval(function () {
 
             inicial = inicial - variacion;
             $(elem).css("left", inicial + "px");
@@ -198,7 +198,7 @@ var mazmorrasJs = {
             }
         }, 40);
     },
-    addMazmorras: function() {
+    addMazmorras: function () {
         var ths = this;
         var table = document.getElementById("tableMazmorras").getElementsByClassName("tbody")[0].getElementsByTagName("tbody")[0];
         var trs = table.getElementsByTagName("tr");
@@ -211,14 +211,14 @@ var mazmorrasJs = {
         }
         ths.rowsMazmorras(table, rowCount, min, num);
     },
-    addMazmorrasTop: function() {
+    addMazmorrasTop: function () {
         var table = document.getElementById("tableMazmorras").getElementsByClassName("tbody")[0].getElementsByTagName("tbody")[0];
         table.innerHtml = "";
         var max = ths.filas * pre - 1;
         var min = max - ths.filas + 1;
         rowsMazmorras(table, 0, min, max);
     },
-    cargarMazmorras: function(min, max) {
+    cargarMazmorras: function (min, max) {
         var ths = this;
         if (ths.obj.length > 0) {
 
@@ -231,10 +231,10 @@ var mazmorrasJs = {
             if (ths.anchoBarra > $("#contenedorBarra").width()) {
                 $("#barraMazmorras").draggable({
                     axis: "x",
-                    drag: function() {
+                    drag: function () {
                         $(this).find('.buscadorCell').addClass('noClick');
                     },
-                    stop: function() {
+                    stop: function () {
                         $(this).find('.buscadorCell').removeClass('noClick');
                         var limiteInverso = ths.anchoBarra * (-1) + $("#contenedorBarra").width();
                         if ($("#barraMazmorras").css("left").split("px")[0] > 0) {
@@ -256,7 +256,7 @@ var mazmorrasJs = {
             $("#tableMazmorras .tbody tbody").html("<div style='text-align:center; margin-top:150px'>No hay resultados para la búsqueda</div>");
         }
     },
-    rowsMazmorras: function(table, rowCount, min, num) {
+    rowsMazmorras: function (table, rowCount, min, num) {
         var ths = this;
         var row;
         var cell;
@@ -380,7 +380,7 @@ var mazmorrasJs = {
         helpers();
         ths.scrollReady();
     },
-    detMazmorras: function(i) {
+    detMazmorras: function (i) {
         var ths = this;
         global.criatura = this.obj[i];
 
@@ -423,23 +423,23 @@ var mazmorrasJs = {
         ths.disableBoton(precioMin, precioMax);
         detalleCriatura(ths.obj[i], ths.stage, "#bloquePrincipal .detalleCriatura");
     },
-    takeEquipoI: function() {
+    takeEquipoI: function () {
         var id = $(".selected").attr("id");
         var arrayId = id.split("_");
         this.i = arrayId[1];
     },
-    takeMazmorrasId: function() {
+    takeMazmorrasId: function () {
         var id = $(".selected").attr("id");
         var arrayId = id.split("_");
         var i = arrayId[1];
         this.idCriatura = this.obj[i].id;
     },
-    nuevoFiltro: function() {
+    nuevoFiltro: function () {
         var elem = $(".filtro:first").clone().insertAfter(".filtro:last").css('dislpay', 'initial');
         $(elem).css('display', 'table-row');
         $(elem).find(".selectNumero").spinner();
     },
-    mostrarCanvas: function() {
+    mostrarCanvas: function () {
         var ths = this;
         ths.canvas.width = 100;
         ths.canvas.height = 150;
@@ -447,12 +447,12 @@ var mazmorrasJs = {
         $(ths.canvas).attr("id", "aspecto");
         ths.stage = new createjs.Stage(ths.canvas);
     },
-    eliminarFiltro: function(elem) {
+    eliminarFiltro: function (elem) {
         if ($(".filtro").length > 1) {
             $(elem).closest(".filtro").remove();
         }
     },
-    pujas: function(pujas) {
+    pujas: function (pujas) {
 
         var arrayPujas = pujas.split(";");
         var table = $("#tablaPujas tbody").get(0);
@@ -493,9 +493,9 @@ var mazmorrasJs = {
             draggable: true
         });
     },
-    disableBoton: function(precioMin, precioMax) {
+    disableBoton: function (precioMin, precioMax) {
         $('#pujar').attr('disabled', 'true');
-        $('#pujaRealizada').keyup(function() {
+        $('#pujaRealizada').keyup(function () {
             var num = $('#pujaRealizada').val().split(".").join("");
             if (isInteger(num) === true) {
                 if (parseInt(num) >= precioMin && parseInt(num) <= precioMax) {
@@ -513,17 +513,17 @@ var mazmorrasJs = {
             }
             $('#pujaRealizada').val(numero(num));
         });
-        $("#pujaRealizada").keydown(function(e) {
+        $("#pujaRealizada").keydown(function (e) {
             if (e.keyCode === 13) {
                 $("#pujar").trigger('click');
             }
         });
     },
-    scrollReady: function() {
+    scrollReady: function () {
         var ths = this;
         if (ths.notReady) {
 
-            $('.scrollMazmorras').bind('jsp-scroll-y', function(event, scrollPositionY, isAtTop, isAtBottom) {
+            $('.scrollMazmorras').bind('jsp-scroll-y', function (event, scrollPositionY, isAtTop, isAtBottom) {
 
                 if (ths.cargado) {
                     if (isAtTop && ths.pre > 0) {
@@ -570,7 +570,7 @@ var mazmorrasJs = {
     //        stopPropagation = true;
     //    });
     //},
-    pujar: function(puja) {
+    pujar: function (puja) {
         var ths = this;
         var indice = $(".apretado").index();
         $('#divPujar').dialog("close");
@@ -578,7 +578,7 @@ var mazmorrasJs = {
         ajax.call("pujar", {
             id: ths.selectedId,
             puja: puja.split(".").join("")
-        }, function() {
+        }, function () {
             aviso(result);
             ths.recargarMazmorras(indice);
             getPerfil();

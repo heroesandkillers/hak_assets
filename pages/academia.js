@@ -21,7 +21,7 @@ var academiaEquipoJs = {
             var ths = this;
             $.ajax({
                 type: "GET",
-                url: "getBatallasAcademia",
+                url: url + "getBatallasAcademia",
                 success: function (response) {
                     ths.batallasAcademia = JSON.parse(response);
                     ths.selectBatallas();
@@ -151,7 +151,7 @@ var academiaEquipoJs = {
         var id = ths.eqAcademia[ths.i].id;
         $.ajax({
             type: "GET",
-            url: "ocultar",
+            url: url + "ocultar",
             data: {
                 id: id,
                 atr: ths.atributo
@@ -194,7 +194,7 @@ var academiaEquipoJs = {
         var ths = this;
         $.ajax({
             type: "GET",
-            url: "expulsar",
+            url: url + "expulsar",
             data: {
                 id: ths.eqAcademia[ths.i].id
             },

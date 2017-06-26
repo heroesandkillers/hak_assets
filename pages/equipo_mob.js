@@ -127,7 +127,7 @@
 //        }
 //        $.ajax({
 //            type: "GET",
-//            url: "vender",
+//            url: url + "vender",
 //            data: {
 //                id: id
 //            },
@@ -161,7 +161,7 @@
 //            if ($("#apodoDetalles").val() !== criat.apodo) {
 //                $.ajax({
 //                    type: "GET",
-//                    url: "asignarApodo",
+//                    url: url + "asignarApodo",
 //                    data: {
 //                        id: criat.id,
 //                        apodo: $("#apodoDetalles").val()

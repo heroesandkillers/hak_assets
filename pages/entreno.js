@@ -15,7 +15,7 @@ function asignarEntreno() {
 
     $.ajax({
         type: "GET",
-        url: "asignarEntreno",
+        url: url + "asignarEntreno",
         data: entrenamiento,
         success: function (response) {
             if (response === "") {

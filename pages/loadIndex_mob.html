@@ -212,7 +212,7 @@
                 console.log("conectando a " + url + " ...");
                 petAjax[petAjax.length] = $.ajax({
                     type: 'HEAD',
-                    url: local,
+                    url: url + local,
                     success: function () {
                         console.log("conexión realizada");
                         conectado = true;

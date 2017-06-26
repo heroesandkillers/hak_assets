@@ -139,7 +139,7 @@ function cargar(pagina, id) {
 function getJson(json) {
     $.ajax({
         type: "GET",
-        url: "get" + json.charAt(0).toUpperCase() + json.slice(1),
+        url: url + "get" + json.charAt(0).toUpperCase() + json.slice(1),
         success: function (response) {
             if (response !== "") {
                 global[json] = JSON.parse(response);

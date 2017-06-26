@@ -182,10 +182,6 @@ var equipoJs = {
     botonVender: function (elem) {
         var i = $(elem).closest("#detalleCriatura").closest("tr").attr("i");
         var criat = this.equipo[i];
-        console.log(elem)
-        console.log($(elem).closest("tr"))
-        console.log(this.equipo)
-        console.log(i)
 
         this.precioVenta = numero(criat.precio);
         $("#precioVenta").text(this.precioVenta);
@@ -214,7 +210,7 @@ var equipoJs = {
         }
         $.ajax({
             type: "GET",
-            url: "vender",
+            url: url + "vender",
             data: {
                 id: id
             },
@@ -250,7 +246,7 @@ var equipoJs = {
             if (!window.apodo || $("#apodoDetalles").text() !== criat.apodo) {
                 $.ajax({
                     type: "GET",
-                    url: "asignarApodo",
+                    url: url + "asignarApodo",
                     data: {
                         id: criat.id,
                         apodo: $("#apodoDetalles").text()

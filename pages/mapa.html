@@ -258,7 +258,7 @@
             if (this.division !== global.division) {
                 $.ajax({
                     type: "GET",
-                    url: "getCalendarioDivision",
+                    url: url + "getCalendarioDivision",
                     data: {
                         division: ths.division
                     },
@@ -382,7 +382,7 @@
             if (mensaje !== "") {
                 $.ajax({
                     type: "GET",
-                    url: "enviarMensajePrensa",
+                    url: url + "enviarMensajePrensa",
                     data: {
                         mensaje: mensaje
                     },

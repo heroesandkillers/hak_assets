@@ -158,7 +158,7 @@ function calcularBatalla(equipo1, equipo2) {
     if (res[0] != muertos2 || res[1] != muertos1) {
         $.ajax({
             type: "GET",
-            url: "setDenuncia",
+            url: url + "setDenuncia",
             data: {
                 id: batallaJSON.id
             },
@@ -300,7 +300,7 @@ function setResultadosBatallas(resultados) {
 
     $.ajax({
         type: "POST",
-        url: "setResultadosBatallas",
+        url: url + "setResultadosBatallas",
         data: {
             resultados: resultados
         }
