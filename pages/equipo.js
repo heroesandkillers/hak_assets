@@ -164,7 +164,7 @@ var equipoJs = {
         detalleCriatura(global.criatura, this.stage, "#paginaEquipo");
         if (window.isMobile) {
             $(".none").removeClass("none");
-            var clonDetalle = $("#detalleCriatura").clone();
+            var clonDetalle = $("#detalleCriatura_base").clone().attr("id", "detalleCriatura");
             $("#" + global.criatura.id).append(clonDetalle);
             $("#" + global.criatura.id + " > td").addClass("none");
         }
