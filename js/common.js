@@ -601,6 +601,9 @@ function getResutadoBatalla(res) {
     }
 }
 
+var nombres = ["Thonald", "Sunggorma", "Bribeo", "Caeli", "Nyaegel", "Thonychell", "Lynya", "Marmarisa", "Canvid", "Renea", "Cysa", "Soing", "Wen", "Thaegard", "Ruthja", "Stecia", "Thasthae", "Stechael", "Nyawilwaru", "Braswise"];
+var apellidos = ["Glazewater", "Gold", "Summerred", "Oakfire", "Seaside", "Capeflare", "Tallmountain", "Shortbright", "Orefalconbear", "Birdblur", "Sandrunner", "Tallragemetal", "Long", "Forceborne", "Helmshort", "Spearmace", "Walkerfire", "Eyeheart", "Battlerroad", "Fallbreak"];
+
 function getNombre(obj) {
     if (typeof obj.apodo === 'undefined') {
         var nombre = obj.nombre.split(" ");
@@ -616,23 +619,6 @@ function getApodo(criat) {
         return "<b>" + apodo + '</b> - ' + criat.nombre;
     }
     return criat.nombre;
-}
-
-var nombres = ["Thonald", "Sunggorma", "Bribeo", "Caeli", "Nyaegel", "Thonychell", "Lynya", "Marmarisa", "Canvid", "Renea", "Cysa", "Soing", "Wen", "Thaegard", "Ruthja", "Stecia", "Thasthae", "Stechael", "Nyawilwaru", "Braswise"];
-var apellidos = ["Glazewater", "Gold", "Summerred", "Oakfire", "Seaside", "Capeflare", "Tallmountain", "Shortbright", "Orefalconbear", "Birdblur", "Sandrunner", "Tallragemetal", "Long", "Forceborne", "Helmshort", "Spearmace", "Walkerfire", "Eyeheart", "Battlerroad", "Fallbreak"];
-function getNombre(nombre) {
-    if (!nombre) {
-        return nombre;
-    }
-    
-    console.log(nombre);
-    var arr = nombre.split("_");
-    if (arr.length > 1) {
-        var pilaPosition = nombres.length % arr[0];
-        var apelidoPosition = apellidos.length % arr[1];
-        return nombres[pilaPosition] + " " + apellidos[apelidoPosition];
-    }
-    return nombre;
 }
 
 function loadImagenes(imagenes, callback) {
