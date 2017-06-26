@@ -624,7 +624,9 @@ function getNombre(nombre) {
     if (!nombre) {
         return nombre;
     }
-    var arr = nombre.split("_")
+    
+    console.log(nombre);
+    var arr = nombre.split("_");
     if (arr.length > 1) {
         var pilaPosition = nombres.length % arr[0];
         var apelidoPosition = apellidos.length % arr[1];
