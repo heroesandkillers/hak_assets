@@ -33,7 +33,7 @@ var equipoJs = {
 
         var max = {fu: 0, ma: 0, ag: 0, rf: 0, co: 0, df: 0, rc: 0, xp: 0, media: 0};
         var min = {fu: 100, ma: 100, ag: 100, rf: 100, co: 100, df: 100, rc: 100, xp: 100, media: 100};
-        
+
         //max, min
         for (var i = 0; i < equipo.length; i++) {
 
@@ -160,7 +160,7 @@ var equipoJs = {
     }
     ,
     detalle: function (i) {
-        global.criatura = this.equipo[i];        
+        global.criatura = this.equipo[i];
         if (window.isMobile) {
             $("#detalleCriatura").remove();
             var clone = $("#detalleCriatura_base").clone();
@@ -214,10 +214,7 @@ var equipoJs = {
                     var index = getIndexById(id, global.equipo);
                     global.equipo.splice(index, 1);
 
-//                    setTimeout(function(){
-//                        ths.mostrarEquipo();
-//                    },1);                    
-
+                    ths.mostrarEquipo();
                     confirmacion("criatura vendida");
                 } else {
                     error(response);
