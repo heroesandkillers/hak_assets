@@ -613,10 +613,14 @@ function getNombre(obj) {
     }
 }
 
-function getApodo(criat) {
+function getApodo(criat, withName) {
     var apodo = criat.apodo;
     if (typeof apodo !== 'undefined' && apodo !== '') {
-        return "<b>" + apodo + '</b> - ' + criat.nombre;
+        if (withName) {
+            return "<b>" + apodo + '</b> - ' + criat.nombre;
+        } else {
+            return apodo;
+        }
     }
     return criat.nombre;
 }
