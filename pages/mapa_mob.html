@@ -3,6 +3,9 @@
     #tablaLiga{
         width: 100%;
     }
+    #tablaLiga td{
+        padding: 0 6px;
+    }
     #foro{
         flex-grow: 1;
         margin-top:5px
@@ -35,13 +38,13 @@
         <tr>
             <td style="vertical-align:top">
                 <div class="cuerpo tabla">
-                    <table id="tablaLiga" class="subtitulo">
-                        <thead class="thead">
+                    <table id="tablaLiga">
+                        <thead class="thead subtitulo">
                             <tr>
                                 <th id="ordenar" class="pos" style='text-align: center'>
                                     Po
                                 </th>
-                                <th style='text-align: center'>
+                                <th>
                                     Equipo
                                 </th>
                                 <th>
@@ -151,10 +154,10 @@
                     var $row = $("<tr class='UnHighLight'"
                             + " onclick='Select(this)'"
                             + " ondblclick='contacto('" + ths.liga[i].id + "')'>").appendTo(table);
-                    
+
                     var pos = ths.liga[i].posicion;
                     $("<td style='text-align:right' pos='" + pos + "'>" + pos + "</td>").appendTo($row);
-                    $("<td style='text-align:center'>" + ths.liga[i].username + "</td>").appendTo($row);
+                    $("<td>" + ths.liga[i].username + "</td>").appendTo($row);
 
                     var p1 = $("<td>").appendTo($row);
                     var p2 = $("<td style='text-align:right'>").appendTo($row);
