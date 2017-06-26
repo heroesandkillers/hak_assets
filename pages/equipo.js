@@ -221,7 +221,9 @@ var equipoJs = {
 
                     var index = getIndexById(id, global.equipo);
                     global.equipo.splice(index, 1);
-                    ths.mostrarEquipo();
+                    setTimeout(function(){
+                        ths.mostrarEquipo();
+                    },1);                    
 
                     confirmacion("criatura vendida");
                 } else {
