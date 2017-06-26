@@ -419,7 +419,7 @@
                     var x = event(e).pageX - originX;
                     var y = event(e).pageY - originY;
 
-                    console.log("mousemove touchmove " + event(e).pageX + " - " + originX + " ," + event(e).pageY + " - " + originY);
+                    //console.log("mousemove touchmove " + event(e).pageX + " - " + originX + " ," + event(e).pageY + " - " + originY);
                     if (x > 50 && Math.abs(x) > Math.abs(y)) {
                         $("footer").addClass("show");
                         $(document).off(".footer");

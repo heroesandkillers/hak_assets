@@ -32,8 +32,8 @@
         <tr>
             <td style="vertical-align:top">
                 <div class="cuerpo tabla">
-                    <div class="subtitulo">
-                        <table class="thead">
+                    <table class="subtitulo">
+                        <thead class="thead">
                             <tr>
                                 <th id="ordenar" class="pos">
                                     Po
@@ -48,22 +48,20 @@
                                     Vict.
                                 </th>
                             </tr>
-                        </table>
-                    </div>
+                        </thead>
 
-                    <div class="scrollTabla">
-                        <table id="tablaLiga" class="tbody">
-                            <thead style="height: 0">
-                                <tr style="height: 0">
-                                    <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
-                                </tr>
+                        <tbody id="tablaLiga" class="tbody">
+                        <thead style="height: 0">
+                            <tr style="height: 0">
+                                <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
+                            </tr>
 
-                            </thead>
-                            <tbody>
+                        </thead>
+                        <tbody>
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                        </tbody>
+                    </table>
                 </div>
             </td>
         </tr>
@@ -154,41 +152,31 @@
                 $("#tablaLiga tbody").html("");
 
                 var table = document.getElementById("tablaLiga").getElementsByTagName("tbody")[0];
-                var rowCount = 0;
 
                 for (var i = 0; i < ths.liga.length; i++) {
+                    var $row = $("<tr class='UnHighLight'"
+                            + " onclick='Select(this)'"
+                            + " ondblclick='contacto('" + ths.liga[i].id + "')'>").appendTo(table);
 
-                    var row = table.insertRow(rowCount);
+                    $("<td style='text-align:right' pos='" + ths.liga[i].posicion + "'>").appendTo($row);
+                    $("<td style='text-align:center'>" + ths.liga[i].username + "</td>").appendTo($row);
 
-                    row.setAttribute("class", "UnHighLight");
-                    row.setAttribute("onclick", 'Select(this)');
-                    row.setAttribute("ondblclick", 'contacto(' + ths.liga[i].id + ')');
+                    var p1 = $("<td>").appendTo($row);
+                    var p2 = $("<td>").appendTo($row);
 
-                    var cell = row.insertCell(0);
-                    $(cell).attr('pos', ths.liga[i].posicion);
-
-                    var cell = row.insertCell(1);
-                    cell.innerHTML = ths.liga[i].username;
-
-                    var cell2 = row.insertCell(2);
-                    var cell3 = row.insertCell(3);
                     var puntos = ths.liga[i].puntos;
                     if (typeof puntos !== 'undefined') {
-                        cell2.innerHTML = puntos.split(",")[1];
-                        cell3.innerHTML = puntos.split(",")[0];
+                        p1.text(puntos.split(",")[1]);
+                        p2.text(puntos.split(",")[0]);
                     } else {
-                        cell2.innerHTML = "0-0";
-                        cell3.innerHTML = "0";
+                        p1.text("0-0");
+                        p2.text("0");
                     }
-
-                    rowCount++;
                 }
                 //sortElements($("#ordenar"), false);
 
-                rowCount = 0;
                 for (var i = 0; i < ths.liga.length; i++) {
-                    $(".tbody tbody tr").eq(rowCount).find("td").eq(0).text(rowCount + 1);
-                    rowCount++;
+                    $(".tbody tbody tr").eq(i).find("td").eq(0).text(i + 1);
                 }
             });
         },
@@ -386,10 +374,10 @@
                 e.stopPropagation();
                 $("#listaBatallas").addClass("swipRight");
             });
-            
+
             $(document).on("tap", function (e) {
-                if(!$(e.target).closest("#listaBatallas").length && $(e.target).attr("id") != "listaBatallas"){
-                   $("#listaBatallas").removeClass("swipRight"); 
+                if (!$(e.target).closest("#listaBatallas").length && $(e.target).attr("id") != "listaBatallas") {
+                    $("#listaBatallas").removeClass("swipRight");
                 }
             });
             $(".verBatalla").on("tap", function () {
