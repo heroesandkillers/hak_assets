@@ -180,7 +180,7 @@ var equipoJs = {
     }
     ,
     botonVender: function (elem) {
-        var i = $(elem).closest("detalleCriatura").closest("tr").attr("i");
+        var i = $(elem).closest("#detalleCriatura").closest("tr").attr("i");
         var criat = this.equipo[i];
         console.log(elem)
         console.log($(elem).closest("tr"))
