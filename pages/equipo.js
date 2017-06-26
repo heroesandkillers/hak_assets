@@ -182,6 +182,8 @@ var equipoJs = {
     botonVender: function () {
         var i = $("#tableEquipo .selected").attr("i");
         var criat = this.equipo[i];
+        console.log(this.equipo)
+        console.log(i)
 
         this.precioVenta = numero(criat.precio);
         $("#precioVenta").text(this.precioVenta);
