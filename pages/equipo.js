@@ -165,7 +165,7 @@ var equipoJs = {
         if (window.isMobile) {
             $("#detalleCriatura").remove();
             $("#detalleCriatura_base").clone().attr("id", "detalleCriatura").appendTo("#" + global.criatura.id);
-            $("#detalleCriatura_base .none").removeClass("none");
+            $("#detalleCriatura .none").removeClass("none");
             $("#" + global.criatura.id + " > td").addClass("none");
         }
     }
