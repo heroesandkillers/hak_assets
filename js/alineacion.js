@@ -1,246 +1,398 @@
 var alineacionObj = {
-    pagina: "",
     contenedor: "",
     canvas: "",
     botonAsignar: "",
     claseSelect: "",
     actitudSelect: "",
+    lista: "",
     atributos: "",
     nombre: "",
     obj: {},
     criaturas: [],
-    stage: {},
+    stage: "",
     seleccion: 0,
     drag: false,
-    dragId: "",
+    dragId: 0,
     posX: 3,
     posY: 5,
     scale: 1,
     canvasAncho: "",
     canvasAlto: "",
     alineacion: "",
-    js: {}, //no detalle
-    click: false
-    ,
+    selectX: 0,
+    selectY: 0,
+    gridX: 0,
+    gridY: 0,
+    rects: {},
+    activo: null,
+    oval: new createjs.Shape(),
     startCanvas: function() {
-        console.log("startCanvas")
         var ths = this;
         ths.externalEvents();
         ths.criaturas = [];
 
         if (!isCanvasSupported()) {
-            this.contenedor.css("display", "none");
+            ths.contenedor.removeClass("swipRight");
         }
 
-//        ths.canvasAncho = ths.contenedor.width() * 0.65;
-        ths.canvasAncho = ths.contenedor.width() - 20;
-        ths.canvasAlto = ths.contenedor.height() - 35;
+        ths.canvasAncho = ths.contenedor.width();
+        ths.canvasAlto = ths.contenedor.height() -ths.contenedor.find(".titulo").height() - 15;
         ths.canvas.height = ths.canvasAlto;
         ths.canvas.width = ths.canvasAncho;
 
         ths.stage = new createjs.Stage(ths.canvas);
-        ths.stage.enableMouseOver();
-
-        $(ths.canvas).mousedown(function() {
-            if (ths.click === false) {
-                ths.oval.visible = false;
-                ths.stage.update();
-                $("#atributos").css("display", "none");
-
-//                var alto = 200 / $("#bloque").parent().height() * 100;
-//                var alto2 = 200 / ($("#bloque").parent().height() - 60) * 100;
-//                $("#bloque").height(100 - alto2 + "%");
-//                $("#detalleCriatura").height(alto + "%");
-            }
-            ths.click = false;
-        });
+        createjs.Touch.enable(ths.stage);
+        ths.scale = $(ths.canvas).height() / 1000;
 
         var color = createjs.Graphics.getRGB(0, 0, 0, 0.2);
 
-        var h = [];
         var i;
         for (i = 0; i < ths.posY - 1; i++) {
             var alto = ths.canvasAlto / (ths.posY) * (i + 1);
 
-            h[i] = new createjs.Shape();
-            h[i].graphics.beginStroke(color).moveTo(0, alto).lineTo(ths.canvasAncho, alto);
+            var h = new createjs.Shape();
+            h.graphics.beginStroke(color).moveTo(0, alto).lineTo(ths.canvasAncho, alto);
 
-            ths.stage.addChild(h[i]);
+            ths.stage.addChild(h);
         }
-
-        var v = [];
         for (i = 0; i < ths.posX - 1; i++) {
-            var ancho = ths.canvasAncho / (this.posX) * (i + 1);
+            var ancho = ths.canvasAncho / (ths.posX) * (i + 1);
 
-            v[i] = new createjs.Shape();
-            v[i].graphics.beginStroke(color).moveTo(ancho, 0).lineTo(ancho, ths.canvasAlto);
+            var v = new createjs.Shape();
+            v.graphics.beginStroke(color).moveTo(ancho, 0).lineTo(ancho, ths.canvasAlto);
 
-            this.stage.addChild(v[i]);
+            ths.stage.addChild(v);
         }
 
-        $(ths.canvas).droppable({
-            drop: function(e) {
-                var criaturas = ths.criaturas;
+        ths.oval.graphics.beginStroke("black").beginFill("yellow").drawEllipse(-36, 30, 90, 40);
+        ths.oval.name = "oval";
+        ths.oval.scaleX = ths.scale;
+        ths.oval.scaleY = ths.scale;
 
-                if (ths.drag === true) {
-                    var id = ths.dragId;
-                    for (var i = 0; i < criaturas.length; i++) {
-                        if (id === criaturas[i].id) {
-                            error("no puedes añadir dos veces a la misma criatura!");
-                            return;
-                        }
-                    }
-                    if (criaturas.length > 4) {
-                        error("no puedes añadir más de 5 criaturas!");
-                        return;
-                    }
-
-                    var offsetCanvas = $(ths.canvas).offset();
-                    var x = e.pageX;
-                    var y = e.pageY;
-
-                    x = x - offsetCanvas.left;
-                    y = y - offsetCanvas.top;
-
-                    var actitud = 'moderado';
-
-                    var criatura;
-                    for (i = 0; i < ths.obj.length; i++) {
-                        if (ths.obj[i].id === id) {
-                            criatura = ths.obj[i];
-                            break;
-                        }
-                    }
-
-                    var clase = 'barbaro';
-                    clase = criatura.clases.split(";")[0].split(":")[0];
-
-                    var atributos = {
-                        raza: criatura.raza,
-                        clase: clase,
-                        actitud: actitud
-                    };
-                    ths.crearGrupo(id, x, y, atributos);
-
-                    ths.stage.update();
-                    ths.drag = false;
-                }
+        var none = createjs.Graphics.getRGB(0, 0, 0, 0.01);
+        for (var i = 0; i < ths.posX; i++) {
+            for (var j = 0; j < ths.posY; j++) {
+                var container = new createjs.Container();
+                ths.rects["pos" + (i*5 + j)] = container;
+                var rect = new createjs.Shape();
+                rect.name = "rect";
+                rect.graphics.beginFill(none);
+                ths.drawRect(rect);
+                container.i = i;
+                container.j = j;
+                container.x = ths.canvasAncho / ths.posX * i;
+                container.y = ths.canvasAlto / ths.posY * j;
+                container.addChild(rect);
+                ths.stage.addChild(container);
+                ths.rectListener(container);
             }
-        });
-
-        var oval = this.oval;
-
-        oval.graphics.beginStroke("black").beginFill("yellow").drawEllipse(-36, 30, 90, 40);
-        oval.name = "oval";
+        }
 
         ths.colocarAlineaciones();
+    },
+    rectListener: function(container) {
+        var ths = this;        
+        container.addEventListener("mousedown", function(evt) {
+            if(!stopPropagation){
+                timePropagation();
+                
+                var quieto = true;
+                var criatura = container.getChildByName("criatura");            
+            
+                var x = evt.stageX;
+                var y = evt.stageY;
+                if(criatura){
+                    criatura.scaleX = 1.1;
+                    criatura.scaleY = 1.1;
+                    ths.stage.update();
+                
+                    setTimeout(function(){
+                        if(quieto){
+                            quieto = false;
+                            ths.dragId = criatura.id;
+                            criatura.addChildAt(ths.oval, 0);
+                            criatura.scaleX = 1.3;
+                            criatura.scaleY = 1.3;
+                            criatura.x = x - container.x;
+                            criatura.y = y - container.y;
+                            ths.stage.update();
+                        
+                            evt.addEventListener("mousemove", function(e){
+                                console.log("mousemove");
+                                criatura.x = e.stageX - container.x;
+                                criatura.y = e.stageY - container.y;
+                                ths.stage.update();
+                            });
+                            evt.addEventListener("mouseup", function(e){
+                                console.log("mouseup");
+                                ths.gridX = Math.floor(e.stageX / (ths.canvasAncho/ths.posX));
+                                ths.gridY = Math.floor(e.stageY / (ths.canvasAlto/ths.posY));
+                                criatura.x = e.stageX - container.x;
+                                criatura.y = e.stageY - container.y;
+                                criatura.scaleX = 1;
+                                criatura.scaleY = 1;
+                                ths.dropCriatura();
+                                timePropagation();
+                            });  
+                        }
+                    },1400);
+                }
+                evt.addEventListener("mousemove", function(){
+                    if(Math.abs(evt.stageX - x) + Math.abs(evt.stageY - y) > 10){
+                        quieto = false;                
+                    }
+                });
+                evt.addEventListener("mouseup", function(){
+                    if(quieto){
+                        quieto = false;
+                        ths.onCriaturaRelease(container);                    
+                    }
+                    if(criatura){
+                        criatura.scaleX = 1;
+                        criatura.scaleY = 1;
+                        ths.stage.update();
+                    }
+                    evt = null;
+                });
+            }
+        });
+    },
+    onCriaturaRelease: function(container){
+        var ths = this;
+        var activo = ths.activo === container ? true : false;
+        var inside = false;
+        var selec = false;
+        var criatura = container.getChildByName("criatura");
+        if(criatura !== null){
+            inside = true;
+            if(criatura.getChildByName("oval") !== null){
+                selec = true;
+            }
+        }
+            
+        var none = createjs.Graphics.getRGB(0, 0, 0, 0.01);
+        var rect;
+        if(inside === false || (inside && selec)){
+            if(activo){
+                rect = ths.activo.getChildByName("rect");
+                rect.graphics.clear().beginFill(none);
+                ths.drawRect(rect);
+                ths.activo = null;
+                ths.lista.removeClass("swipRight");
 
+            }else{
+                if(ths.activo){
+                    rect = ths.activo.getChildByName("rect");
+                    rect.graphics.clear().beginFill(none);
+                    ths.drawRect(rect);
+                    ths.activo = null;
+                }  
+                ths.activo = container;
+                rect = container.getChildByName("rect");
+                rect.graphics.beginRadialGradientFill(["rgba(255, 0, 0, 0.4)", "rgba(255, 0, 0, 0.1)"], [1, 0],
+                    ths.canvasAncho / ths.posX * 0.5, ths.canvasAlto / ths.posY * 0.5,
+                    0,
+                    ths.canvasAncho / ths.posX * 0.5, ths.canvasAlto / ths.posY * 0.5,
+                    ths.canvasAncho / 3 > ths.canvasAlto / 5 ? ths.canvasAncho / 3 : ths.canvasAlto / 5);
+
+                ths.drawRect(rect);
+                ths.stage.update();
+
+                ths.gridX = container.i;
+                ths.gridY = container.j;
+
+                ths.lista.addClass("swipRight");
+            }
+            ths.atributos.removeClass("swipRight");
+            var criat = ths.oval.parent;
+            if(criat !== null){
+                criat.removeChild(ths.oval);
+            }
+            ths.stage.update();
+                    
+        }else{
+            if(ths.activo){
+                rect = ths.activo.getChildByName("rect");
+                rect.graphics.clear().beginFill(none);
+                ths.drawRect(rect);
+                ths.activo = null;
+            }                
+            ths.lista.removeClass("swipRight");
+            for (var i = 0; i < ths.criaturas.length; i++) {
+                if (ths.criaturas[i].parent.i === container.i && ths.criaturas[i].parent.j === container.j) {
+                    var grupo = ths.criaturas[i];
+                    ths.atributos.addClass("swipRight");
+                    ths.nombre.html(grupo.nombre);
+                    ths.actitudSelect.val(grupo.actitud);
+                    ths.claseSelect.val(grupo.clase);
+
+                    ths.seleccion = grupo;
+                    grupo.addChildAt(ths.oval, 0);
+                    ths.stage.update();
+                }
+            }   
+        }
+    },
+    drawRect: function(elem) {
+        var ths = this;
+        elem.graphics.drawRect(0,0, ths.canvasAncho / 3, ths.canvasAlto / 5);
+    },
+    dropCriatura: function() {
+        var ths = this;
+        var id = ths.dragId;
+        var criatura = getObjById(ths.obj, id);
+        var actitud = 'moderado';
+        var clase = criatura.clases ? criatura.clases.split(";")[0].split(":")[0] : 'barbaro';
+
+        var atributos = {
+            clase: clase,
+            actitud: actitud
+        };
+        ths.crearGrupo(id, atributos);
     },
     colocarAlineaciones: function() {
         var ths = this;
-        var alineacionArray = global.perfil[ths.alineacion];
-        console.log(alineacionArray)
+        var perfil = global.perfil;
+        if (typeof perfil[ths.alineacion] !== 'undefined' && perfil[ths.alineacion] !== '') {
 
-        if (typeof alineacionArray != "object") {
-            try {
-                alineacionArray = JSON.parse(alineacionArray);
-            } catch (e) {
-                console.log("error parsing alineacion");
-                return;
-            }
-        }
-
-        if (typeof alineacionArray !== 'undefined' && alineacionArray !== '') {
-
+            var alineacionArray = global.alin;
+            
             for (var i = 0; i < alineacionArray.length; i++) {
-
                 var id = alineacionArray[i].id;
                 var posicion = alineacionArray[i].posicion;
 
-                var posicionX = parseInt(posicion / 5);
+                var posicionX = Math.floor(posicion / 5);
                 var posicionY = posicion - posicionX * 5;
 
-                var x = posicionX * ths.canvasAncho / 3 + ths.canvasAncho / 6;
-                var y = posicionY * ths.canvasAlto / 5 + ths.canvasAlto / 10;
+                ths.gridX = posicionX;
+                ths.gridY = posicionY;
 
-                ths.crearGrupo(id, x, y, {
+                ths.crearGrupo(id, {
                     clase: alineacionArray[i].clase,
                     actitud: alineacionArray[i].actitud
                 });
             }
-            //need preload images after update
-            loadImagenes([org + 'img/alineacion/clase.png', org + 'img/alineacion/actitud.png'], function() {
+            loadImagenes(['../img/alineacion/clase.png', '../img/alineacion/actitud.png'], function() {
                 ths.stage.update();
             });
         }
         ths.botonAsignar.addClass("noClick");
 
     },
-    crearGrupo: function(id, x, y, atributos) {
-
+    crearGrupo: function(id, atributos) {
         var ths = this;
-        var criatura = getObjById(ths.obj, id);
+        ths.botonAsignar.removeClass('noClick');
+        
+        var oX = ths.canvasAncho / ths.posX * 0.5;
+        var oY = ths.canvasAlto / ths.posY * 0.5;
+        //IF CRIATURA YA EXISTE
+        for (var i = 0; i < ths.criaturas.length; i++) {
+            if (id === ths.criaturas[i].id) {
+                
+                var contenedor1 = ths.rects["pos" + (ths.gridX*5 + ths.gridY)];    
+                var criat1 = contenedor1.getChildByName("criatura");
+                var criat2 = ths.criaturas[i];
+                var contenedor2 = criat2.parent;
+        
+                var pX = (contenedor1.i - contenedor2.i) * (ths.canvasAncho / ths.posX);
+                var pY = (contenedor1.j - contenedor2.j) * (ths.canvasAlto / ths.posY);                
+                contenedor1.addChild(criat2);
 
-        if (typeof criatura !== 'undefined') {
-            var raza = criatura.raza;
-            atributos.raza = raza;
-            var clase = atributos.clase;
-            var actitud = atributos.actitud;
-
-            var scale = ths.scale = $(ths.canvas).height() / 1200;
-
-            var image1 = new Image();
-            image1.src = org + 'img/alineacion/clase.png';
-
-            var imgClase = new createjs.Bitmap(image1);
-            imgClase = ths.claseImg(imgClase, atributos);
-            imgClase.scaleX = scale;
-            imgClase.scaleY = scale;
-            imgClase.x = -150 * imgClase.scaleX;
-            imgClase.y = -150 * imgClase.scaleY;
-            imgClase.name = 'imgClase';
-
-            var image2 = new Image();
-            image2.src = org + 'img/alineacion/actitud.png';
-
-            var imgActitud = new createjs.Bitmap(image2);
-            imgActitud = ths.actitudImg(imgActitud, actitud);
-            imgActitud.scaleX = scale;
-            imgActitud.scaleY = scale;
-            imgActitud.x = -50 * imgActitud.scaleX;
-            imgActitud.y = -50 * imgActitud.scaleY;
-            imgActitud.name = 'imgActitud';
-
-            var text = new createjs.Text(ths.textoAlineacion(id), "16px Calibri", 'black');
-            text.x = 0;
-            text.y = 80 * scale;
-            text.textBaseline = "alphabetic";
-            text.name = "text";
-
-            var grupo = new createjs.Container();
-            grupo.x = x;
-            grupo.y = y;
-            grupo.cursor = "pointer";
-
-            grupo.id = id;
-            grupo.actitud = actitud;
-            grupo.clase = clase;
-            grupo.raza = raza;
-            grupo.nombre = criatura.nombre;
-
-            grupo.addChild(imgClase);
-            grupo.addChild(imgActitud);
-            grupo.addChild(text);
-            ths.criaturas.push(grupo);
-
-            ths.dragImg(grupo);
-            ths.stage.addChild(grupo);
-
-            ths.mouseup(grupo);
+                ths.movimientoAnimation(criat2, criat2.x - pX, criat2.y - pY, oX, oY, function(){
+                    if(criat1){
+                        contenedor2.addChild(criat1);
+                        ths.movimientoAnimation(criat1, oX+pX, oY+pY, oX, oY, function(){});
+                    }
+                });
+                return;
+            }
         }
+        
+        var criatura = getObjById(ths.obj, id);
+        
+        if(typeof criatura !== 'undefined'){
+                    
+            var contenedor = ths.rects["pos" + (ths.gridX*5 + ths.gridY)];
+            var criat = contenedor.getChildByName("criatura");
+            if(criat !== null){
+                criat.x = oX;
+                criat.y = oY;
+                ths.movimientoAnimation(criat, criat.x, criat.y, ths.selectX, ths.selectY,function(){
+                    contenedor.removeChild(criat);
+                    ths.quitarCriaturaId(criat.id);                    
+                    if(!contenedor.getChildByName("criatura")){
+                        add();
+                    }
+                });
+                
+            }else{
+                if (ths.criaturas.length < 5) {
+                    add();
+                }else{
+                    error("no puedes añadir más de 5 criaturas!");
+                }                
+            }
+            function add(){
+                var grupo = ths.grupo(criatura, id, atributos);
+                ths.criaturas.push(grupo);
+                grupo.visible = false;
+                contenedor.addChild(grupo);
+                ths.movimientoAnimation(grupo, ths.selectX, ths.selectY, oX, oY, function(){});
+            }            
+        }        
+    },
+    grupo: function(criatura, id, atributos){
+        var ths = this;
+        var grupo = new createjs.Container();
+        
+        var raza = atributos.raza = criatura.raza;
+        var clase = atributos.clase;
+        var actitud = atributos.actitud;
+
+        var image1 = new Image();
+        image1.src = '../img/alineacion/clase.png';
+
+        var imgClase = new createjs.Bitmap(image1);
+        imgClase = ths.claseImg(imgClase, atributos);
+        imgClase.scaleX = ths.scale;
+        imgClase.scaleY = ths.scale;
+        imgClase.x = -150 * imgClase.scaleX;
+        imgClase.y = -150 * imgClase.scaleY;
+        imgClase.name = 'imgClase';
+
+        var image2 = new Image();
+        image2.src = '../img/alineacion/actitud.png';
+
+        var imgActitud = new createjs.Bitmap(image2);
+        imgActitud = ths.actitudImg(imgActitud, actitud);
+        imgActitud.scaleX = ths.scale;
+        imgActitud.scaleY = ths.scale;
+        imgActitud.x = -50 * imgActitud.scaleX;
+        imgActitud.y = -50 * imgActitud.scaleY;
+        imgActitud.name = 'imgActitud';
+
+        var text = new createjs.Text(ths.textoAlineacion(id), "16px Calibri", 'black');
+        text.x = 0;
+        text.y = 80 * ths.scale;
+        text.textBaseline = "alphabetic";
+        text.name = "text";
+
+        grupo.id = id;
+        grupo.name = "criatura";
+        grupo.cursor = "pointer";
+
+        grupo.actitud = actitud;
+        grupo.clase = clase;
+        grupo.raza = raza;
+        grupo.nombre = getNombre(criatura);
+
+        grupo.addChild(imgClase);
+        grupo.addChild(imgActitud);
+        grupo.addChild(text);
+        
+        return grupo;
     },
     claseImg: function(img, atributos) {
-        console.log(atributos);
         var x = 0, y = 0;
 
         var raza = atributos.raza;
@@ -253,8 +405,6 @@ var alineacionObj = {
             y = 0;
         } else if (raza === 'goblin') {
             y = 300;
-        } else if (raza === 'muerto') {
-            y = 600;
         }
 
         if (clase === 'barbaro') {
@@ -263,8 +413,6 @@ var alineacionObj = {
             x = 300;
         } else if (clase === 'mago') {
             x = 600;
-        } else {
-            x = 900;
         }
 
         img.sourceRect = {
@@ -304,30 +452,31 @@ var alineacionObj = {
     textoAlineacion: function(id) {
         for (var i = 0; i < this.obj.length; i++) {
             if (this.obj[i].id === id) {
-                var nombre = getApodo(this.obj[i]);
-                return nombre;
+                var apodo = getApodo(this.obj[i].apodo);
+                if (apodo !== "") {
+                    return apodo;
+                }
+                var array = this.obj[i].nombre.split(" ");
+                return array[0][0] + ". " + array[1];
             }
         }
         return "";
     },
-    oval: new createjs.Shape(),
     asignarAlineacion: function() {
         var ths = this;
+
         var alineacion = [];
-
         for (var i = 0; i < ths.criaturas.length; i++) {
-            var x = ths.criaturas[i].x;
-            var y = ths.criaturas[i].y;
-            x = parseInt(x / (ths.canvasAncho) * 3);
-            y = parseInt(y / (ths.canvasAlto) * 5);
+            var x = this.criaturas[i].parent.i;
+            var y = this.criaturas[i].parent.j;
 
-            var id = ths.criaturas[i].id;
+            var id = this.criaturas[i].id;
             var posicion = x * 5 + y;
 
             if (posicion >= 0 && posicion < 15) {
 
-                var clase = ths.criaturas[i].clase;
-                var actitud = ths.criaturas[i].actitud;
+                var clase = this.criaturas[i].clase;
+                var actitud = this.criaturas[i].actitud;
                 alineacion.push({
                     id: id,
                     posicion: posicion,
@@ -337,129 +486,43 @@ var alineacionObj = {
             }
         }
 
-        var alin = JSON.stringify(alineacion);
-        ajax.call(ths.urlAsignar, {alineacion: alin}, function(res) {
-            if (res != '') {
-                error(res);
-            }
-            ths.guardar(alineacion);
-        });
-    },
-    guardar: function(alineacion) {
-        global[this.alineacion] = alineacion;
-        confirmacion("guardado correctamente");
-        this.botonAsignar.addClass("noClick");
-    },
-    dragImg: function(grupo) {
-        var ths = this;
-
-        var stage = this.stage;
-
-        var dragX = 0;
-        var dragY = 0;
-
-        grupo.onPress = function(evt) {
-            stage.addChild(grupo);
-            var i = getIndexById(grupo.id, global[ths.equipo]);
-            ths.js.detalle(i);
-            var offset = {
-                x: grupo.x - evt.stageX,
-                y: grupo.y - evt.stageY
-            };
-            evt.onMouseMove = function(ev) {
-                grupo.x = ev.stageX + offset.x;
-                grupo.y = ev.stageY + offset.y;
-                stage.update();
-            };
-        };
-
-        grupo.addEventListener('mousedown', function() {
-            ths.oval.visible = true;
-            ths.click = true;
-
-            ths.atributos.css("display", "inherit");
-            ths.nombre.text(grupo.nombre);
-            ths.actitudSelect.val(grupo.actitud);
-
-            var option = ths.claseSelect.find(".opcionEspecial");
-            //change especial class
-            if (grupo.raza == "humano") {
-                option.val("shinobi");
-                option.text("shinobi");
-            } else if (grupo.raza == "goblin") {
-                option.val("healer");
-                option.text("curandero");
-            } else if (grupo.raza == "muerto") {
-                option.val("paladin");
-                option.text("caballero");
-            }
-
-            ths.claseSelect.val(grupo.clase);
-            ths.seleccion = grupo;
-
-            grupo.addChildAt(ths.oval, 0);
-            ths.oval.scaleX = ths.scale;
-            ths.oval.scaleY = ths.scale;
-            stage.update();
-
-            dragX = grupo.x;
-            dragY = grupo.y;
-        });
-
-        grupo.onClick = function() {
-            ths.mouseup(grupo, dragX, dragY);
-
-            var imgX = grupo.x;
-            var imgY = grupo.y;
-
-            //Quitar criaturas del canvas
-            if (imgX > ths.canvasAncho - 25 || imgX < 25 || imgY > ths.canvasAlto - 25 || imgY < 25) {
-                if (dragX > 0 && dragY > 0) {
-                    for (var j = 0; j < ths.criaturas.length; j++) {
-                        if (ths.criaturas[j] === grupo) {
-                            stage.removeChild(grupo);
-                            ths.quitarCriaturaId(ths.criaturas[j].id);
-                            break;
-                        }
-                    }
+        var alin;
+        if (ths.alineacion === "alin") {
+            alin = JSON.stringify(alineacion);
+            $.ajax({
+                type: "GET",
+                url: url + "asignarAlineacion",
+                data: {
+                    alineacion: alin
+                },
+                success: function(response) {
+                    if (response !== '') {
+                        error(response);
+                    }else{
+                        global[ths.alineacion] = alineacion;
+                        confirmacion("guardado correctamente");
+                        ths.botonAsignar.removeClass("noClick");
+                    }                    
                 }
-            }
-            dragX = 0;
-            dragY = 0;
-        };
-    },
-    mouseup: function(grupo, dragX, dragY) {
-        var ths = this;
-        ths.botonAsignar.removeClass('noClick');
+            });
+        } else if (this.alineacion === "alinAcad") {
 
-        var imgX = grupo.x;
-        var imgY = grupo.y;
+            alin = JSON.stringify(alineacion);
 
-        var x = parseInt(imgX / ths.canvasAncho * (ths.posX));
-        x = x * (ths.canvasAncho / (ths.posX)) + (ths.canvasAncho / ((ths.posX) * 2));
-
-        var y = parseInt(imgY / ths.canvasAlto * (ths.posY));
-        y = y * (ths.canvasAlto / (ths.posY)) + (ths.canvasAlto / ((ths.posY) * 2));
-
-        this.movimientoAnimation(grupo, ths.stage, grupo.x, grupo.y, x, y, 4);
-
-        for (var i = 0; i < ths.criaturas.length; i++) {
-            if (ths.criaturas[i].id !== grupo.id) {
-
-                var coincideX = ths.criaturas[i].x;
-                var coincideY = ths.criaturas[i].y;
-
-                if (coincideX + 10 > x && coincideX - 10 < x && coincideY + 10 > y && coincideY - 10 < y) {
-
-                    if (dragX > 0 && dragY > 0) {
-                        ths.movimientoAnimation(ths.criaturas[i], ths.stage, coincideX, coincideY, dragX, dragY, 7);
-
-                    } else {
-                        ths.stage.removeChild(ths.criaturas[i]);
-                        ths.quitarCriaturaPosicion(i);
+            $.ajax({
+                type: "GET",
+                url: url + "asignarAlineacionAcademia",
+                data: {
+                    alineacion: alin
+                },
+                success: function(response) {
+                    if (response !== '') {
+                        error(response);
                     }
+                    global[ths.alineacion] = alineacion;
+                    cargar(pestanaAcademia('academiaAlineacion'));
                 }
-            }
+            });
         }
     },
     quitarCriaturaId: function(id) {
@@ -471,26 +534,40 @@ var alineacionObj = {
         }
     },
     quitarCriaturaPosicion: function(i) {
-        this.criaturas = this.criaturas.slice(0, i).concat(this.criaturas.slice(i + 1, this.criaturas.length));
+        var ths = this;
+        ths.criaturas = ths.criaturas.slice(0, i).concat(ths.criaturas.slice(i + 1, ths.criaturas.length));
     },
-    movimientoAnimation: function(elem, stage, inicialX, inicialY, terminoX, terminoY, tiempo) {
+    movimientoAnimation: function(elem, inicialX, inicialY, terminoX, terminoY, callback) {        
+        var ths = this;
+        var dist = Math.sqrt(Math.pow(inicialX - terminoX, 2) + Math.pow(inicialY - terminoY, 2));
+        var tiempo = Math.floor(dist / 75) +1;
+
         var variacionX = (inicialX - terminoX) / tiempo;
         var variacionY = (inicialY - terminoY) / tiempo;
+        
+        elem.x = inicialX;
+        elem.y = inicialY;
+        elem.visible = true;
+        ths.stage.update();
+        
         var intervaloDrag = setInterval(function() {
             inicialX = inicialX - variacionX;
             inicialY = inicialY - variacionY;
+            
             elem.x = inicialX;
             elem.y = inicialY;
-            stage.update();
+            
+            ths.stage.update();
             tiempo--;
             if (tiempo === 0) {
+                callback();
                 clearTimeout(intervaloDrag);
-            }
-        }, 30);
+            }            
+        }, 50);
     },
     comprobarHueco: function(img) {
         for (var i = 0; i < this.criaturas.length; i++) {
-            if (this.criaturas[i].x === img.x && this.criaturas[i].y === img.y) {
+            if (this.criaturas[i].i === img.i && this.criaturas[i].j === img.j) {
                 this.criaturas[i].remove();
                 this.stage.update();
             }
@@ -498,16 +575,16 @@ var alineacionObj = {
     },
     externalEvents: function() {
         var ths = this;
-        this.actitudSelect.on("change click", function() {
+        ths.actitudSelect.on("change click", function() {
             var actitud = $(this).val();
             var grupo = ths.seleccion;
             grupo.actitud = actitud;
             var img = grupo.getChildByName('imgActitud');
             img = ths.actitudImg(img, actitud);
             ths.stage.update();
+            ths.botonAsignar.removeClass('noClick');
         });
-        this.claseSelect.on("change click", function() {
-            console.log(111)
+        ths.claseSelect.on("change click", function() {
             var clase = $(this).val();
             var grupo = ths.seleccion;
             grupo.clase = clase;
@@ -518,6 +595,25 @@ var alineacionObj = {
             };
             img = ths.claseImg(img, atributos);
             ths.stage.update();
+            ths.botonAsignar.removeClass('noClick');
         });
+    },
+    unActive: function(){
+        var ths = this;          
+        if(ths.activo !== null){
+            var none = createjs.Graphics.getRGB(0, 0, 0, 0.01);
+            var rect = ths.activo.getChildByName("rect");
+            rect.graphics.clear().beginFill(none);
+            ths.drawRect(rect);        
+            ths.activo = null;
+            ths.stage.update();
+            ths.lista.removeClass("swipRight");
+        }
+    },
+    unSelect: function(){
+        var ths = this;
+        ths.oval.parent.removeChild(ths.oval);     
+        ths.stage.update();
+        ths.atributos.removeClass("swipRight");
     }
 };
