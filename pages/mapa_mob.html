@@ -49,17 +49,8 @@
                                 </th>
                             </tr>
                         </thead>
-
                         <tbody id="tablaLiga" class="tbody">
-                        <thead style="height: 0">
-                            <tr style="height: 0">
-                                <th style="height: 0"><input type="hidden" value="false" id="input"/></th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-
-                        </tbody>
+                            <!-- -->
                         </tbody>
                     </table>
                 </div>
@@ -151,7 +142,7 @@
             ths.getLiga(function () {
                 $("#tablaLiga tbody").html("");
 
-                var table = document.getElementById("tablaLiga").getElementsByTagName("tbody")[0];
+                var table = $("#tablaLiga tbody");
 
                 for (var i = 0; i < ths.liga.length; i++) {
                     var $row = $("<tr class='UnHighLight'"
