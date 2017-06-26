@@ -149,6 +149,10 @@
                 $("#tablaLiga tbody").html("");
 
                 var table = $("#tablaLiga tbody");
+                
+                ths.liga.sort(function(a, b){
+                    return a.posicion - b.posicion;
+                });
 
                 for (var i = 0; i < ths.liga.length; i++) {
                     var $row = $("<tr class='UnHighLight'"
