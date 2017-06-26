@@ -20,6 +20,15 @@
     .verBatalla:hover{
         background-color: rgb(200,150,0);
     }
+    #mensajes{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 1px;
+        bottom: 25px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 </style>
 
 <div id="division" class="contenedor">
@@ -73,10 +82,10 @@
     <div id="mensajes"></div>
     <!--</div>-->
     <div id="textarea">
-        <!--<div>-->
-        <textarea id="mensaje" rows="1"></textarea>
-        <div id="mensajeBoton" onclick="mapaJs.enviarMensajePrensa();">></div>
-        <!--</div>-->
+        <div>
+            <textarea id="mensaje" rows="1"></textarea>
+            <div id="mensajeBoton" onclick="mapaJs.enviarMensajePrensa();">></div>
+        </div>
     </div>
     <!--</div>-->
 </div>
