@@ -184,36 +184,21 @@
             });
         },
         mostrarPrensa: function () {
-            var ths = this;
 
-            ajax.getMensajesPrensa(this, function () {
-
-                var mensajes = ths.mensajes;
-                document.getElementById("mensajes").innerHTML = "";
-                var contenedor = document.getElementById("mensajes");
+            ajax.getMensajesPrensa(this, function (mensajes) {
+                var $contenedor = $("#mensajes");
+                $contenedor.html("");
 
                 for (var j = mensajes.length - 1; j >= 0; j--) {
-
-                    var div = document.createElement('div');
-
-                    var p = document.createElement('p');
-                    $(p).addClass("comentarioUsuario");
-                    p.textContent = mensajes[j].emisorName + ": ";
-                    var p2 = document.createElement('p');
-                    $(p2).addClass("comentarioTexto");
-                    p2.textContent = mensajes[j].mensaje;
-
-                    div.appendChild(p);
-                    div.appendChild(p2);
-                    contenedor.appendChild(div);
+                    var $div = $("<div>").appendTo($contenedor);
+                    var p = $("<p class='comentarioUsuario'>").text(mensajes[j].emisorName + ": ").appendTo($div);
+                    var p2 = $("<p class='comentarioTexto'>").text(mensajes[j].mensaje).appendTo($div);
                 }
                 if (mensajes.length === 0) {
-                    var div = document.createElement('div');
-                    var p = document.createElement('p');
-                    p.setAttribute("class", "comentarioTexto");
-                    p.textContent = "No hay mensajes en el foro, escribe tú el primer mensaje!";
-                    div.appendChild(p);
-                    contenedor.appendChild(div);
+                    var $div = $("<div>").appendTo($contenedor);
+                    $("<p class='comentarioTexto'>")
+                            .text("No hay mensajes en el foro, escribe tú el primer mensaje!")
+                            .appendTo($div);
                 }
                 reloadTablas();
             });
@@ -231,8 +216,8 @@
             this.getCalendarioDivision(function () {
                 ths.mostrarLiga();
 
-                var listaBatallas = document.getElementById("listaBatallas").getElementsByClassName("tbody")[0].getElementsByTagName("tbody")[0];
-                listaBatallas.innerHTML = "";
+                var $listaBatallas = $("#listaBatallas .tbody tbody");
+                $listaBatallas.html("");
                 var rowCount = 0;
 
                 var scrollSelected = false;
@@ -243,51 +228,44 @@
                 for (var i = 0; i < ths.calendarioDivision.length; i++) {
 
                     if (dias !== ths.calendarioDivision[i].fecha) {
-
-                        var row = listaBatallas.insertRow(rowCount);
-                        row.setAttribute("class", "UnHighLight saltoCalendario");
+                        
+                        var $row = $("<tr class='UnHighLight saltoCalendario'>").appendTo($listaBatallas);
 
                         if (disputados) {
-                            $(row).addClass("calendarioAnterior");
+                            $row.addClass("calendarioAnterior");
                         } else {
-                            $(row).addClass("calendarioPosterior");
+                            $row.addClass("calendarioPosterior");
                         }
-
-                        var cell0 = row.insertCell(0);
-                        cell0.colSpan = "5";
-
+                        
+                        var $cell0 = $("<td class='fechaCell' colspan='5'>").appendTo($row)
                         var fecha = getFechaCompletaBySeconds(ths.calendarioDivision[i].fecha);
-
-                        cell0.innerHTML = fecha;
-                        $(cell0).addClass("fechaCell");
+                        $cell0.text(fecha);
+                        
                         rowCount++;
                     }
 
-                    var row = listaBatallas.insertRow(rowCount);
-
-                    row.setAttribute("class", "UnHighLight");
-
-                    var cell0 = row.insertCell(0);
-                    $(cell0).append("<div style='text-align:right'>" + ths.calendarioDivision[i].eqLocName + "</div>");
-
-                    var cell1 = row.insertCell(1);
-                    $(cell1).append("<div> - </div>");
-
-                    var cell2 = row.insertCell(2);
-                    $(cell2).append("<div>" + ths.calendarioDivision[i].eqVisName + "</div>");
+                    var $row = $("<tr class='UnHighLight'>").appendTo($listaBatallas);
+                    
+                    var $cell0 = $("<td>").appendTo($row);
+                    $("<div style='text-align:right'>").text(ths.calendarioDivision[i].eqLocName).appendTo($cell0);
+                    
+                    $("<td><div> - </div></td>").appendTo($row);
+                    
+                    var $cell2 = $("<td>").appendTo($row);
+                    $("<div>").text(ths.calendarioDivision[i].eqVisName).appendTo($cell2);
 
                     if (typeof ths.calendarioDivision[i].resultado !== "undefined") {
                         var result = ths.calendarioDivision[i].resultado.split("-");
-
-                        $(cell0).append("<div style='text-align:right'>" + result[0] + "</div>");
-                        $(cell2).append("<div>" + result[1] + "</div>");
+                        
+                        $("<div style='text-align:right'>").text(result[0]).appendTo($cell0);
+                        $("<div>").text(result[1]).appendTo($cell2);
 
                         if (result[0] > result[1]) {
-                            $(cell0).css("color", "rgba(255,255,0,0.8)");
+                            $cell0.css("color", "rgba(255,255,0,0.8)");
                         } else if (result[1] > result[0]) {
-                            $(cell2).css("color", "rgba(255,255,0,0.8)");
+                            $cell2.css("color", "rgba(255,255,0,0.8)");
                         }
-                        $(row).addClass("tap");
+                        $row.addClass("tap");
 
                     } else {
                         if (scrollSelected === false) {
@@ -297,14 +275,14 @@
                     }
 
                     if (ths.calendarioDivision[i].calculos > 0) {
-                        $(row).attr({
+                        $row.attr({
                             'i': i,
                             'class': 'icon verBatalla'
                         });
                     } else {
                         if (typeof ths.calendarioDivision[i].resultado === 'undefined') {
                             if (hoy === false) {
-                                var rowHoy = $(listaBatallas).find("tr").eq($(row).index(this) - 1);
+                                var rowHoy = $listaBatallas.find("tr").eq($row.index(this) - 1);
                                 $(rowHoy).removeClass("calendarioPosterior");
                                 $(rowHoy).addClass("calendarioProximo");
                                 hoy = true;
