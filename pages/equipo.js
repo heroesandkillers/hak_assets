@@ -164,8 +164,8 @@ var equipoJs = {
         detalleCriatura(global.criatura, this.stage, "#paginaEquipo");
         if (window.isMobile) {
             $("#detalleCriatura").remove();
-            $("#detalleCriatura_base").clone().attr("id", "detalleCriatura").removeClass("none")
-                    .appendTo("#" + global.criatura.id);
+            $("#detalleCriatura_base").clone().attr("id", "detalleCriatura").appendTo("#" + global.criatura.id);
+            $("#detalleCriatura_base .none").removeClass("none");
             $("#" + global.criatura.id + " > td").addClass("none");
         }
     }
