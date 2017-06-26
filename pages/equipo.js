@@ -183,6 +183,7 @@ var equipoJs = {
         var i = $(elem).closest("tr").attr("i");
         var criat = this.equipo[i];
         console.log(elem)
+        console.log($(elem).closest("tr"))
         console.log(this.equipo)
         console.log(i)
 
