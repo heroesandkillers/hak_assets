@@ -5,7 +5,7 @@ var ajax_mob = {
             key1: key1,
             key2: key2
         }, function (response) {
-            if (0 === response.indexOf("incorrecto")) {
+            if (response.indexOf("incorrecto") > -1) {
                 $("#log").text("ajax login error: " + thrownError);
                 $.post(url + "logout");
                 return;
