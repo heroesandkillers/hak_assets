@@ -160,8 +160,7 @@ var equipoJs = {
     }
     ,
     detalle: function (i) {
-        global.criatura = this.equipo[i];
-        detalleCriatura(global.criatura, this.stage, "#paginaEquipo");
+        global.criatura = this.equipo[i];        
         if (window.isMobile) {
             $("#detalleCriatura").remove();
             var clone = $("#detalleCriatura_base").clone();
@@ -169,6 +168,7 @@ var equipoJs = {
             $("#tableEquipo .none").removeClass("none");
             $("#" + global.criatura.id + " > td").addClass("none");
         }
+        detalleCriatura(global.criatura, this.stage, "#paginaEquipo");
     }
     ,
     botonVender: function (elem) {
