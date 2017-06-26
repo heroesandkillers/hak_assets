@@ -166,7 +166,7 @@ var equipoJs = {
             $("#detalleCriatura").remove();
             var clone = $("#detalleCriatura_base").clone();
             clone.attr("id", "detalleCriatura").appendTo("#" + global.criatura.id);
-            $("#detalleCriatura .none").removeClass("none");
+            $("#tableEquipo .none").removeClass("none");
             $("#" + global.criatura.id + " > td").addClass("none");
         }
     }
