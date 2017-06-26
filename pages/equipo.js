@@ -91,7 +91,7 @@ var equipoJs = {
 
             var $apodoCell = $("<td>").appendTo($row);
             var nombre = getApodo(equipo[i]);
-            $("<div class='nombre'>").text(nombre).appendTo($apodoCell);
+            $("<div class='nombre'>").html(nombre).appendTo($apodoCell); //nombre can be with bold apodo tags
 
             var $razaCell = $("<td>").appendTo($row);
             setRazaImg($razaCell, equipo[i].raza);
@@ -164,8 +164,8 @@ var equipoJs = {
         detalleCriatura(global.criatura, this.stage, "#paginaEquipo");
         if (window.isMobile) {
             $(".none").removeClass("none");
-            //$("#detalleCriatura > div").removeClass("none");
-            $("#" + global.criatura.id).append($("#detalleCriatura"));
+            var clonDetalle = $("#detalleCriatura").clone();
+            $("#" + global.criatura.id).append(clonDetalle);
             $("#" + global.criatura.id + " > td").addClass("none");
         }
     }
