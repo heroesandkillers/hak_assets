@@ -90,7 +90,7 @@ var equipoJs = {
             $row.attr("onclick", 'Select(this), equipoJs.detalle(' + i + ')');
 
             var $apodoCell = $("<td>").appendTo($row);
-            var nombre = getApodo(equipo[i]);
+            var nombre = getApodo(equipo[i], true);
             $("<div class='nombre'>").html(nombre).appendTo($apodoCell); //nombre can be with bold apodo tags
 
             var $razaCell = $("<td>").appendTo($row);
