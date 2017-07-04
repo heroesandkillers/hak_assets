@@ -109,7 +109,9 @@
             }
         },
         pestanaContacto: function (pest) {
-            contactoCargar(pest);
+            //contactoCargar(pest);
+            cargar(pest, "#contenidosContacto");
+            
             $(".tituloPestana").removeClass("pestanaSelected");
             $("#" + pest).addClass("pestanaSelected");
         }
@@ -120,8 +122,12 @@
         global.equipoContacto = equipoContacto;
 
         contactoJs.getPerfilContacto(function (perfil) {
+            if(!perfil){
+                return;
+            }
+            
             global.perfilContacto = perfil;
-            $("#nombreContacto").text(global.perfilContacto.nombreId);
+            $("#nombreContacto").text(perfil.nombreId);
 
             contactoJs.getTrofeos(perfil, function () {
                 contactoJs.pestanaObjetivo();
