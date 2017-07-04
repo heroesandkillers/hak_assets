@@ -28,13 +28,13 @@
                         id: global.contactoId
                     },
                     success: function (json) {
-                        var equipo;                        
+                        var equipo;
                         try {
                             equipo = JSON.parse(json);
                         } catch (e) {
                             console.log("getPerfilContacto:() ERROR");
                             return;
-                        }                        
+                        }
                         callback(equipo);
                     }
                 });
@@ -71,36 +71,33 @@
             }
         },
         getTrofeos: function (perfil, callback) {
-            $("#nombreContacto").text(global.perfilContacto.nombreId);
-            if (typeof global.perfilContacto.trofeos === 'undefined') {
+            if (perfil.trofeos) {
+                return perfil.trofeos;
+            }
 
-                $.ajax({
-                    type: "GET",
-                    url: url + "getTrofeos",
-                    data: {
-                        id: global.contactoId
-                    },
-                    success: function (json) {
-                        var trofeos;
-                        if("" === json){
-                            callback();
-                        }
-                        
-                        try {
-                            trofeos = JSON.parse(json);
-                        } catch (e) {
-                            console.log("getPerfilContacto:() ERROR");
-                            return;
-                        }
-
-                        perfil.trofeos = trofeos;
+            $.ajax({
+                type: "GET",
+                url: url + "getTrofeos",
+                data: {
+                    id: global.contactoId
+                },
+                success: function (json) {
+                    var trofeos;
+                    if ("" === json) {
                         callback();
                     }
-                });
 
-            } else {
-                return global.perfilContacto.trofeos;
-            }
+                    try {
+                        trofeos = JSON.parse(json);
+                    } catch (e) {
+                        console.log("getPerfilContacto:() ERROR");
+                        return;
+                    }
+
+                    perfil.trofeos = trofeos;
+                    callback();
+                }
+            });
         },
         pestanaObjetivo: function () {
             var pagObjetivo = global.paginaObjetivo;
@@ -117,14 +114,15 @@
             $("#" + pest).addClass("pestanaSelected");
         }
     };
-    
+
     //
     contactoJs.getEquipoContacto(function (equipoContacto) {
         global.equipoContacto = equipoContacto;
-        
+
         contactoJs.getPerfilContacto(function (perfil) {
             global.perfilContacto = perfil;
-            
+            $("#nombreContacto").text(global.perfilContacto.nombreId);
+
             contactoJs.getTrofeos(perfil, function () {
                 contactoJs.pestanaObjetivo();
                 contactoJs.medidas();
