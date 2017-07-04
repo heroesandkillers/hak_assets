@@ -18,87 +18,119 @@
 
 <script>
 
-        var contactoJs = {
-            getEquipoContacto: function() {
-                if (global.perfil.id !== global.contactoId) {
-                    $.ajax({
-                        type: "GET",
-                        url: url + "getEquipoContacto",
-                        data: {
-                            id: global.contactoId
-                        },
-                        success: function(response) {
-                            return JSON.parse(response);
-                        }
-                    });
-                } else {
-                    return global.equipo;
-                }
-            },
-            medidas: function() {
-                $("#contenidosContacto").height($("#contenidosContacto").height() - 30);
-            },
-            getPerfilContacto: function() {
-                var perfil = global.perfil;
-                var contactoId = global.contactoId;
-                if (perfil.id === contactoId) {
-                    return perfil;
-                } else {
-                    $.ajax({
-                        type: "GET",
-                        url: url + "getPerfilContacto",
-                        data: {
-                            id: contactoId
-                        },
-                        success: function(response) {
-                            return JSON.parse(response);
-                        }
-                    });
-                }
-            },
-            getTrofeos: function() {
-                $("#nombreContacto").text(global.perfilContacto.nombreId);
-                if (typeof global.perfilContacto.trofeos === 'undefined') {
-
-                    $.ajax({
-                        type: "GET",
-                        url: url + "getTrofeos",
-                        data: {
-                            id: global.contactoId
-                        },
-                        success: function(response) {
-                            if ("" !== response) {
-                                return JSON.parse(response);
-                            } else {
-                                return response;
-                            }
-                        }
-                    });
-
-                } else {
-                    return global.perfilContacto.trofeos;
-                }
-            },
-            pestanaObjetivo: function() {
-                var pagObjetivo = global.paginaObjetivo;
-                if (pagObjetivo === "") {
-                    this.pestanaContacto("contactoResumen");
-                } else {
-                    this.pestanaContacto(pagObjetivo);
-                    pagObjetivo = "";
-                }
-            },
-            pestanaContacto: function(pest) {
-                contactoCargar(pest);
-                $(".tituloPestana").removeClass("pestanaSelected");
-                $("#" + pest).addClass("pestanaSelected");
+    var contactoJs = {
+        getEquipoContacto: function (callback) {
+            if (global.perfil.id !== global.contactoId) {
+                $.ajax({
+                    type: "GET",
+                    url: url + "getEquipoContacto",
+                    data: {
+                        id: global.contactoId
+                    },
+                    success: function (json) {
+                        var equipo;                        
+                        try {
+                            equipo = JSON.parse(json);
+                        } catch (e) {
+                            console.log("getPerfilContacto:() ERROR");
+                            return;
+                        }                        
+                        callback(equipo);
+                    }
+                });
+            } else {
+                return global.equipo;
             }
-        };
-        global.equipoContacto = contactoJs.getEquipoContacto();
-        global.perfilContacto = contactoJs.getPerfilContacto();
-        global.perfilContacto.trofeos = contactoJs.getTrofeos();
-        contactoJs.pestanaObjetivo();
+        },
+        medidas: function () {
+            $("#contenidosContacto").height($("#contenidosContacto").height() - 30);
+        },
+        getPerfilContacto: function (callback) {
+            var perfil = global.perfil;
+            var contactoId = global.contactoId;
+            if (perfil.id === contactoId) {
+                return perfil;
+            } else {
+                $.ajax({
+                    type: "GET",
+                    url: url + "getPerfilContacto",
+                    data: {
+                        id: contactoId
+                    },
+                    success: function (json) {
+                        var obj;
+                        try {
+                            obj = JSON.parse(json);
+                        } catch (e) {
+                            console.log("getPerfilContacto:() ERROR");
+                            return;
+                        }
+                        callback(obj);
+                    }
+                });
+            }
+        },
+        getTrofeos: function (perfil, callback) {
+            $("#nombreContacto").text(global.perfilContacto.nombreId);
+            if (typeof global.perfilContacto.trofeos === 'undefined') {
 
-        contactoJs.medidas();
+                $.ajax({
+                    type: "GET",
+                    url: url + "getTrofeos",
+                    data: {
+                        id: global.contactoId
+                    },
+                    success: function (json) {
+                        var trofeos;
+                        if("" === json){
+                            callback();
+                        }
+                        
+                        try {
+                            trofeos = JSON.parse(json);
+                        } catch (e) {
+                            console.log("getPerfilContacto:() ERROR");
+                            return;
+                        }
+
+                        perfil.trofeos = trofeos;
+                        callback();
+                    }
+                });
+
+            } else {
+                return global.perfilContacto.trofeos;
+            }
+        },
+        pestanaObjetivo: function () {
+            var pagObjetivo = global.paginaObjetivo;
+            if (pagObjetivo === "") {
+                this.pestanaContacto("contactoResumen");
+            } else {
+                this.pestanaContacto(pagObjetivo);
+                pagObjetivo = "";
+            }
+        },
+        pestanaContacto: function (pest) {
+            contactoCargar(pest);
+            $(".tituloPestana").removeClass("pestanaSelected");
+            $("#" + pest).addClass("pestanaSelected");
+        }
+    };
+    
+    //
+    contactoJs.getEquipoContacto(function (equipoContacto) {
+        global.equipoContacto = equipoContacto;
+        
+        contactoJs.getPerfilContacto(function (perfil) {
+            global.perfilContacto = perfil;
+            
+            contactoJs.getTrofeos(perfil, function () {
+                contactoJs.pestanaObjetivo();
+                contactoJs.medidas();
+            });
+        });
+    });
+
 
 </script>
