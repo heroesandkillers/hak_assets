@@ -303,7 +303,7 @@
                         type: "GET",
                         url: url + "getcalendario",
                         data: {
-                            id: contactoId
+                            id: global.contactoId
                         },
                         success: function(response) {
                             ths.obj = JSON.parse(response);
