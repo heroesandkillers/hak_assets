@@ -101,7 +101,7 @@
         },
         pestanaObjetivo: function () {
             var pagObjetivo = global.paginaObjetivo;
-            if (pagObjetivo === "") {
+            if (!pagObjetivo) {
                 this.pestanaContacto("contactoResumen");
             } else {
                 this.pestanaContacto(pagObjetivo);
@@ -109,7 +109,11 @@
             }
         },
         pestanaContacto: function (pest) {
+            if(!pest){
+                return;
+            }
             console.log("pestanaContacto() " + pest);
+            
             //contactoCargar(pest);
             cargar(pest, "#contenidosContacto");
             
