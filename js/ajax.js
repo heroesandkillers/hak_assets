@@ -117,7 +117,7 @@ $(window).on('hashchange', function() {
 });
 
 function cargar(pagina, id) {
-    console.log("pagina = " + pagina);
+    console.log("pagina = " + pagina + " " + id);
     if(!pagina){
         pagina = location.hash.split("#").pop();
         if(!pagina){
