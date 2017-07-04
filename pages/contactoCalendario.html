@@ -134,7 +134,7 @@
         stage2: "",
         seleccion: 0,
         scale: 1,
-        startCanvas: function() {
+        startCanvas: function () {
             var ths = this;
 
             ths.canvasAncho = $("#detallesCalendario").width() / 2 - 30;
@@ -152,10 +152,10 @@
             ths.stage2 = new createjs.Stage(ths.canvas2);
             ths.stage2.enableMouseOver();
         },
-        colocarInterrogante: function(bando) {
+        colocarInterrogante: function (bando) {
             $("#interrogante" + bando).css("display", "inherit");
         },
-        colocarAlineaciones: function(bando, alineacionArray) {
+        colocarAlineaciones: function (bando, alineacionArray) {
             var ths = this;
             for (var i = 0; i < alineacionArray.length; i++) {
 
@@ -183,7 +183,7 @@
                 ths.crearGrupo(bando, id, x, y, {clase: alineacionArray[i].clase, actitud: alineacionArray[i].actitud, raza: alineacionArray[i].raza});
             }
         },
-        crearGrupo: function(bando, id, x, y, atributos) {
+        crearGrupo: function (bando, id, x, y, atributos) {
             var ths = this;
 
             var raza = atributos.raza;
@@ -247,7 +247,7 @@
                 ths.stage2.addChild(grupo);
             }
         },
-        claseImg: function(img, atributos) {
+        claseImg: function (img, atributos) {
             var x, y;
 
             var raza = atributos.raza;
@@ -270,7 +270,7 @@
             img.sourceRect = {x: x, y: y, width: 300, height: 300};
             return img;
         },
-        actitudImg: function(img, actitud) {
+        actitudImg: function (img, actitud) {
 
             if (actitud === 'cauto') {
                 img.sourceRect = {x: 0, y: 0, width: 30, height: 30};
@@ -281,44 +281,34 @@
             }
             return img;
         },
-        getCalendario: function(callback) {
+        getCalendario: function (callback) {
             var ths = this;
 
-            if (global.perfil.id !== global.contactoId) {
-                $.ajax({
-                    type: "GET",
-                    url: url + "getcalendario",
-                    data: {
-                        id: global.contactoId
-                    },
-                    success: function(response) {
+            if (global.perfil.id === global.contactoId && ths.obj) {
+                callback();
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: url + "getCalendario",
+                data: {
+                    id: global.contactoId
+                },
+                success: function (response) {
+                    try{
                         ths.obj = JSON.parse(response);
-                        callback();
-                    }
-                });
-            } else {
-                if (ths.obj === "") {
-
-                    $.ajax({
-                        type: "GET",
-                        url: url + "getcalendario",
-                        data: {
-                            id: global.contactoId
-                        },
-                        success: function(response) {
-                            ths.obj = JSON.parse(response);
-                            callback();
-                        }
-                    });
-
-                } else {
+                    }catch(e){
+                        console.log("getCalendario() parse ERROR");
+                        return;
+                    }                    
                     callback();
                 }
-            }
+            });
         },
-        mostrarCalendario: function() {
+        mostrarCalendario: function () {
             var ths = this;
-            ths.getCalendario(function() {
+            ths.getCalendario(function () {
 
                 for (var i = 0; i < ths.obj.length; i++) {
 
@@ -380,7 +370,7 @@
                 ths.startCanvas();
             });
         },
-        textoAlineacion: function(id) {
+        textoAlineacion: function (id) {
             var obj = this.obj_alineacion1;
             for (var i = 0; i < obj.length; i++) {
                 if (obj[i].id === id) {
@@ -393,11 +383,11 @@
                 }
             }
         },
-        getBatallaCalendario: function(i) {
+        getBatallaCalendario: function (i) {
             var ths = this;
             getBatalla(ths.obj[i]);
         },
-        detallesCalendario: function(i) {
+        detallesCalendario: function (i) {
             var batalla = this.obj[i];
 
             $("#escudoLocal").html("<img style='height:100%' src='img/escudo.png'/>");
@@ -418,7 +408,7 @@
             }
             reloadTablas();
         },
-        mostrarResumenBatalla: function(i) {
+        mostrarResumenBatalla: function (i) {
             var ths = this;
 
             $("#interrogante1").css("display", "none");
@@ -460,7 +450,7 @@
                 }
             }
 
-            loadImagenes(ths.imagenes, function() {
+            loadImagenes(ths.imagenes, function () {
                 ths.stage1.update();
                 ths.stage2.update();
             });
